@@ -1,0 +1,22 @@
+name:           CorentinDupont-WebPage
+version:        1.0
+synopsis:       My web page.
+homepage:       http://corentin.dupont.info
+license:        OtherLicense
+license-file:   LICENSE
+author:         Corentin Dupont
+maintainer:     corentin.dupont@gmail.com
+category:       Web
+build-type:     Simple
+cabal-version:  >=1.8
+description:
+  Statically generates my academic web page.
+  Depends on the `lessc` tool for generating CSS: http://lesscss.org/
+
+executable hakyll
+  main-is:         Main.hs
+  hs-source-dirs:  haskell
+  build-depends:   base ==4.*,
+                   filepath -any,
+                   blaze-html -any,
+                   hakyll -any

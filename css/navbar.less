@@ -1,0 +1,61 @@
+@navBG:   @osuWebGray;
+@navHi:   @osuWebOrange;
+@navAct:  @osuWebGray;
+@navHead: #EEE;
+@navText: #EEE;
+@navWeight: 500;
+
+@navPad: 10px;
+
+#header {
+  background-color: @navBG;
+}
+
+ul.nav-list {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.nav-elem a {
+  display: block;
+  padding: @navPad;
+  margin: 0px;
+  color: @navText;
+  font-family: @headFont;
+  font-weight: @navWeight;
+  text-align: center;
+  text-decoration: none;
+}
+
+.nav-head a {
+  padding-left: 0px;
+  padding-right: 3 * @navPad;
+  color: @navHead;
+}
+
+.nav-elem a:active,
+.nav-elem a:hover,
+.nav-elem a:focus {
+  background-color: @navHi;
+}
+
+.nav-head a:active,
+.nav-head a:hover,
+.nav-head a:focus {
+  background-color: @navBG;
+}
+
+.nav-active a {
+  background-color: @navAct;
+}
+
+li.nav-left {
+  float: left;
+}
+
+li.nav-right {
+  float: right;
+}

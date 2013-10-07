@@ -1,0 +1,99 @@
+@titleColor: @osuWebGray;
+@headColor: @osuWebGray;
+@textColor: @osuWebGray;
+@linkColor: @osuOrange;
+@bgColor:   #FFF;
+
+@bodyFont: "Open Sans", Verdana, Helvetica, Arial, sans-serif;
+@headFont: Ubuntu, @bodyFont;
+@codeFont: Menlo, "Lucida Console", Courier, monospace;
+@headWeight: 600;
+
+@hMargin: 100px;
+@vMargin: 30px;
+@footHeight: 150px;
+
+
+/* Margins and positioning */
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+#page {
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+#content {
+  padding-bottom: @footHeight + @vMargin;
+}
+
+#header {
+  margin-bottom: @vMargin;
+}
+
+#footer {
+  // height: @footHeight;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.break {
+  clear: both;
+}
+
+.container {
+  padding-right: @hMargin;
+  padding-left: @hMargin;
+  margin: 0;
+}
+
+
+/* Fonts and colors */
+
+body {
+  background-color: @bgColor;
+  color: @textColor;
+  font-family: @bodyFont;
+  font-size: 100%;
+  line-height: 1.4;
+}
+
+h1, h2, h3, h4 {
+  margin-top: @vMargin;
+  font-family: @headFont;
+  font-weight: @headWeight;
+}
+
+h1 {
+  color: @titleColor;
+}
+  
+h2, h3, h4 {
+  color: @headColor;
+}
+
+h1 { font-size: 200%; }
+h2 { font-size: 150%; }
+h3 { font-size: 125%; }
+h4 { font-size: 100%; }
+
+a {
+  text-decoration: none;
+  color: @linkColor;
+}
+
+pre, code {
+  font-family: @codeFont;
+  font-size: 90%;
+}
+
+pre {
+  margin-left: 2em;
+}

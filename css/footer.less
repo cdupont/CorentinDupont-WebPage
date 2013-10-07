@@ -1,0 +1,56 @@
+@footBG: @navBG;
+@footFontSize: 12px;
+@footTextColor: @navText;
+@footPad: 20px;
+@footMapPad: 30px;
+@madebyFontSize: 10px;
+
+#footer {
+  background-color: @footBG;
+  color: @footTextColor;
+  font-size: @footFontSize;
+}
+
+.foot-block {
+  float: left;
+  padding-top: @footPad;
+  padding-bottom: @footPad;
+}
+
+.foot-about {
+  width: 260px;
+  margin-right: 20px;
+}
+
+.foot-map {
+  padding-left: @footMapPad;
+  padding-right: @footMapPad;
+}
+
+.foot-head {
+  font-weight: 600;
+  margin-bottom: .25em;
+}
+
+.foot-list {
+  padding: 0;
+  margin-top: 0;
+}
+
+.foot-item {
+  display: block;
+}
+
+.foot-contact {
+  margin-top: 1em;
+}
+
+.foot-madeby {
+  position: absolute;
+  bottom: 0;
+  text-align: right;
+  right: @hMargin;
+  padding-top: @footPad;
+  padding-bottom: @footPad;
+  font-size: @madebyFontSize;
+}
