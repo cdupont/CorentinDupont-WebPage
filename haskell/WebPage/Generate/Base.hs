@@ -13,7 +13,7 @@ import Hakyll
 config :: Configuration
 config = defaultConfiguration {
   destinationDirectory = "_site",
-  deployCommand = "rsync -av _site/ $ACCESS:public_html"
+  deployCommand = "rsync -rave \"ssh -i /home/kau/.ssh/cdupont.pem\" _site/ ubuntu@corentindupont.info:public_html" 
 }
 
 baseContext :: Context String
