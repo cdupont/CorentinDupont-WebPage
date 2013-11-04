@@ -6,7 +6,7 @@ title: Legal
 
 ## Copyright Notice and Disclaimer
 
-All content on this website is © Eric Walkingshaw, all rights reserved, except
+All content on this website is © Corentin Dupont, all rights reserved, except
 where otherwise noted. Any views described here are my own and do not
 necessarily reflect the views of my employers, my colleagues, or any funding
 adjacencies.
@@ -37,7 +37,7 @@ All software distributed via this website is freely available under the
 following BSD-like license, except where otherwise noted.
 
     
-    Copyright (c) 2013, Eric Walkingshaw
+    Copyright (c) 2013, Corentin Dupont
     
     All rights reserved.
     
