@@ -15,12 +15,11 @@ data-dir: ""
  
 executable site
     build-depends: base ==4.*, blaze-html -any, filepath -any,
-                   hakyll -any
+                   hakyll -any, pandoc -any
     main-is: Main.hs
     buildable: True
     hs-source-dirs: haskell
-    other-modules: WebPage.Pubs WebPage.Generate
-                   WebPage.Generate.Context WebPage.Generate.Rules
-                   WebPage.Generate.Base WebPage.Pubs.Paper WebPage.Pubs.ToHtml
-                   WebPage.Pubs.Database
+    other-modules: WebPage.Pubs WebPage.Generate WebPage.Generate.Base
+                   WebPage.Generate.Rules WebPage.Generate.Context WebPage.Pubs.ToHtml
+                   WebPage.Pubs.Database WebPage.Pubs.Paper
  

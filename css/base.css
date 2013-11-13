@@ -1,0 +1,123 @@
+h1, h2, h3 {
+    margin: 0px 0px 18px 0px;
+    padding: 24px 0px 0px 0px;
+}
+
+p, ul {
+    margin: 18px 0px 18px 0px;
+}
+
+img {
+    margin: 12px 0px 12px 0px;
+    max-width: 100%;
+}
+
+ul {
+    padding-left: 18px;
+}
+
+div#footer {
+    margin: 60px 0px 36px 0px;
+}
+
+html {
+    background-color: #fff;
+    font-size: 16px;
+    font-family: sans-serif;
+    line-height: 24px;
+}
+
+body {
+    color: #333;
+}
+
+a {
+    color: #111;
+    text-decoration: none;
+    border-bottom: 1px solid #555;
+}
+
+div.figure a{
+    border: none;
+}
+
+a img {
+    margin-bottom: 0px;
+}
+
+pre {
+    font-size: 14px;
+    margin-left: 18px;
+    overflow: auto;
+}
+
+h1, h2, h3 {
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 26px;
+}
+
+h2 {
+    font-size: 22px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+ul {
+    list-style-image: url("../images/list-style-image.png");
+}
+
+blockquote {
+    font-style: italic;
+    margin-left: 18px;
+}
+
+.soft, .caption {
+    font-style: italic;
+    color: #555;
+}
+
+div.figure {
+    text-align: center;
+}
+
+div.figure p {
+    margin-top: 6px;
+}
+
+div.footnotes {
+    color: #555;
+    border-left: 1px dashed #555;
+}
+
+div.footnotes hr {
+    display: none;
+}
+
+div#footer {
+    font-size: 14px;
+}
+
+/*******************************************************************************
+ * Disqus                                                                      *
+ ******************************************************************************/
+
+/* Reset list image for disqus */
+div#disqus_thread ul {
+    list-style-image: none;
+}
+
+div#dsq-subscribe em {
+    text-decoration: none;
+}
+
+.img-me {
+  float: left;
+  max-width: 150px;
+  margin-right: 20px;
+}
+
