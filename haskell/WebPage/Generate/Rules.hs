@@ -65,18 +65,18 @@ buildPages :: Rules()
 buildPages = do
     match "pagesPro/*" $ do
       route (customRoute (flip addExtension "html" . takeBaseName . toFilePath))
-      compilePage Pro
+      compilePage
     match "projects/*" $ do
       route (customRoute (flip addExtension "html" . dropExtension . toFilePath))
-      compilePage Pro
+      compilePage
   where
-    compilePage proPerso = compile $ do
+    compilePage = compile $ do
       path <- fmap toFilePath getUnderlying
       let content = case takeExtension path of
             ".html" -> getResourceBody
             ".md"   -> pandocCompiler
             _       -> error ("Unexpected file type: " ++ path)
-      content >>= mainTemplate proPerso (takeBaseName path)
+      content >>= mainTemplate (takeBaseName path)
 
 buildPerso :: Rules ()
 buildPerso = do
@@ -145,11 +145,12 @@ buildPerso = do
         route idRoute
         compile $ do
             posts <- fmap (take 3) . recentFirst =<< loadAll "posts/*"
+            context <-  getContext
             let indexContext =
                     listField "posts" (postCtx tags) (return posts) <>
                     field "tags" (\_ -> renderTagList tags) <>
+                    context <>
                     defaultContext
-
             getResourceBody
                 >>= applyAsTemplate indexContext
                 >>= loadAndApplyTemplate "templates/mainperso.html" indexContext
@@ -203,10 +204,10 @@ feedCtx = mconcat
 --------------------------------------------------------------------------------
 feedConfiguration :: String -> FeedConfiguration
 feedConfiguration title = FeedConfiguration
-    { feedTitle       = "jaspervdj - " ++ title
-    , feedDescription = "Personal blog of jaspervdj"
-    , feedAuthorName  = "Jasper Van der Jeugt"
-    , feedAuthorEmail = "jaspervdj@gmail.com"
-    , feedRoot        = "http://jaspervdj.be"
+    { feedTitle       = "Corentin Dupont - " ++ title
+    , feedDescription = "Personal blog of Corentin Dupont"
+    , feedAuthorName  = "Corentin Dupont"
+    , feedAuthorEmail = "corentin.dupont@gmail.com"
+    , feedRoot        = "http://corentindupont.info"
     }
 
