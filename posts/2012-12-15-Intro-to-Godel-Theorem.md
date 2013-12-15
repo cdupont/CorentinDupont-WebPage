@@ -4,5 +4,5 @@ description: My slides for the introduction to Godel's Theorem I made for the Ph
 tags: PhD
 ---
 
-For my PhD, I realized a presentation to the quite fantastic, and mysterious, Godel's Theorems of Incompletness.
+For my PhD, I realized an introduction to the quite fantastic, and mysterious, Gödel's Incompletness Theorems.
 I'm sharing the slides [here](/docs/Godel_intro_CDupont.pdf).
