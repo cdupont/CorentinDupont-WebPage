@@ -1,6 +1,6 @@
 ---
-title: Crafting
+title: DIY
 ---
 
-I realized notably a mini [camping car](http://www.trafic-amenage.com/forum/viewtopic.php?t=34105) out of an Empty FIAT Scudo.  
+I notably realized a mini [camping car](http://www.trafic-amenage.com/forum/viewtopic.php?t=34105) out of an empty FIAT Scudo.  
 I also realized a "steam punk" telephone out of an old PTT phone, I will upload photos soon.

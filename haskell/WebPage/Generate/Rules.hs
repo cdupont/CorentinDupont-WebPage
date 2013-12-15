@@ -10,7 +10,7 @@ import WebPage.Generate.Base
 import WebPage.Generate.Context
 import WebPage.Pubs
 import qualified Text.Pandoc     as Pandoc
-
+--
 -- * Exported functions
 
 rules = do
@@ -52,13 +52,13 @@ compileCSS = do
 
 copyFiles :: Rules ()
 copyFiles =
-  match ("images/*" .||. "js/*" .||. "papers/*.pdf") $ do
+  match ("images/*" .||. "js/*" .||. "docs/*.pdf") $ do
     route   idRoute
     compile copyFileCompiler
 
 loadAbstracts :: Rules ()
 loadAbstracts =
-  match "papers/*.abstract.md" $
+  match "docs/*.abstract.md" $
     compile pandocCompiler
 
 buildPages :: Rules()
@@ -174,9 +174,8 @@ buildPerso = do
 
   where
     pages =
-        [ "contact.markdown"
-        , "links.markdown"
-        , "recommendations.markdown"
+        [ "pagesPerso/contact.md"
+        , "pagesPerso/recommendations.md"
         ]
 
 

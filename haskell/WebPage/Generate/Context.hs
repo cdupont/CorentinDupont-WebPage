@@ -61,7 +61,7 @@ linkPdf fs p
     | Just _ <- lookupItem pdf fs = p `setPdfLink` ("/" ++ pdf)
     | otherwise = p
   where
-    pdf = "papers/" ++ _key p ++ ".pdf"
+    pdf = "docs/" ++ _key p ++ ".pdf"
 
 -- | Add the abstract if the corresponding file is present.
 addAbstract :: [Item String] -> Paper -> Paper
@@ -69,7 +69,7 @@ addAbstract fs p
     | Just i <- lookupItem abs fs = p `setAbstract` itemBody i
     | otherwise = p
   where
-    abs = "papers/" ++ _key p ++ ".abstract.md"
+    abs = "docs/" ++ _key p ++ ".abstract.md"
 
 -- | Build a list field of publications.
 pubListField :: String -> [Paper] -> Context String
@@ -82,8 +82,8 @@ pubFields p = constField (_key p) (pubStr p)
 -- | Build a context containing many fields related to publications.
 getPubContext :: Compiler (Context String)
 getPubContext = do
-    pdfs <- loadAll "papers/*.pdf"
-    txts <- loadAll "papers/*.abstract.md"
+    pdfs <- loadAll "docs/*.pdf"
+    txts <- loadAll "docs/*.abstract.md"
     let pubs = map (addAbstract txts . linkPdf pdfs) allPubs
     let pubListContext =
              pubListField "pubs"     pubs

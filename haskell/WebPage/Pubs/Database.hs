@@ -62,7 +62,7 @@ allPubs = concat [y11, y12, y13]
 iscis11= conference
   "ISCIS11"
   [quan, basmadjian, demeer, lent, mahmoodi, sannelli, mezza, dupont]
-  "Energy efficient resource allocation strategy for cloud data centres"
+  "Energy Efficient Resource Allocation Strategy for Cloud Data Centres"
   2011
   `onPages` Pages 133 141
   @@ iscis
@@ -70,7 +70,7 @@ iscis11= conference
 eenergy12= conference
   "EENERGY12"
   [dupont, giuliani, hermenier, schultze, somov]
-  "An energy aware framework for virtual machine placement in cloud federated data centres"
+  "An Energy Aware Framework for Virtual Machine Placement in Cloud federated data centres"
   2012
   `onPages` Pages 1 10
   @@ eenergy
@@ -78,7 +78,7 @@ eenergy12= conference
 e2dc12 = workshop
   "E2DC12"
   [quan, dupont, somov]
-  "Energy usage and carbon emission optimization mechanism for federated data centres"
+  "Energy Usage and Carbon Emission Optimization Mechanism for Federated Data Centres"
   2012
   `onPages` Pages 129 140
   @@ e2dc
@@ -93,7 +93,7 @@ e2dc13 = workshop
 funems13= conference
   "FUNEMS13"
   [somov, dupont, giaffreda]
-  "smart-city mobility with cognitive internet of things"
+  "Smart-City Mobility with Cognitive Internet of Things"
   2013
   `onPages` Pages 1 10
   @@ funems
