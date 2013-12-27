@@ -26,12 +26,12 @@ rules = do
 
 compileTemplates :: Rules ()
 compileTemplates =
-  match "templates/*" $
+  match ("templates/*.html" .||. "blog/templates/*.html") $
     compile templateCompiler
 
 compileMarkdown :: Rules ()
 compileMarkdown =
-  match ("blurbs/*.md" .||. "news/*.md") $
+  match ("blurbs/*.md" .||. "news/*.md" .||. "blog/*.md") $
     compile pandocCompiler
 
 
@@ -63,7 +63,7 @@ loadAbstracts =
 
 buildPages :: Rules()
 buildPages = do
-    match "pagesPro/*" $ do
+    match "pages/*" $ do
       route (customRoute (flip addExtension "html" . takeBaseName . toFilePath))
       compilePage
     match "projects/*" $ do
@@ -81,7 +81,7 @@ buildPages = do
 buildPerso :: Rules ()
 buildPerso = do
     -- Compress CSS
-    match "css/*" $ do
+    match "blog/css/*" $ do
         route idRoute
         compile compressCssCompiler
 
@@ -91,30 +91,30 @@ buildPerso = do
         compile $ getResourceBody >>= relativizeUrls
 
     -- Build tags
-    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
+    tags <- buildTags "blog/posts/*" (fromCapture "tags/*.html")
 
     -- Render each and every post
-    match "posts/*" $ do
+    match "blog/posts/*" $ do
         route   $ setExtension ".html"
         compile $ do
             pandocCompiler
                 >>= saveSnapshot "content"
                 >>= return . fmap demoteHeaders
-                >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
-                >>= loadAndApplyTemplate "templates/mainperso.html" defaultContext
+                >>= loadAndApplyTemplate "blog/templates/post.html" (postCtx tags)
+                >>= loadAndApplyTemplate "blog/templates/mainperso.html" defaultContext
                 >>= relativizeUrls
 
     -- Post list
-    create ["posts.html"] $ do
+    create ["blog/posts.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
+            posts <- recentFirst =<< loadAll "blog/posts/*"
             let ctx = constField "title" "Posts" <>
                         listField "posts" (postCtx tags) (return posts) <>
                         defaultContext
             makeItem ""
-                >>= loadAndApplyTemplate "templates/posts.html" ctx
-                >>= loadAndApplyTemplate "templates/mainperso.html" ctx
+                >>= loadAndApplyTemplate "blog/templates/posts.html" ctx
+                >>= loadAndApplyTemplate "blog/templates/mainperso.html" ctx
                 >>= relativizeUrls
 
     -- Post tags
@@ -129,8 +129,8 @@ buildPerso = do
                         listField "posts" (postCtx tags) (return posts) <>
                         defaultContext
             makeItem ""
-                >>= loadAndApplyTemplate "templates/posts.html" ctx
-                >>= loadAndApplyTemplate "templates/mainperso.html" ctx
+                >>= loadAndApplyTemplate "blog/templates/posts.html" ctx
+                >>= loadAndApplyTemplate "blog/templates/mainperso.html" ctx
                 >>= relativizeUrls
 
         -- Create RSS feed as well
@@ -141,10 +141,10 @@ buildPerso = do
                 >>= renderAtom (feedConfiguration title) feedCtx
 
     -- Index
-    match "pagesPerso/index.html" $ do
+    match "blog/index.html" $ do
         route idRoute
         compile $ do
-            posts <- fmap (take 3) . recentFirst =<< loadAll "posts/*"
+            posts <- fmap (take 3) . recentFirst =<< loadAll "blog/posts/*"
             context <-  getContext
             let indexContext =
                     listField "posts" (postCtx tags) (return posts) <>
@@ -153,29 +153,29 @@ buildPerso = do
                     defaultContext
             getResourceBody
                 >>= applyAsTemplate indexContext
-                >>= loadAndApplyTemplate "templates/mainperso.html" indexContext
+                >>= loadAndApplyTemplate "blog/templates/mainperso.html" indexContext
                 >>= relativizeUrls
 
     -- Read templates
-    match "templates/*" $ compile $ templateCompiler
+    match "blog/templates/*.html" $ compile $ templateCompiler
 
     -- Render some static pages
     match (fromList pages) $ do
         route   $ setExtension ".html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/mainperso.html" defaultContext
+            >>= loadAndApplyTemplate "blog/templates/mainperso.html" defaultContext
             >>= relativizeUrls
 
     -- Render the 404 page, we don't relativize URL's here.
     match "404.html" $ do
         route idRoute
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/mainperso.html" defaultContext
+            >>= loadAndApplyTemplate "blog/templates/mainperso.html" defaultContext
 
   where
     pages =
-        [ "pagesPerso/contact.md"
-        , "pagesPerso/recommendations.md"
+        [ "blog/contact.md"
+        , "blog/recommendations.md"
         ]
 
 

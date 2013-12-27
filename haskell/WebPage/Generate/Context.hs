@@ -48,7 +48,7 @@ newsContext = listField "news" baseContext (loadAll "news/*" >>= recentFirst)
 -- | Makes the contents of the blurbs directory available as template fields.
 getBlurbContext :: Compiler (Context String)
 getBlurbContext = do
-    loadAll "blurbs/*"
+    loadAll ("blurbs/*" .||. "blog/*.md")
       >>= return . foldr (<>) baseContext . map item
   where item (Item id body) = constField (takeBaseName (toFilePath id)) body
 
