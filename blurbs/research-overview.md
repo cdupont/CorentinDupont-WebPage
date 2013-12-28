@@ -2,6 +2,8 @@
 title: Research Overview
 ---
 
+My research interests are around resource optimization in data centres, functionnal programming and constraint programming.
+
 I am currently part of these EU FP7 projects:
 
 * [DC4Cities](http://projects.dc4cities.eu/): better use of renewable energies (solar, wind, hydro) in data centres.  
