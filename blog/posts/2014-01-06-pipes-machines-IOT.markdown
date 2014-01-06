@@ -164,7 +164,7 @@ A server is a network node that sends and receives data from the beginning of th
 
 Finally, an Effect is a special kind of network node that have no input and no output:
 
-    type Effect = Proxy Void () () Void
+    type Effect = Proxy () () () ()
 
             Effect
          +---------+
@@ -175,7 +175,7 @@ Finally, an Effect is a special kind of network node that have no input and no o
               v
               r
 
-Effects are used for non streaming components. As we'll see below, an whole network should always reduce to an Effect.
+Effects are used for non streaming components. As we'll see below, a whole network should always reduce to an Effect.
 
 The library is then defining various operators to connect network nodes together: [for](http://hackage.haskell.org/package/pipes-4.0.0/docs/Pipes.html#v:for), [(>~)](http://hackage.haskell.org/package/pipes-4.0.0/docs/Pipes.html#v:-62--126-), [(>->)](http://hackage.haskell.org/package/pipes-4.0.0/docs/Pipes.html#v:-62--45--62-), [(>>=)](http://hackage.haskell.org/package/base-4.6.0.1/docs/Control-Monad.html#v:-62--62--61-)
 The idea is that, using those operators, you can connect the various network nodes showed above.
@@ -210,9 +210,10 @@ Here is the code to produce this network:
 
 We simply connect a Producer (named stdinLn) with a Pipe (take 3) and finally with a Consumer (stdoutLn) using the (>->) operator.
 Only networks that reduces to an Effect can be run by the engine (otherwise, that would mean that some inputs or outputs are left unplugged).
+When run, this example reads for the standard input and displays what has been entered, only to stop (and terminate) after 3 inputs.
 
 #Conclusion
 
 The Pipes library helped us understand some machinery which is necessary for the Internet of Things. The library offers also an implementation, of course.
 There is much more to Pipes, check out the [tutorial](http://hackage.haskell.org/package/pipes-4.0.0/docs/Pipes-Tutorial.html). 
-The [Conduit](https://www.fpcomplete.com/user/snoyberg/library-documentation/conduit-overview) library implements similar ideas, although the implementation seems simpler.
+The [Conduit](https://www.fpcomplete.com/user/snoyberg/library-documentation/conduit-overview) library shows similar ideas, although the implementation seems simpler.
