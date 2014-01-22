@@ -6,7 +6,7 @@ tags: IoT, Haskell
 
 #Introduction
 
-The vision of the [Internet of Thinks](http://en.wikipedia.org/wiki/Internet_of_Things) (IoT) is a world where physical objects are seamlessly integrated into the information network, and where the physical objects can become active participants in business processes (definition by SAP).
+The vision of the [Internet of Things](http://en.wikipedia.org/wiki/Internet_of_Things) (IoT) is a world where physical objects are seamlessly integrated into the information network, and where the physical objects can become active participants in business processes (definition by SAP).
 IoT proposes to connect a lot of objects to the internet. This is something that we can consider as achieved: see the [Xively](https://xively.com/) platform for example. 
 The real challenge is now to build something useful out of all these data streams.
 We need a paradigm powerful enough to build meaningful, flexible and persistent "machines" able to extract high level informations out of all the low level data streams that we have at our disposal.
@@ -14,7 +14,7 @@ The objective of this blog post is to present the concepts introduced by the Has
 It is freely inspired from this [tutorial](http://hackage.haskell.org/package/pipes-4.0.0/docs/Pipes-Tutorial.html). Similar ideas are implemented in the [Conduit](https://www.fpcomplete.com/user/snoyberg/library-documentation/conduit-overview) library.
 
 
-To process data streams, we usually use a data stream network.
+To process data streams, we usually use a data streaming network.
 The processing nodes of this network should have the following qualities:
 
 * Streaming capabilities
@@ -28,7 +28,7 @@ The implementation should be able to deal with large -and possibly infinite- amo
 It implies to implement the following mechanisms:
 
 * Event management or push/pull mechanism: the new data from the source may come at any moment. 
-As this moment is unpredictable, each network node shall be "woken up" by the new data coming, instead of actively pooling its input buffer.
+As this moment is unpredictable, each network node shall be "woken up" by the new data coming, instead of actively polling its input buffer.
 * Management of end of streams: the source can send an end of stream signal (with the character EOF). This should be handled gracefully by all the network nodes, and terminate the entire network.
 * Management of errors: any network node can terminate with a "broken pipe" error, for example in the case the sink is switched off, or receives data that it cannot handle. 
 The "broken pipe" error should be propagated to all network nodes to allow them to gracefully terminate.
@@ -71,19 +71,19 @@ You can think of a Proxy as a box with an input _a_ and an output _b_:
          +----|----+
               v
               r
-It's type is:
+It's (simplified) type is:
 
     type Proxy a b m r = <some implementation>
 
-_a_ _b_ _m_ and _r_ are _type variables_. This means that a Proxy can be configured to use any type that you choose. 
-Respectively, _a_ is the type of the input data, _b_ is the type of the output data, _m_ is the underlying [monad](http://en.wikipedia.org/wiki/Monad_%28functional_programming%29), and _r_ it the type of the data handed out when the Proxy terminates (think of it as a return status).
+_a_ _b_ _m_ and _r_ are _type variables_. This means that a Proxy can be configured to use any type you choose. 
+Respectively, _a_ is the type of the input data, _b_ is the type of the output data, _m_ is the underlying [monad](http://en.wikipedia.org/wiki/Monad_%28functional_programming%29) (a concept that we won't cover in this tutorial), and _r_ it the type of the data handed out when the Proxy terminates (think of it as a return status).
 An concrete usage of a Proxy could be:
 
-    MyProxy = Proxy String String () Int
+    MyProxy = Proxy String String Foo Int
 
 _MyProxy_ is then a Proxy that takes a String as an input and output a String. When it terminates, it returns an Int.
 
-A Producer is then just a specialisation of a Proxy, with its input type set to void (denoted "()"):
+A Producer is then just a specialisation of a Proxy, with its input type set to unit (denoted "()"):
 
     type Producer b = Proxy () b
 
@@ -97,7 +97,8 @@ A Producer is then just a specialisation of a Proxy, with its input type set to 
               r
 
 This type signature means that a Producer can only output values. These values can be of any type, that's why we write it "b" instead of a concrete type like Int of Float.
-The input is set to the special type "()", pronounced "bottom". "()" is a type that contains no values, and thus naturally no data can be sent to the Producer.
+The input is set to the special type "()", pronounced "unit". "()" is a type that contains only one value, and thus naturally no (interesting) data can be sent to the Producer.
+"()" for our purpose serves to "close" one end of the Proxy.
 
 Conversely, a Consumer is a Proxy with its output type set to ():
 
@@ -117,7 +118,7 @@ Finally, a Pipe has the full feature (an input "a" and an output "b"):
     type Pipe a b = Proxy a b
 
 
-In fact, I lied a little about the Proxy: it's type is slightly more complex. It also contains a upstream interface for data coming the opposite way (denoted with a' and b'):
+In fact, I lied a little about the Proxy: its type is slightly more complex. It also contains a upstream interface for data coming the opposite way (denoted with a' and b'):
 
     data Proxy a' a b' b m r 
 
@@ -160,7 +161,7 @@ This allows to define a Server and a Client:
               v
               r
 
-A server is a network node that sends and receives data from the beginning of the chain, while the client is at the end of the chain.
+The fundamental difference between a Server and a Client is that a Client initiate the communication (in a pull-based approach).
 
 Finally, an Effect is a special kind of network node that have no input and no output:
 
@@ -210,10 +211,64 @@ Here is the code to produce this network:
 
 We simply connect a Producer (named stdinLn) with a Pipe (take 3) and finally with a Consumer (stdoutLn) using the (>->) operator.
 Only networks that reduces to an Effect can be run by the engine (otherwise, that would mean that some inputs or outputs are left unplugged).
-When run, this example reads for the standard input and displays what has been entered, only to stop (and terminate) after 3 inputs.
+When run, this example reads for the standard input and immediately displays what has been entered, only to stop (and terminate) after 3 inputs:
+
+    $ runEffect $ stdinLn >-> take 3 >-> stdoutLn
+    Foo<Enter>
+    Foo
+    Bar<Enter>
+    Bar
+    Baaz<Enter>
+    Baaz
+    <Terminated>
+
+
+# Behind the scene: how to ensure composability?
+
+Pipes is a principled library using the [Category theory](http://en.wikipedia.org/wiki/Category_theory).
+Category theory is a field used to formalize mathematics and its concepts as a collection of objects and arrows (also called morphisms).
+Out of this theory, a "Category" is a set (in the mathematical sense) of things that, put simply, can "compose". 
+When creating a programming library, the usual way to make it "composable" is by trial and error, and by intuition.
+However, using the category theory as a design principle can be a way to ensure (and demonstrate) a great "composability".
+The category design pattern is explained by Gabriel Gonzalez [here](http://www.haskellforall.com/2012/08/the-category-design-pattern.html).
+
+As an example, the set of functions forms a Category, because functions can compose: if you take two functions f and g, you can possibly compose them to obtain a new function h:
+
+    f :: a -> b  -- read this as "f is a function that takes an argument of type a, and returns a result of type b"
+    g :: b -> c
+    h :: a -> c
+    h =  g . f  -- h is the composition of f and g
+
+But there are other things, apart functions, that are an instance of Category: [Lenses](http://hackage.haskell.org/package/data-lens), [Parsers](http://hackage.haskell.org/package/boomerang-1.4.0), and... Pipes.
+A set of objects "cat" forms a Category where:
+
+    id  :: cat a a
+    (.) :: cat b c -> cat a b -> cat a c
+
+This says that there is an object in your set "cat" that is named the identity. Secondly we have an operator "." that is able to compose your objects, very much like we compose functions.
+Furthermore, your Category must obey the Category laws:
+
+    id . f = f  -- Left  identity law
+    f . id = f  -- Right identity law
+    (f . g) . h = f . (g . h) -- Associativity law
+
+If your set of objects "cat" respects all these laws, it is a Category. 
+In practice it is very useful, when designing a library, to make sure that a certain set of the primitives defined by your library obey the Category laws. 
+This ensures that those primitives combines nicely and intuitively, and are free of edge cases.
+
+Pipes is a stream programming library built on top of a foundation of basic category theory. The core of the library consists of a set of five categories that all intersect in a single streaming data type and the library's contract is the set of associated category laws.
+The five categories are given [here](http://hackage.haskell.org/package/pipes-4.0.0/docs/Pipes-Core.html#g:2).
 
 #Conclusion
 
 The Pipes library helped us understand some machinery which is necessary for the Internet of Things. The library offers also an implementation, of course.
 There is much more to Pipes, check out the [tutorial](http://hackage.haskell.org/package/pipes-4.0.0/docs/Pipes-Tutorial.html). 
 The [Conduit](https://www.fpcomplete.com/user/snoyberg/library-documentation/conduit-overview) library shows similar ideas, although the implementation seems simpler.
+
+#Acknowledgments
+
+Gabriel Gonzales is the author of Pipes, so I thank him for this great contribution and for the feedback on this blog post!
+
+
+
+
