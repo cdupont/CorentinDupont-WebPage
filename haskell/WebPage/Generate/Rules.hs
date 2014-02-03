@@ -94,7 +94,7 @@ buildPerso = do
     tags <- buildTags "blog/posts/*" (fromCapture "tags/*.html")
 
     -- Render each and every post
-    match "blog/posts/*" $ do
+    match ("blog/posts/*.md" .||. "blog/posts/*.markdown" .||. "blog/posts/*.lhs") $ do
         route   $ setExtension ".html"
         compile $ do
             pandocCompiler
