@@ -12,9 +12,8 @@ To show you the problem, here is a simplified version of the DSL I use.
 First some boilerplate (this post is literate Haskell, you can copy/paste it and run it as-is):
 
 > {-# LANGUAGE GADTs #-}
-> {-# LANGUAGE KindSignatures #-}
+> {-# LANGUAGE DataKinds, KindSignatures #-}
 > module DSLEffects where
-> import Control.Monad
 > import Control.Monad.State
 
 This is the DSL:
