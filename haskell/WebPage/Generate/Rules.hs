@@ -9,6 +9,7 @@ import           Data.Monoid     ((<>), mconcat)
 import WebPage.Generate.Base
 import WebPage.Generate.Context
 import WebPage.Pubs
+import Control.Applicative
 import qualified Text.Pandoc     as Pandoc
 --
 -- * Exported functions
@@ -94,8 +95,7 @@ buildPerso = do
     tags <- buildTags "blog/posts/*" (fromCapture "tags/*.html")
 
     -- Render each and every post
-    match ("blog/posts/*.md" .||. "blog/posts/*.markdown" .||. "blog/posts/*.lhs" .||.
-           "blog/drafts/*.md" .||. "blog/drafts/*.markdown" .||. "blog/drafts/*.lhs") $ do
+    match (foldr1 (.||.) $ map (\a b -> fromGlob (a++b)) [postsDir, draftsDir] <*> ["*.md", "*.markdown", "*.lhs", "*.rst"]) $ do
         route   $ setExtension ".html"
         compile $ do
             pandocCompiler
@@ -178,6 +178,8 @@ buildPerso = do
         [ "blog/contact.md"
         , "blog/recommendations.md"
         ]
+    postsDir = "blog/posts/"
+    draftsDir = "blog/drafts/"
 
 
 
