@@ -105,3 +105,4 @@ We can also define a timer. Unlike _SetVictory_, the _OnTimer_ instruction accep
 >   m <- ReadAccount'
 >   WriteAccount' (m + 1)
 
+In the [next post](http://www.corentindupont.info/blog/posts/2014-02-12-Effect-Class.html), we will see how to solve the same problem, this time using type classes.
