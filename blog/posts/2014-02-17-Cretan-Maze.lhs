@@ -128,7 +128,7 @@ Now we have the program, let's play with it!
 The full program with command line arguments can be found [here](https://github.com/cdupont/CretanMaze).
 First thing we can do is to try a different seed (in blue):
 
-![Cretan maze](/images/maze-other-seed.svg "Different seed")
+![Different seed](/images/maze-other-seed.svg "Different seed")
 
 There is only 2 different interesting seeds, due to the symmetries of the initial figure.
 We can then change the style of the maze very easily, only by changing some parameters of our program! Here are some results:
