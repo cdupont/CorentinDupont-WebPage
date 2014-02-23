@@ -13,9 +13,6 @@ How to encode this semantic?
 Preliminaries: 
 
 > {-# LANGUAGE RankNTypes #-}
-> {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-> {-# LANGUAGE GADTs #-}
-> {-# LANGUAGE TypeSynonymInstances #-}
 > {-# LANGUAGE FlexibleInstances #-}
 > module Main where
 > import Control.Monad.State
@@ -68,7 +65,7 @@ We are now able to define effectful computations, mixing effectful and effectles
 We can also safely define expressions that must not yield any effect. 
 Here is our victory condition. Note that effectful instructions are not accepted, which is what we wanted!
 
-> victoryCondition :: Nomex m => m ()
+> victoryCondition :: Nomex m => m Bool
 > victoryCondition = do
 >    i <- readAccount
 >    --writeAccount 100 --This would not compile (good!)
