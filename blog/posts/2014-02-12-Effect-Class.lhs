@@ -92,3 +92,37 @@ Let's check that everything worked correctly:
 > main = putStrLn $ show $ isVictory $ execState play initGame
 
 Running the program will display the value "True": We won!
+
+We can see that there are really two solutions for our problem.
+Here are their pros and cons, in my opinion:
+
+With type parameter:
+
+Pros:
+
+* Less modification to the existing code base (I can just wrap the existing Nomex type as a type synomym)
+* The type of the instructions of the DSL is more obvious to me: *readAccount :: Nomex Int*
+
+Cons:
+
+* To use the effect-less instructions in an effect-less context, there are two solutions, as shown before. 
+Both are not so elegant in my opinion: the first uses a generic *r* parameter instead of a *NoEffect* in the type of ReadAccount. 
+The second requires the use of a *liftEffect* instruction, based on *unsafeCoerce*, in a lot of places.
+
+
+With type class:
+
+Pros:
+
+* Elegant solution for the evaluation
+* Effect-less and effect-full instructions can be used together in effect-full context, without need to lift anything
+
+Cons:
+
+* Two functions that "belong" together, *ReadAccount* and *WriteAccount*, and separated.
+* The type signature less obvious for the players: *readAccount :: Nomex m => m Int*. I am a bit worried that all the gameplay will have to be done with type classes and not with a concrete type.
+* The amount of change in the code base
+
+
+Special thanks to the Haskell community who helped me. 
+Especially the persons in [this Reddit post](http://fr.reddit.com/r/haskell/comments/1wd5z4/manage_effects_in_a_dsl/) and [this mailing list thread](https://groups.google.com/forum/#!msg/haskell-cafe/LzRIUQ-hM4c/4KcWae7XOZQJ).
