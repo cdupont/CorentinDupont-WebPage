@@ -101,14 +101,12 @@ With type parameter:
 Pros:
 
 * Less modification to the existing code base (I can just wrap the existing Nomex type as a type synomym)
-* The type of the instructions of the DSL is more obvious to me: *readAccount :: Nomex Int*
+* The type of the instructions of the DSL is more obvious to me than using a type class: *WriteAccount :: Nomex Effect Int*
 
 Cons:
 
-* To use the effect-less instructions in an effect-less context, there are two solutions, as shown before. 
-Both are not so elegant in my opinion: the first uses a generic *r* parameter instead of a *NoEffect* in the type of ReadAccount. 
-The second requires the use of a *liftEffect* instruction, based on *unsafeCoerce*, in a lot of places.
-
+* The type of effect-less instructions is no so elegant due to the polymorphic parameter IMO: *ReadAccount :: Nomex r ()*.
+I would prefer *ReadAccount NoEffect ()* but it doesn't seem to be possible.
 
 With type class:
 
