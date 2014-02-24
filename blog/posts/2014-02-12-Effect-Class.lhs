@@ -123,6 +123,7 @@ Cons:
 * The type signature less obvious for the players: *readAccount :: Nomex m => m Int*. I am a bit worried that all the gameplay will have to be done with type classes and not with a concrete type.
 * The amount of change in the code base
 
+The two full-fledged solutions can be found [here](https://github.com/cdupont/Nomyx-design).
 
 Special thanks to the Haskell community who helped me. 
 Especially the persons in [this Reddit post](http://fr.reddit.com/r/haskell/comments/1wd5z4/manage_effects_in_a_dsl/) and [this mailing list thread](https://groups.google.com/forum/#!msg/haskell-cafe/LzRIUQ-hM4c/4KcWae7XOZQJ).
