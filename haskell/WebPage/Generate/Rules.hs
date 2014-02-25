@@ -145,7 +145,7 @@ buildPerso = do
     match "blog/index.html" $ do
         route idRoute
         compile $ do
-            posts <- fmap (take 3) . recentFirst =<< loadAll "blog/posts/*"
+            posts <- fmap (take 6) . recentFirst =<< loadAll "blog/posts/*"
             context <-  getContext
             let indexContext =
                     listField "posts" (postCtx tags) (return posts) <>
