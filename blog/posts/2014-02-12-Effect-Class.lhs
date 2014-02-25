@@ -4,7 +4,7 @@ description: How to manage effects in a DSL, using type classes
 tags: Haskell, Nomyx
 ---
 
-Hi, `this`{.haskell} is the second post in the exploration of the design of [Nomyx](www.nomyx.net).
+Hi, this is the second post in the exploration of the design of [Nomyx](www.nomyx.net).
 We will try to solve again the problem of managing effects in DSLs, this time using type classes (see [part 1](/blog/posts/2014-01-30-DSL-Effect.html) to see how to solve it using a polymorphic type parameter).
 As a reminder, the problem is to separate semantically the instructions that have an "effect" in a DSL, from those who don't.
 Of course, an effect-less instruction could be run in an effect-full context, but not the opposite!
@@ -93,22 +93,53 @@ Let's check that everything worked correctly:
 
 Running the program will display the value "True": We won!
 
-We can see that there are really two solutions for our problem.
+#Conclusion
+
+So finally, there are really 3 solutions to the problem of representing the semantic of effects/no effects (effect-less instructions can be run in effect-full context, but not the opposite).
+We can encode this semantic at (click on the links for full solutions):
+
+* [value level](https://github.com/cdupont/Nomyx-design/blob/master/TypeParamEffect-Concrete.hs)
+* [type level](https://github.com/cdupont/Nomyx-design/blob/master/TypeParamEffect-Polymorphic.hs)
+* [typeclass level](https://github.com/cdupont/Nomyx-design/blob/master/TypeClassEffect.hs)
+
+At value level, the semantic is encoded by a DSL instruction 'NoEff' that wraps an effect-less instruction into an effect-full one:
+
+    NoEff        :: Nomex NoEffect a -> Nomex Effect a
+
+At type level, the semantic is encoded by using a polymorphic type parameter that can take two concrete type, 'Effect' or 'NoEffect':
+
+    ReadAccount  :: Nomex r Int
+
+At typeclass level, the semantic is encoded by the hierarchy of classes:
+
+    class NomexNoEffect m => NomexEffect m where...
+
+
 Here are their pros and cons, in my opinion:
 
-With type parameter:
+**Value level solution:**
+
+Pros:
+
+* Less modification to the existing code base (I can just wrap the existing Nomex type as a type synomym).
+* The type of the instructions of the DSL is very clear and elegant: *ReadAccount :: Nomex NoEffect Int*.
+
+Cons:
+
+* We have to lift every effect-less instructions in effect-full context.
+
+**Type level solution:**
 
 Pros:
 
 * Less modification to the existing code base (I can just wrap the existing Nomex type as a type synomym)
-* The type of the instructions of the DSL is more obvious to me than using a type class: *WriteAccount :: Nomex Effect Int*
+* No need to lift anything
 
 Cons:
 
 * The type of effect-less instructions is no so elegant due to the polymorphic parameter IMO: *ReadAccount :: Nomex r ()*.
-I would prefer *ReadAccount NoEffect ()* but it doesn't seem to be possible.
 
-With type class:
+**Type class solution:**
 
 Pros:
 
@@ -121,7 +152,6 @@ Cons:
 * The type signature less obvious for the players: *readAccount :: Nomex m => m Int*. I am a bit worried that all the gameplay will have to be done with type classes and not with a concrete type.
 * The amount of change in the code base
 
-The two full-fledged solutions can be found [here](https://github.com/cdupont/Nomyx-design).
 
 Special thanks to the Haskell community who helped me. 
 Especially the persons in [this Reddit post](http://fr.reddit.com/r/haskell/comments/1wd5z4/manage_effects_in_a_dsl/) and [this mailing list thread](https://groups.google.com/forum/#!msg/haskell-cafe/LzRIUQ-hM4c/4KcWae7XOZQJ).
