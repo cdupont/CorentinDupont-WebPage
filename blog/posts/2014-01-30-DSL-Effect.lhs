@@ -105,4 +105,6 @@ We can also define a timer. Unlike _SetVictory_, the _OnTimer_ instruction accep
 >   m <- ReadAccount'
 >   WriteAccount' (m + 1)
 
+Note that ReadAccount' being polymorphic on its type (by using the type parameter r), it can be used in both an effect-full or an effect-less context!
+
 In the [next post](http://www.corentindupont.info/blog/posts/2014-02-12-Effect-Class.html), we will see how to solve the same problem, this time using type classes.
