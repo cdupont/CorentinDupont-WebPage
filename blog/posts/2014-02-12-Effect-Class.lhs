@@ -138,6 +138,7 @@ Pros:
 Cons:
 
 * The type of effect-less instructions is no so elegant due to the polymorphic parameter IMO: *ReadAccount :: Nomex r ()*.
+* The evaluator contains redundancy
 
 **Type class solution:**
 
