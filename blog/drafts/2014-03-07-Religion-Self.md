@@ -4,9 +4,7 @@ Description: Some thoughts
 Tags: Ramblings, Religion
 ---
 
-I am slowly becomming an Athesit. Before, I was agnotic. 
-I was raised as a Catholic in a Catholic family.
-[As Feynman put it](https://www.youtube.com/watch?v=YltEym9H0x4), God is "too simple, too connected, too local, too provincial".
+[As Feynman put it](https://www.youtube.com/watch?v=YltEym9H0x4), God is "too simple, too connected, too local, too provincial". In this interview, his main argument is about the "geographical" anthropocentrism of God: God came to earth, specificaly for us, while the whole Universe is so big. Why would God concentrate on human problems? I would like to bring two more arguments showing the tremendous anthropocentrism of God, which makes it non credible.
 
 - Religion is an avatar of the development of the human mind.
 No animal have a religion. 
@@ -44,7 +42,7 @@ It is terrible to be an atheist: life is absurd, there is no reason why I am her
 I think the current evolution of society, where religion is progressively diseappearing, is more or less like an adolescent crisis.
 We are giving up the old belief, and the shelter they provided, because our intelligence became strong enough to live with the incertainty and the absurdity.
 
-
+This is also the reason I don't like to discuss about religion with very religious people. I am under the impression I am hurting them: religion is like a confortable cocoon. Criticizing the religion is like taking away the cocoon from them: they will inevitably fight back for it. They will find any argument, no matter how absurd, to defend it. No reasonable discussion can take place.
 
 
 
