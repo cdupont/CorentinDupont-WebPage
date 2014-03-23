@@ -6,7 +6,7 @@ tags: Haskell
 
 [Here](/docs/intro_haskell.pdf) are the slides from my presentation of Haskell in the [Hackerspace Trento](https://sites.google.com/site/hackerspacetrento/).
 I tried to present some of the core concepts of Haskell, to a technical audience that have mostly experience in imperative programming.
-I showied notably the key aspects of Haskell: functional, pure, lazy and statically typed, and I tried to transmit my enthusiasm for the language!
+I showed notably the key aspects of Haskell: functional, pure, lazy and statically typed, and I tried to transmit my enthusiasm for the language!
 
 Toward the end of the presentation, I chose to give an understanding of *IO* in Haskell without talking about *monads*: monads are certainly too advanced for a first contact with Haskell.
 Especially because a monad, as short as the definition is, uses 4 new concepts to beginners: type classes, type parameters, higher order functions and sugar notation.
@@ -28,4 +28,5 @@ This construct allows us to hide the heavy carrying of the World between functio
 Monads come with a syntactic sugar called do notation that allows us to write those neat imperative style IOs.
 
 Hope that was understandable :) Thanks to the cool guys in the Hackerspace!
+
 [Source](https://github.com/cdupont/Haskell-slides) of the slides.
