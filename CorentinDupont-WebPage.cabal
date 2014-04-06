@@ -14,8 +14,11 @@ author: Corentin Dupont
 data-dir: ""
  
 executable site
-    build-depends: base ==4.*, blaze-html -any, filepath -any,
-                   hakyll -any, pandoc -any
+    build-depends: base ==4.*, 
+                   blaze-html == 0.6.*, 
+                   filepath == 1.3.*,
+                   hakyll == 4.4.*, 
+                   pandoc == 1.12.*
     main-is: Main.hs
     buildable: True
     hs-source-dirs: haskell

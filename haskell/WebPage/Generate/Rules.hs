@@ -145,7 +145,7 @@ buildPerso = do
     match "blog/index.html" $ do
         route idRoute
         compile $ do
-            posts <- fmap (take 6) . recentFirst =<< loadAll "blog/posts/*"
+            posts <- fmap (take 10) . recentFirst =<< loadAll "blog/posts/*"
             context <-  getContext
             let indexContext =
                     listField "posts" (postCtx tags) (return posts) <>
@@ -175,8 +175,8 @@ buildPerso = do
 
   where
     pages =
-        [ "blog/contact.md"
-        , "blog/recommendations.md"
+        [ "blog/pages/contact.md"
+        , "blog/pages/recommendations.md"
         ]
     postsDir = "blog/posts/"
     draftsDir = "blog/drafts/"
