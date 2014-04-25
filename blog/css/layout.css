@@ -13,8 +13,8 @@ div#navigation {
     background: #FFFFFF  repeat-x left bottom;
     text-align: center;
     float:left;
-    width:150px;
-    margin: 0px 0px 0px 18px;
+    width:10%;
+    margin: 0px 0px 0px 0px;
     position:fixed;
     top:0px
 }
@@ -28,8 +28,8 @@ div#navigation h1, div#navigation a {
 }
 
 div#content {
-    margin: 0px 0px 0px 200px;
-    padding: 0px 36px 0px 36px;
-    width: 1000px;
+    margin:0% 23% 0% 20%;
+	 padding:0px 36px 0px 36px;
+    text-align:justify;
 }
 
