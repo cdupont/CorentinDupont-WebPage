@@ -46,27 +46,19 @@ a img {
     margin-bottom: 0px;
 }
 
-pre {
-    font-size: 14px;
-    margin-left: 18px;
-    overflow: auto;
+code{
+    background-color:rgb(250, 250, 250);
+    border:1px solid rgb(200, 200, 200);
+    padding-left:4px;
+    padding-right:4px
 }
 
-code {
-  font: 14px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
-  color: black;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  padding: 7px 7px;
-  display: inline-block;
-  margin: 0px;
-  width: 95%;
+pre code{
+    font-size:14px;
+    display:block;
+    padding:8px;
+    margin-bottom:2em;
+    overflow:auto;
 }
 
 h1, h2, h3 {
