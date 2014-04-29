@@ -8,7 +8,7 @@ I am maintaining the software [Plug4Green](https://github.com/fit4green/Plug4Gre
 It is based on [Constraint Programming](http://en.wikipedia.org/wiki/Constraint_programming) (CP), which is a programming paradigm devoted to solve Constraint Satisfaction Problems (CSP).
 Plug4Green is written in Java, using the libraries [Choco](http://www.emn.fr/z-info/choco-solver/) and [BtrPlace](http://btrp.inria.fr/).
 
-While CP was a very good choice and fulfilled most of the requirements, There are some practical drawbacks. 
+While CP was a very good choice and fulfilled most of the requirements, there are some practical drawbacks. 
 The first being that the languages used, Choco and Java, are very verbose.
 Defining a new constraint takes a lot of lines of code and is very error prone.
 The debugging period for each new constraint is also quite long.
@@ -21,14 +21,14 @@ Haskell is a pure language, which means that no function can have side effects.
 Every function, for the same arguments, will always yield the same results.
 This property (purity), combined with the strong type system of Haskell allow to reduce drastically the number of bugs.
 
-Satisfiability Modulo Theories (SMT) is an active research area mainly focused on formal verification of software and hardware.
-The SMT problem is the problem of determining the satisfiability of ground logical formulas with respect to background theories expressed in classical first-order logic with equality.
+In parallel, Satisfiability Modulo Theories (SMT) is an active research area, slightly different than Constraint Programming.
+A SMT problem is the problem of determining the satisfiability of logical formulas with respect to background theories.
 Modern SMT solvers integrate a Boolean satisfiability (SAT) solver with specialized solvers for a set of literals belonging to each theory.
 The constraints are stated over specific domains, typically: Booleans, integers, rationals, reals, finite domains, or combinations of them.
 The problem consists in finding an assignment to the variables that satisfy all constraints.
 
 To show the usability of both SMT and pure functional languages to tackle energy efficiency problems, I implemented the classical problem of packing VMs on servers using the library [SBV](http://leventerkok.github.io/sbv/), with only one dimension for the sake of simplicity.
-In the example underneath [full example here](https://github.com/cdupont/Plug4Green-design), each VM has a demand in term of CPU, and each server has a certain CPU capacity to offer.
+In the example underneath ([full code here](https://github.com/cdupont/Plug4Green-design)), each VM has a demand in term of CPU, and each server has a certain CPU capacity to offer.
 The objective is to find the placement of the VMs on the servers that minimizes the number of servers needed.
 The only constraint applied is that the total CPU consumption of the VMs that will be running on a server must not exceed the capacity of that server.
 
@@ -88,7 +88,7 @@ main = do
 
 When run, this program returns the placement for the VMs that minimizes the number of necessary servers.
 In this case, it will place all three VMs on the third server. 
-While it is difficult to compare, it is anyway striking that program is shorter than its equivalent in Java/Choco (for example [this implementation](http://www.dcs.gla.ac.uk/~pat/cpM/jchoco/binPack/CPBinPack.java) of bin packing).
+While it is difficult to compare, it is anyway striking that this program is shorter than its equivalent in Java/Choco (for example [this implementation](http://www.dcs.gla.ac.uk/~pat/cpM/jchoco/binPack/CPBinPack.java) of bin packing).
 The definition of a constraint takes only a few lines (for example `numberServersOn` takes 2 lines) and flows with the program definition.
 Furthermore, as it is usually the case in Haskell, the type signature of the functions are carrying a lot of information that can be used both by the programmer to understand and reason about the program, and by the compiler to prove its correctness.
 For example, the type signature `numberServersOn :: Map VMID SSID -> SInteger` makes it clear that the function `numberServersOn` is a constraint that takes the positions of all the VMs on the servers (denoted as a mapping between the VM ids and the server symbolic ids) and returns a symbolic integer representing the necessary number of servers.
@@ -112,9 +112,11 @@ This is easily done, for example using [GHCi](http://www.haskell.org/haskellwiki
 
 
 This example shows how we can ask SBV to prove that the number of VMs per server computed by the constraint `vmCounts` cannot exceed the total number of VMs (in this simplified example with only 2 VMs and a version of vmCounts defined for lists instead of maps).
-SBV simply replies with `Q.E.D`, showing that it found a proof of our property.
+SBV simply replies with `Q.E.D`, showing that it found a proof for our property.
 A proof is a much more powerful way to ensure the correctness of a program than testing: by testing a property of a program, one is effectively trying only a subset of all the possible behaviours of a program, while a proof is exhaustive (is fact, a proof corresponds to a superset of all program behaviours for a certain property).
 
 What is left to do? Benchmarking, of course!
-There is no guaranty that SMT/SBV will scale in this type of problems.
+There is no guaranty that SMT/SBV will scale up with this type of problems.
 
+
+Backlink: [Reddit](http://www.reddit.com/r/haskell/comments/247caq/blog_post_can_haskell_save_energy_vm_placement/)
