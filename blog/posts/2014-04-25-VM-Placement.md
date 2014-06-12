@@ -116,7 +116,8 @@ SBV simply replies with `Q.E.D`, showing that it found a proof for our property.
 A proof is a much more powerful way to ensure the correctness of a program than testing: by testing a property of a program, one is effectively trying only a subset of all the possible behaviours of a program, while a proof is exhaustive (is fact, a proof corresponds to a superset of all program behaviours for a certain property).
 
 What is left to do? Benchmarking, of course!
-There is no guaranty that SMT/SBV will scale up with this type of problems.
+There is no guaranty that SMT/SBV will scale up with this type of problems: what if we add more VMs, more servers, more dimensions (RAM, HD, network...) and more constraints?
+Furthermore, I plan to test scheduling problems, which is necessary when tackeling resource management in an energy efficient way.
 
 
 Backlink: [Reddit](http://www.reddit.com/r/haskell/comments/247caq/blog_post_can_haskell_save_energy_vm_placement/)
