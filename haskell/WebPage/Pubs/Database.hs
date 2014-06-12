@@ -47,8 +47,9 @@ e2dc  = short "E2DC" "International Workshop on Energy-Efficient Data Centres"
 y11 = [iscis11]
 y12 = [eenergy12,e2dc12]
 y13 = [e2dc13, funems13]
+y14 = [e2dc14]
 
-allPubs = concat [y11, y12, y13]
+allPubs = concat [y11, y12, y13, y14]
 
 
 -- ** Under Review
@@ -97,3 +98,10 @@ funems13= conference
   2013
   `onPages` Pages 1 10
   @@ funems
+
+e2dc14 = workshop
+  "E2DC14"
+  [dupont]
+  "Building Application Profiles to Allow a Better Usage of the Renewable Energies in Data Centres"
+  2014
+  @@ e2dc
