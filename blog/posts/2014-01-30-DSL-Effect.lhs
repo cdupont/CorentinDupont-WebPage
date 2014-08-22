@@ -1,7 +1,7 @@
 ---
 title: Manage Effects in DSLs
 description: How to mark down and track effects in your DSLs
-tags: Haskell
+tags: Haskell, Nomyx
 ---
 
 I have a small DSL for my [Nomyx](http://www.nomyx.net) game.    

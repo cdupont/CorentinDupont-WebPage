@@ -1,7 +1,7 @@
 ---
 title: Religion and Self
 description: Some thoughts on why religion did appear
-tags: Ramblings, Religion
+tags: Religion, Philo
 ---
 
 [As Feynman put it](https://www.youtube.com/watch?v=YltEym9H0x4), God is "too simple, too connected, too local, too provincial".
