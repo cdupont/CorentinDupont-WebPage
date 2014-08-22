@@ -1,13 +1,13 @@
-{-# LANGUAGE PatternGuards, TupleSections #-}
+{-# LANGUAGE PatternGuards #-}
+{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module WebPage.Pubs.Database where
 
 import WebPage.Pubs.Paper
 
-
 --
 -- * Defintions
---Dang, M.-Q., Basmadjian, R., De Meer, H., Lent, R., Mahmoodi, T., Sannelli, D., Mezza, F., Dupont,
 
 -- ** Authors
 dupont      = Author "Corentin" "Dupont"
@@ -28,6 +28,7 @@ giaffreda   = Author "Raffaele" "Giaffreda"
 unitn = "University of Trento"
 
 -- ** Journals
+(adhocs :: Venue) = short "AdHoc" "Ad Hoc Networks"
 
 -- ** Conferences
 eenergy   = short "E-Energy" "International Conference on Future Energy Systems"
@@ -47,7 +48,7 @@ e2dc  = short "E2DC" "International Workshop on Energy-Efficient Data Centres"
 y11 = [iscis11]
 y12 = [eenergy12,e2dc12]
 y13 = [e2dc13, funems13]
-y14 = [e2dc14]
+y14 = [e2dc14, adhoc14]
 
 allPubs = concat [y11, y12, y13, y14]
 
@@ -105,3 +106,10 @@ e2dc14 = workshop
   "Building Application Profiles to Allow a Better Usage of the Renewable Energies in Data Centres"
   2014
   @@ e2dc
+
+adhoc14 = paper Accepted Journal
+  "ADHOC14"
+  [dupont, hermenier, schultze, basmadjian, somov, giuliani]
+  "Plug4Green: A Flexible Energy-aware VM Manager to Fit Data Centre Particularities"
+  2014
+  @@ adhocs
