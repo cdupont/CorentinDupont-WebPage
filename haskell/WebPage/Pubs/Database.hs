@@ -24,19 +24,17 @@ mezza       = Author "Federico" "Mezza"
 mahmoodi    = Author "Totkam" "Mahmoodi"
 giaffreda   = Author "Raffaele" "Giaffreda"
 
--- ** Institutions
-unitn = "University of Trento"
-
 -- ** Journals
 (adhocs :: Venue) = short "AdHoc" "Ad Hoc Networks"
 
 -- ** Conferences
 eenergy   = short "E-Energy" "International Conference on Future Energy Systems"
 iscis     = short "ISCIS" "International Symposium on Computer and Information Sciences"
-funems     = short "FUNEMS" "Future Network and Mobile Summit"
+funems    = short "FUNEMS" "Future Network and Mobile Summit"
 -- ** Workshops
 e2dc  = short "E2DC" "International Workshop on Energy-Efficient Data Centres"
-
+-- ** Thesis
+unitn = short "UniTN" "University of Trento Doctoral School"
 
 --
 -- * Papers
@@ -48,7 +46,7 @@ e2dc  = short "E2DC" "International Workshop on Energy-Efficient Data Centres"
 y11 = [iscis11]
 y12 = [eenergy12,e2dc12]
 y13 = [e2dc13, funems13]
-y14 = [e2dc14, adhoc14]
+y14 = [e2dc14, adhoc14, phd14]
 
 allPubs = concat [y11, y12, y13, y14]
 
@@ -113,3 +111,10 @@ adhoc14 = paper Accepted Journal
   "Plug4Green: A Flexible Energy-aware VM Manager to Fit Data Centre Particularities"
   2014
   @@ adhocs
+
+phd14 = thesis
+  "PHDProposal"
+  [dupont]
+  "Energy Aware Infrastructure for Green Cloud Data Centres"
+  2014
+  @@ unitn
