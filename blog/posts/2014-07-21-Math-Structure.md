@@ -49,12 +49,6 @@ Furthermore, this mathematical structure includes all the space, all the time, o
 It is all, at once, why no evolution.
 We experience one particular universe within the multiverse because of the consciousness.
 
-I do believe that time, as well as space, are emergent phenomenas of a more primitive phenomena.
-To make a parallel with another emergent phenomena, take the temperature: at our level, temperature do exist, we can feel it, we can measure it.
-It's an important and interesting parameter in many situations.
-But at a lower level, it doesn't exist anymore: there is only molecular agitation.
-For time and space, this is probably the same: those two "emerge" and unfolds from more fundamental things.
-
 Most people have a hierarchical vision of the reality: each layer of reality is based on the underlying one.
 For example, psychology is based on neurology, which is based on biology, chemistry and ultimately particle physics and quantum mechanics.
 But in fact, with the multiverse hypothesis, the opposite is also true: the laws of quantum mechanics are influenced, at least partially, by psychology.
