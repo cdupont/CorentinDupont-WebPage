@@ -14,8 +14,8 @@ I have 7 years of experience in the software development industry, as a software
     Techonologies: Ada, C++, Qt, Linux, CMMi tools, OWB, Doors   
 
 * **3D simulation projects**   
-    Evolution of NeVis, a 3D demonstrator for urban warfare (5 month).  
-    Realization of two demonstrators :  
+    Evolution of NeVis, a 3D demonstrator for urban warfare.  
+    Realization of two demonstrators:  
     Integration of BlueBerry 3D into Delta 3D.   
     Helicopter simulation under Vega Prime.   
     Technologies: C++, Vega Prime, VRForces, HLA, BlueBerry 3D, Delta 3D  
