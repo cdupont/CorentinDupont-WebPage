@@ -19,11 +19,13 @@ If you don't have an Haskell environment already installed, the second solution 
 So let's go!
 After logging in, you will choose a screen name and register an e-mail.
 Registering an e-mail is important: the game is quite slow-paced, so you will receive an email whenever a new rule is submitted by another player.
+A game can last some weeks, usually the players spend 10 minutes per day to review the new rules, vote, and sometime propose new rules.
+
 After this step, you will arrive at the main screen.
 
 You can view any of the running games.
-For this tutorial, we will fork one of the running games: 
-    
+For this tutorial, we will create a new game: 
+
     click on "Fork".
     On the newly forked game, click on "Join".
 
@@ -43,7 +45,11 @@ So, in the field "Enter a new rule", enter the following:
     Code: nothing
 
 In the big field "Code:", enter the word "nothing" (not capitalized).
-"nothing" is a rule, defined 
+"nothing" is a rule, defined in
+
+
+
+
 
 
 
