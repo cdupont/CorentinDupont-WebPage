@@ -1,13 +1,12 @@
 ---
-title: Crash course on the Nomyx Language
+title: Nomyx  tutorial, part 2: the Language
 tags: Haskell, Nomyx
 description: Learn how to code rules in Nomyx 
 ---
 
-
-Welcome to the crash course on the Nomyx Language!
+Welcome to this tutorial on the Nomyx Language!
 Don't forget to first watch the [introductory video](http://vimeo.com/58265498) and [GUI presentation](2014-09-23-first-Nomyx-tutorial.html).
-During this course we'll go through the examples in the file [Examples.hs](http://www.nomyx.net:8000/html/Language-Nomyx-Examples.html), that will allow us to introduce smoothly all the concepts of Nomyx.
+During this tutorial we'll go through the examples in the file [Examples.hs](http://www.nomyx.net:8000/html/Language-Nomyx-Examples.html), that will allow us to introduce smoothly all the concepts of Nomyx.
 You can test and submit all the rules proposed here in the [online game](http://www.nomyx.net:8000/Nomyx), by creating a new game of your own.
 
 Our first rule is:
@@ -298,7 +297,7 @@ The players don't control where the forms are displayed and how they are styled:
 This allows to let the players concentrate on the logic of the rules.
 Indeed the rules have to be read by other players and voted on, so they should be kept the most simple possible.
 
-##Alternative interface
+##Event Alternative interface
 
 Now, what if, instead of a "product" datatype, such as the `NameSurname` record, you need a "sum" datatype, such as a `Boolean`?
 This is performed with the [Alternative](http://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Alternative) interface:
@@ -324,7 +323,7 @@ With both Applicative and Alternative, we can create any [ADT](http://www.haskel
 The forms can be distributed to several players.
 This is specially useful for [voting systems](http://www.nomyx.net:8000/html/Language-Nomyx-Vote.html), where each player has to complete a vote form, and all the results are collected to form a single "vote" event.
 
-##Monad interface
+##Event Monad interface
 
 `Event` is also an instance of [Monad](https://hackage.haskell.org/package/base/docs/Control-Monad.html#t:Monad).
 We can create events that react on the result of previous events:
