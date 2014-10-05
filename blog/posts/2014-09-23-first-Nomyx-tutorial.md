@@ -4,7 +4,7 @@ description: a tutorial for the Nomyx newbie
 tags: Haskell, Nomyx
 ---
 
-Hi there! Welcome to the Nomyx tutorial. This first part will guide you through the GUI of Nomyx and some game techniques. 
+Hi there! Welcome to the Nomyx tutorial. This first part will guide you through the GUI of Nomyx and show you the basic game techniques. 
 [The second part](2014-09-23-Nomyx-Language.html) will show you how to compose Nomyx rules.
 To get a first understanding of Nomyx, you can watch the [introduction video](http://vimeo.com/58265498).
 To follow this tutorial, there are two options:
@@ -18,15 +18,17 @@ If you don't have an Haskell environment already installed, the second solution 
 
 So let's go!
 On the main game page, click on *Login* and follow the instructions.
-You can logging with a variety of methods (Google, Yahoo...) or simply whit a login/password.
+You can logging with a variety of methods (Google, Yahoo...) or simply with a login/password.
 After logging in, you will choose a screen name and register an e-mail.
 Registering an e-mail is important: the game is quite slow-paced, so you will receive an email whenever a new rule is submitted by another player.
 A game can last some weeks: usually the players spend 10 minutes per day to review the new rules, vote, and propose a new rule.
 
 After this step, you will arrive at the main screen:
 
-![Nomyx GUI 1](/images/GUI1.png "Nomyx GUI 1")
-![Nomyx GUI 2](/images/GUI2.png "Nomyx GUI 2")
+![Nomyx main page](/images/GUI1.png "Nomyx GUI 1")
+
+
+![Nomyx main page, scrolled a bit down](/images/GUI2.png "Nomyx GUI 2")
 
 You can view any of the running games.
 For this tutorial, we will create a new game: 

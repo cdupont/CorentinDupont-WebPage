@@ -6,6 +6,7 @@ description: Learn how to code rules in Nomyx
 
 Welcome to this tutorial on the Nomyx Language!
 Don't forget to first watch the [introductory video](http://vimeo.com/58265498) and [GUI presentation](2014-09-23-first-Nomyx-tutorial.html).
+The rules are based on Haskell, which you can learn some basics [here](http://www.haskell.org/haskellwiki/Haskell).
 During this tutorial we'll go through the examples in the file [Examples.hs](http://www.nomyx.net:8000/html/Language-Nomyx-Examples.html), that will allow us to introduce smoothly all the concepts of Nomyx.
 You can test and submit all the rules proposed here in the [online game](http://www.nomyx.net:8000/Nomyx), by creating a new game of your own.
 
@@ -18,15 +19,10 @@ nothing = return ()
 
 The type of this function is [Rule](http://www.nomyx.net:8000/html/src/Language-Nomyx-Expression.html#Rule), which is a synonym for `Nomex ()`.
 We will come back on this type in the section on effects.
-
-```haskell
-type Rule = Nomex ()
-```
-
 As its name hints, this function does nothing!
 However if you submit it, it will trigger an event called `Rule Proposed`.
 This event will wake up the handlers of the active rules that are subscribed on this event.
-Thus, event if this rule `nothing` doesn't do anything, submitting it can trigger a lot of things! 
+Thus, event if this rule `nothing` doesn't do anything on its own, submitting it can trigger a lot of things! 
 When you submit it, the votation rule (usually rule #1) is woken up and will display the forms for voting.
 If the vote comes out as positive, rule #1 will activate and effectively run the incoming rule.
 
@@ -124,7 +120,7 @@ delAccounts = delMsgVar accounts
 
 #Inputs
 
-This is where is gets exciting: a rule can create fields on the screen of any players such as buttons, text boxes or radio buttons to collect inputs.
+This is where it gets exciting: a rule can create fields on the screen of any players such as buttons, text boxes or radio buttons to collect inputs.
 In the file [Inputs.hs](http://www.nomyx.net:8000/html/Language-Nomyx-Inputs.html) you can find a lot of helpers to create such fields and their callbacks.
 For example:
 
@@ -147,7 +143,7 @@ The callback takes the string entered by the player as an input, and can perform
 
 Now that we overviewed some of the functions available to create the rules, it's time to come back to their common point: They all have type `Nomex`.
 `Nomex` is a DSL, defined in the file [Expression.hs](http://www.nomyx.net:8000/html/Language-Nomyx-Expression.html).
-It allows you to impact the game state.
+It allows you to modify the game state.
 It is an instance of Monad, so the traditional "do" notation is available:
 
 ```haskell
@@ -198,7 +194,7 @@ Here, instead of displaying a simple string, we are registering a small program 
 The display system of Nomyx will then call this function each time you refresh the screen (pressing F5 for example), thus always displaying the current time.
 
 Of course, the small program passed in parameter of `newOuput` should not have any effect on the game state!
-Otherwise very strange things could happen, such as increasing your bank account each time you press F5 (refresh screen on browsers).
+Otherwise very strange things could happen, such as increasing your bank account each time you press F5.
 That's why its type is `NomexNE`: "NE" stands for "No Effect".
 `NomexNE` is a sub-DSL of `Nomex`, collecting all instructions that doesn't have any effect on the game state.
 By comparison, `Nomex` collects all instructions that can have an effect.
@@ -239,15 +235,15 @@ This is done with the function:
 activateRule :: RuleNumber -> Nomex Bool
 ```
 
-When called with a rule number, this function will change the status of the function from "Pending" to "Active", as can be seen at the top of the game screen.
+When called with a rule number, this function will change the status of the rule from "Pending" to "Active", as can be seen at the top of the game screen.
 Furthermore, it will execute the rule.
 So, to go from democracy to monarchy, you have to repect the democracy rules that are active one last time, and then you can change the political system.
 
 # Events
 
 In the section on Inputs, we showed how to create single form fields such as a text field, and how to attach a callback to them.
-But what if I want several input fields combined together?
-What if I want to combine the form results with other events happening in the game, such as a player arriving or a specific time is reached?
+But what if we want several input fields combined together?
+What if we want to combine the form results with other events happening in the game, such as a player arriving or a specific time is reached?
 This is done through the event system of Nomyx.
 <!--- The inputs forms (text box, text area, button, checkboxes and radios) are in fact created by standard events in Nomyx.-->
 Here is the complete list of events (in file [Events.hs](http://www.nomyx.net:8000/html/Language-Nomyx-Events.html)):
@@ -294,7 +290,7 @@ In Nomyx we are merging in the same representation two different activities that
  
 Here everything is performed in the same language.
 The players don't control where the forms are displayed and how they are styled: this is performed by the engine and GUI of Nomyx.
-This allows to let the players concentrate on the logic of the rules.
+This allows to let the players concentrating on the logic of the rules.
 Indeed the rules have to be read by other players and voted on, so they should be kept the most simple possible.
 
 ##Event Alternative interface
