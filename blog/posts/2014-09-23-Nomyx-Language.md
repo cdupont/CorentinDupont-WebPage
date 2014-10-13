@@ -348,10 +348,10 @@ eventQuickName timeOut = inputText 1 "Your name, quick!" <|> "Too late!" <$ time
 This event will ask you for you name, but after a certain time the text field will disappear and a string "Too late" will be returned instead.
 
 An `Event` can also access the content of the game state, and make decisions based on it.
-This is performed by the function `liftNomexNE`:
+This is performed by the function `liftEvent`:
 
 ```haskell
-liftNomexNE :: NomexNE a -> Event a
+liftEvent :: NomexNE a -> Event a
 ```
 
 It is demonstrated in the example function `moneyTransfer`:
@@ -361,7 +361,7 @@ moneyTransfer :: Rule
 moneyTransfer = do
    let askAmount :: PlayerNumber -> Event (PlayerNumber, Int)
        askAmount src = do
-          pls <- liftNomexNE getAllPlayerNumbers
+          pls <- liftEvent getAllPlayerNumbers
           guard (length pls >= 2)
           dst <- inputRadio' src "Transfer money to player: " (delete src $ sort pls)
           amount <- inputText src ("Select Amount to transfert to player " ++ show dst ++ ": ")
