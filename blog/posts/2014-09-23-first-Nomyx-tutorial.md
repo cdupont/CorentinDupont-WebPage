@@ -76,7 +76,7 @@ This is where you submit your new rule.
 Fill in the boxes to provide a meaningfull name and description.
 The big box is where you type the code of your rule.
 It should typecheck to the type `Rule`.
-Let's try with the first rule in the file [Example.hs](2014-09-23-Nomyx-Language.html):
+Let's try with the first rule in the file [Example.hs](http://www.nomyx.net:8000/html/Language-Nomyx-Examples.html):
 
     nothing :: Rule
     nothing = return ()
