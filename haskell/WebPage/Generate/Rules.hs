@@ -5,12 +5,14 @@ module WebPage.Generate.Rules (rules) where
 import System.FilePath
 
 import Hakyll
-import           Data.Monoid     ((<>), mconcat)
+import Data.Monoid     ((<>), mconcat)
+import qualified Data.Set as S
 import WebPage.Generate.Base
 import WebPage.Generate.Context
 import WebPage.Pubs
 import Control.Applicative
 import qualified Text.Pandoc     as Pandoc
+import Text.Pandoc.Options
 --
 -- * Exported functions
 
@@ -53,7 +55,7 @@ compileCSS = do
 
 copyFiles :: Rules ()
 copyFiles =
-  match ("images/*" .||. "js/*" .||. "docs/*.pdf") $ do
+  match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "blog/posts/figure/*") $ do
     route   idRoute
     compile copyFileCompiler
 
@@ -98,7 +100,7 @@ buildPerso = do
     match (foldr1 (.||.) $ map (\a b -> fromGlob (a++b)) [postsDir, draftsDir] <*> ["*.md", "*.markdown", "*.lhs", "*.rst"]) $ do
         route   $ setExtension ".html"
         compile $ do
-            pandocCompiler
+            pandocMathCompiler
                 >>= saveSnapshot "content"
                 >>= return . fmap demoteHeaders
                 >>= loadAndApplyTemplate "blog/templates/post.html" (postCtx tags)
@@ -212,4 +214,15 @@ feedConfiguration title = FeedConfiguration
     , feedAuthorEmail = "corentin.dupont@gmail.com"
     , feedRoot        = "http://corentindupont.info"
     }
+
+pandocMathCompiler =
+    let mathExtensions = [Ext_tex_math_dollars, Ext_tex_math_double_backslash,
+                          Ext_latex_macros]
+        defaultExtensions = writerExtensions defaultHakyllWriterOptions
+        newExtensions = foldr S.insert defaultExtensions mathExtensions
+        writerOptions = defaultHakyllWriterOptions {
+                          writerExtensions = newExtensions,
+                          writerHTMLMathMethod = MathJax ""
+                        }
+    in pandocCompilerWith defaultHakyllReaderOptions writerOptions
 
