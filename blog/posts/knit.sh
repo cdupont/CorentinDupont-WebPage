@@ -1,1 +1,1 @@
-Rscript -e "library(knitr); library(rmarkdown); knit('$1')"
+Rscript -e "library(knitr); knit('$1')"
