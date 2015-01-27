@@ -23,7 +23,7 @@ div#footer {
 
 html {
     background-color: #fff;
-    font-size: 16px;
+    font-size: 17px;
     font-family: sans-serif;
     line-height: 24px;
 }
@@ -47,7 +47,7 @@ a img {
 }
 
 code{
-    background-color:rgb(250, 250, 250);
+    background-color:#F0F6F1;
     border:1px solid rgb(200, 200, 200);
     padding-left:4px;
     padding-right:4px
@@ -66,7 +66,7 @@ h1, h2, h3 {
 }
 
 h1 {
-    font-size: 26px;
+    font-size: 28px;
 }
 
 h2 {
@@ -74,7 +74,7 @@ h2 {
 }
 
 h3 {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 ul {
