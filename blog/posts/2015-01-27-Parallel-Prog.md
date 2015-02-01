@@ -85,7 +85,7 @@ reducer' = do
 ```
 
 It's a bit shorter of course.
-But way longer than the non-parralel version:
+But way longer and obfuscated than the non-parallel version:
 
     wordCount :: String -> [(String, Int)]
     wordCount = map (head &&& length) . group . sort . words
