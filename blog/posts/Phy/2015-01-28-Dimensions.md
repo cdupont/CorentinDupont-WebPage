@@ -2,6 +2,7 @@
 title: How many dimensions does our world have?
 description: Three?
 tags: Physics, Phylo
+isPhysics: yes
 ---
 ![The Dimension-O-Meter](/images/dial.jpeg)
 
@@ -64,13 +65,24 @@ $D = \frac{\log N}{\log r}$
 So our machine could also try to scale up an object and see by how much it inflates.
 Interestingly, this relation extends to non-integer dimensions for fractals, as shown in [this article](http://en.wikipedia.org/wiki/Fractal_dimension#Role_of_scaling).
 
+The Simplex
+-----------
+
+Yet another method is to try to draw a [simplex](http://en.wikipedia.org/wiki/Simplex).
+A simplex is the generalization of an triangle to n dimensions.
+It is thus a tetrahedron in dimension 3.
+
+![a 3 dimensional simplex](http://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Tetrahedron.png/220px-Tetrahedron.png)
+
+If you can draw a regular simplex with $n$ vertices, then you are in dimension $n - 1$.
+
 Conclusion
 ----------
 
-Well, this machine will prove difficult to build.
+to say the truth, this machine will probably be difficult to build...
 The main reason is more phylosophical than technical: the number of dimensions is not a measure.
 It is not a measure because measuring something implies to define an isolated sub-system that we want to measure.
-However, the measurement tools (a ruler, for example) should be outside this system.
-This is the difficulty with the dimensions: as they encompass the whole Univers, in some sense, I cannot place myself outside of the Universe to measure it.
+The measurement tools (a ruler, for example) should be outside the system.
+This is the difficulty with the dimensions: as they encompass the whole Universe, in some sense, I cannot place myself outside of the Universe to measure it.
 
 

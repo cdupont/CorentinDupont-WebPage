@@ -1,6 +1,6 @@
 ---
 title: Religion and Self
-description: Some thoughts on why religion did appear
+description: There is no God, and Dirac is his prophet.
 tags: Religion, Philo
 ---
 

@@ -193,7 +193,7 @@ displayCurrentTime = void $ outputAll $ do
 Here, instead of displaying a simple string, we are registering a small program that will yield the current time each time it is called.
 The display system of Nomyx will then call this function each time you refresh the screen (pressing F5 for example), thus always displaying the current time.
 
-Of course, the small program passed in parameter of `newOuput` should not have any effect on the game state!
+Of course, the small program passed in parameter of `newOuput` or `outputAll` should not have any effect on the game state!
 Otherwise very strange things could happen, such as increasing your bank account each time you press F5.
 That's why its type is `NomexNE`: "NE" stands for "No Effect".
 `NomexNE` is a sub-DSL of `Nomex`, collecting all instructions that doesn't have any effect on the game state.
