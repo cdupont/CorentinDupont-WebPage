@@ -94,10 +94,11 @@ buildPerso = do
         compile $ getResourceBody >>= relativizeUrls
 
     -- Build tags
-    tags <- buildTags "blog/posts/*" (fromCapture "tags/*.html")
+    tags <- buildTags       "blog/posts/**/*" (fromCapture "tags/*.html")
+    cats <- buildCategories "blog/posts/**/*" (fromCapture "tags/*.html")
 
     -- Render each and every post
-    match (foldr1 (.||.) $ map (\a b -> fromGlob (a++b)) [postsDir, draftsDir] <*> ["*.md", "*.markdown", "*.lhs", "*.rst"]) $ do
+    match (foldr1 (.||.) $ map (\a b -> fromGlob (a++b)) ["blog/posts/**/", draftsDir] <*> ["*.md", "*.markdown", "*.lhs", "*.rst"]) $ do
         route   $ setExtension ".html"
         compile $ do
             pandocMathCompiler
@@ -128,6 +129,7 @@ buildPerso = do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll pattern
+
             let ctx = constField "title" title <>
                         listField "posts" (postCtx tags) (return posts) <>
                         defaultContext
@@ -143,6 +145,22 @@ buildPerso = do
                 >>= fmap (take 10) . recentFirst
                 >>= renderAtom (feedConfiguration title) feedCtx
 
+    -- Post categories
+    tagsRules cats $ \tag pattern -> do
+        let title = "Category " ++ tag
+
+        -- Copied from posts, need to refactor
+        route idRoute
+        compile $ do
+            posts <- recentFirst =<< loadAll pattern
+            let ctx = constField "title" title <>
+                        listField "posts" (postCtx cats) (return posts) <>
+                        defaultContext
+            makeItem ""
+                >>= loadAndApplyTemplate "blog/templates/posts.html" ctx
+                >>= loadAndApplyTemplate "blog/templates/mainperso.html" ctx
+                >>= relativizeUrls
+
     -- Index
     match "blog/index.html" $ do
         route idRoute
@@ -152,6 +170,7 @@ buildPerso = do
             let indexContext =
                     listField "posts" (postCtx tags) (return posts) <>
                     field "tags" (\_ -> renderTagList tags) <>
+                    field "cats" (\_ -> renderTagList cats) <>
                     context <>
                     defaultContext
             getResourceBody
