@@ -12,7 +12,6 @@ import Hakyll
 
 config :: Configuration
 config = defaultConfiguration {
-  destinationDirectory = "_site",
   deployCommand = "rsync -rave \"ssh -i $HOME/.ssh/cdupont.pem\" _site/ ubuntu@nomyx.net:perso_html"
 }
 
