@@ -13,6 +13,12 @@ import WebPage.Pubs
 import Control.Applicative
 import qualified Text.Pandoc     as Pandoc
 import Text.Pandoc.Options
+import           Data.List                       (intercalate, intersperse, sortBy)
+
+import           Text.Blaze.Html                 (toHtml, toValue, (!))
+import           Text.Blaze.Html.Renderer.String (renderHtml)
+import qualified Text.Blaze.Html5                as H
+import qualified Text.Blaze.Html5.Attributes     as A
 --
 -- * Exported functions
 
@@ -21,21 +27,16 @@ rules = do
   compileMarkdown
   compileCSS
   copyFiles
-  loadAbstracts
   buildPages
   buildPerso
 
 -- * Internal functions
 
 compileTemplates :: Rules ()
-compileTemplates =
-  match ("templates/*.html" .||. "blog/templates/*.html") $
-    compile templateCompiler
+compileTemplates = match ("templates/*.html" .||. "blog/templates/*.html") $ compile templateCompiler
 
 compileMarkdown :: Rules ()
-compileMarkdown =
-  match ("blurbs/*.md" .||. "news/*.md" .||. "blog/*.md") $
-    compile pandocCompiler
+compileMarkdown = match ("blurbs/*.md" .||. "news/*.md" .||. "blog/*.md") $ compile pandocCompiler
 
 
 compileCSS :: Rules ()
@@ -49,7 +50,7 @@ compileCSS = do
         >>= makeItem
         >>= withItemBody (unixFilter "lessc" ["-"])
         >>= return . fmap compressCss
-  match "css/*.css" $ do
+  match ("css/*.css" .||. "blog/css/*") $ do
     route idRoute
     compile compressCssCompiler
 
@@ -58,11 +59,6 @@ copyFiles =
   match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "blog/posts/figure/*") $ do
     route   idRoute
     compile copyFileCompiler
-
-loadAbstracts :: Rules ()
-loadAbstracts =
-  match "docs/*.abstract.md" $
-    compile pandocCompiler
 
 buildPages :: Rules()
 buildPages = do
@@ -83,94 +79,38 @@ buildPages = do
 
 buildPerso :: Rules ()
 buildPerso = do
-    -- Compress CSS
-    match "blog/css/*" $ do
-        route idRoute
-        compile compressCssCompiler
-
-    -- Render the /tmp index page
-    match "tmp/index.html" $ do
-        route idRoute
-        compile $ getResourceBody >>= relativizeUrls
 
     -- Build tags
     tags <- buildTags       "blog/posts/**/*" (fromCapture "tags/*.html")
     cats <- buildCategories "blog/posts/**/*" (fromCapture "tags/*.html")
 
+    -- build post lists
+    tagsRules tags $ postList tags cats
+    tagsRules cats $ postList tags cats
+    create ["blog/posts.html"] $ postList tags cats "All posts" "blog/posts/**/*"
+
     -- Render each and every post
-    match (foldr1 (.||.) $ map (\a b -> fromGlob (a++b)) ["blog/posts/**/", draftsDir] <*> ["*.md", "*.markdown", "*.lhs", "*.rst"]) $ do
+    match ("blog/posts/**/*.md" .||. "blog/posts/**/*.lhs" .||."blog/drafts/*") $ do
         route   $ setExtension ".html"
         compile $ do
             pandocMathCompiler
                 >>= saveSnapshot "content"
                 >>= return . fmap demoteHeaders
-                >>= loadAndApplyTemplate "blog/templates/post.html" (postCtx tags)
-                >>= loadAndApplyTemplate "blog/templates/mainperso.html" defaultContext
+                >>= loadAndApplyTemplate "blog/templates/post.html" (postCtx tags cats)
+                >>= loadAndApplyTemplate "blog/templates/mainperso.html" (postCtx tags cats)
                 >>= relativizeUrls
 
-    -- Post list
-    create ["blog/posts.html"] $ do
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll "blog/posts/*"
-            let ctx = constField "title" "Posts" <>
-                        listField "posts" (postCtx tags) (return posts) <>
-                        defaultContext
-            makeItem ""
-                >>= loadAndApplyTemplate "blog/templates/posts.html" ctx
-                >>= loadAndApplyTemplate "blog/templates/mainperso.html" ctx
-                >>= relativizeUrls
 
-    -- Post tags
-    tagsRules tags $ \tag pattern -> do
-        let title = "Posts tagged " ++ tag
-
-        -- Copied from posts, need to refactor
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll pattern
-
-            let ctx = constField "title" title <>
-                        listField "posts" (postCtx tags) (return posts) <>
-                        defaultContext
-            makeItem ""
-                >>= loadAndApplyTemplate "blog/templates/posts.html" ctx
-                >>= loadAndApplyTemplate "blog/templates/mainperso.html" ctx
-                >>= relativizeUrls
-
-        -- Create RSS feed as well
-        version "rss" $ do
-            route   $ setExtension "xml"
-            compile $ loadAllSnapshots pattern "content"
-                >>= fmap (take 10) . recentFirst
-                >>= renderAtom (feedConfiguration title) feedCtx
-
-    -- Post categories
-    tagsRules cats $ \tag pattern -> do
-        let title = "Category " ++ tag
-
-        -- Copied from posts, need to refactor
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll pattern
-            let ctx = constField "title" title <>
-                        listField "posts" (postCtx cats) (return posts) <>
-                        defaultContext
-            makeItem ""
-                >>= loadAndApplyTemplate "blog/templates/posts.html" ctx
-                >>= loadAndApplyTemplate "blog/templates/mainperso.html" ctx
-                >>= relativizeUrls
-
-    -- Index
+    -- build index page
     match "blog/index.html" $ do
         route idRoute
         compile $ do
-            posts <- fmap (take 10) . recentFirst =<< loadAll "blog/posts/*"
-            context <-  getContext
+            posts <- fmap (take 10) . recentFirst =<< loadAll "blog/posts/**/*"
+            context <- getContext
             let indexContext =
-                    listField "posts" (postCtx tags) (return posts) <>
+                    listField "posts" (postCtx tags cats) (return posts) <>
                     field "tags" (\_ -> renderTagList tags) <>
-                    field "cats" (\_ -> renderTagList cats) <>
+                    field "cats" (\_ -> renderCatsList cats) <>
                     context <>
                     defaultContext
             getResourceBody
@@ -178,42 +118,44 @@ buildPerso = do
                 >>= loadAndApplyTemplate "blog/templates/mainperso.html" indexContext
                 >>= relativizeUrls
 
-    -- Read templates
-    match "blog/templates/*.html" $ compile $ templateCompiler
-
     -- Render some static pages
-    match (fromList pages) $ do
+    match "blog/pages/*.md" $ do
         route   $ setExtension ".html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "blog/templates/mainperso.html" defaultContext
+            >>= loadAndApplyTemplate "blog/templates/mainperso.html" (postCtx tags cats)
             >>= relativizeUrls
 
-    -- Render the 404 page, we don't relativize URL's here.
-    match "404.html" $ do
-        route idRoute
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "blog/templates/mainperso.html" defaultContext
 
+postList :: Tags -> Tags -> String -> Pattern -> Rules ()
+postList tags cats title pattern = do
+    route idRoute
+    compile $ do
+        posts <- recentFirst =<< loadAll pattern
+        let ctx = constField "title" title <>
+                  listField "posts" (postCtx tags cats) (return posts) <>
+                  postCtx tags cats
+        makeItem ""
+           >>= loadAndApplyTemplate "blog/templates/posts.html" ctx
+           >>= loadAndApplyTemplate "blog/templates/mainperso.html" ctx
+           >>= relativizeUrls
+
+
+renderCatsList :: Tags -> Compiler (String)
+renderCatsList = renderTags makeLink (intercalate " ")
   where
-    pages =
-        [ "blog/pages/contact.md"
-        , "blog/pages/recommendations.md"
-        ]
-    postsDir = "blog/posts/"
-    draftsDir = "blog/drafts/"
-
-
-
+    makeLink tag url count _ _ = renderHtml $
+        H.a ! A.href (toValue url) $ toHtml (tag ++ " (" ++ show count ++ ")")
 
 --------------------------------------------------------------------------------
-postCtx :: Tags -> Context String
-postCtx tags = mconcat
+postCtx :: Tags -> Tags -> Context String
+postCtx tags cats = mconcat
     [ modificationTimeField "mtime" "%U"
     , dateField "date" "%B %e, %Y"
     , tagsField "tags" tags
+    , field "cats" (\_ -> renderCatsList cats)
+    , constField "jquery" "//ajax.googleapis.com/ajax/libs/jquery/2.0.3"
     , defaultContext
     ]
-
 
 --------------------------------------------------------------------------------
 feedCtx :: Context String
