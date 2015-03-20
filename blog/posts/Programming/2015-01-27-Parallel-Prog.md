@@ -1,7 +1,7 @@
 ---
 title: The problem with Parallel Programming
 description: 
-tags: Programming
+tags: 
 ---
 
 Parallel programming is hard.

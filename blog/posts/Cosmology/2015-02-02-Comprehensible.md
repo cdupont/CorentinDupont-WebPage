@@ -7,7 +7,7 @@ tags: Physics, Phylo
 As Einstein said, "The most incomprehensible thing about the world is that it is comprehensible".
 But is it really comprehensible?
 
-Let's suppose that the Universe is, at the end, a sort of athematical structure ([as supposed by Max Tegmark](http://www.amazon.com/Our-Mathematical-Universe-Ultimate-Reality/dp/0307599809)).
+Let's suppose that the Universe is, at the end, a sort of mathematical structure ([as supposed by Max Tegmark](http://www.amazon.com/Our-Mathematical-Universe-Ultimate-Reality/dp/0307599809)).
 The question is, can we know this structure?
 That would mean that this mathematical structure allows to contain a description of itself, written in its own "language".
 As Humans, we are a part of this structure.

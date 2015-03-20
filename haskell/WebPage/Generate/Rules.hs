@@ -38,7 +38,6 @@ compileTemplates = match ("templates/*.html" .||. "blog/templates/*.html") $ com
 compileMarkdown :: Rules ()
 compileMarkdown = match ("blurbs/*.md" .||. "news/*.md" .||. "blog/*.md") $ compile pandocCompiler
 
-
 compileCSS :: Rules ()
 compileCSS = do
   match "css/*.less" $ do
@@ -56,7 +55,7 @@ compileCSS = do
 
 copyFiles :: Rules ()
 copyFiles =
-  match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "blog/posts/figure/*") $ do
+  match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "blog/posts/Math/figure/*") $ do
     route   idRoute
     compile copyFileCompiler
 
@@ -80,17 +79,19 @@ buildPages = do
 buildPerso :: Rules ()
 buildPerso = do
 
+    let posts = ("blog/posts/*/*.md" .||. "blog/posts/*/*.lhs")
+    let drafts = "blog/drafts/*"
     -- Build tags
-    tags <- buildTags       "blog/posts/**/*" (fromCapture "tags/*.html")
-    cats <- buildCategories "blog/posts/**/*" (fromCapture "tags/*.html")
+    tags <- buildTags       posts (fromCapture "tags/*.html")
+    cats <- buildCategories posts (fromCapture "tags/*.html")
 
     -- build post lists
     tagsRules tags $ postList tags cats
     tagsRules cats $ postList tags cats
-    create ["blog/posts.html"] $ postList tags cats "All posts" "blog/posts/**/*"
+    create ["blog/posts.html"] $ postList tags cats "All posts" posts
 
     -- Render each and every post
-    match ("blog/posts/**/*.md" .||. "blog/posts/**/*.lhs" .||."blog/drafts/*") $ do
+    match (posts .||. drafts) $ do
         route   $ setExtension ".html"
         compile $ do
             pandocMathCompiler
@@ -105,7 +106,7 @@ buildPerso = do
     match "blog/index.html" $ do
         route idRoute
         compile $ do
-            posts <- fmap (take 10) . recentFirst =<< loadAll "blog/posts/**/*"
+            posts <- fmap (take 10) . recentFirst =<< loadAll posts
             context <- getContext
             let indexContext =
                     listField "posts" (postCtx tags cats) (return posts) <>
@@ -144,7 +145,7 @@ renderCatsList :: Tags -> Compiler (String)
 renderCatsList = renderTags makeLink (intercalate " ")
   where
     makeLink tag url count _ _ = renderHtml $
-        H.a ! A.href (toValue url) $ toHtml (tag ++ " (" ++ show count ++ ")")
+        H.a ! A.href (toValue url) $ toHtml tag
 
 --------------------------------------------------------------------------------
 postCtx :: Tags -> Tags -> Context String
