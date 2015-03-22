@@ -142,10 +142,12 @@ postList tags cats title pattern = do
 
 
 renderCatsList :: Tags -> Compiler (String)
-renderCatsList = renderTags makeLink (intercalate " ")
+renderCatsList tags = renderTags makeLink (intercalate " ") (sortTagsBy sortOther tags)
   where
-    makeLink tag url count _ _ = renderHtml $
-        H.a ! A.href (toValue url) $ toHtml tag
+    ("Others", _) `sortOther` (_, _) = GT
+    (_, _) `sortOther` ("Others", _) = LT
+    a `sortOther` b = compare a b
+    makeLink tag url count _ _ = renderHtml $ H.a ! A.href (toValue url) $ toHtml tag
 
 --------------------------------------------------------------------------------
 postCtx :: Tags -> Tags -> Context String
