@@ -5,6 +5,7 @@ module WebPage.Generate.Rules (rules) where
 import System.FilePath
 
 import Hakyll
+import Hakyll.Web.Pandoc.Biblio
 import Data.Monoid     ((<>), mconcat)
 import qualified Data.Set as S
 import WebPage.Generate.Base
@@ -23,12 +24,14 @@ import qualified Text.Blaze.Html5.Attributes     as A
 -- * Exported functions
 
 rules = do
+  compileBibtex
   compileTemplates
   compileMarkdown
   compileCSS
   copyFiles
   buildPages
   buildPerso
+
 
 -- * Internal functions
 
@@ -37,6 +40,18 @@ compileTemplates = match ("templates/*.html" .||. "blog/templates/*.html") $ com
 
 compileMarkdown :: Rules ()
 compileMarkdown = match ("blurbs/*.md" .||. "news/*.md" .||. "blog/*.md") $ compile pandocCompiler
+
+compileBibtex :: Rules ()
+compileBibtex = do
+  match "bibliography/*.bib" $ compile $ biblioCompiler
+  match "pages/*.csl" $ compile $ cslCompiler
+
+bibtexCompiler = do
+  csl <- load "pages/inline.csl"
+  bib <- load "bibliography/central-bibliography.bib"
+  getResourceBody
+    >>= readPandocBiblio def csl bib
+    >>= return . writePandoc
 
 compileCSS :: Rules ()
 compileCSS = do
@@ -61,9 +76,12 @@ copyFiles =
 
 buildPages :: Rules()
 buildPages = do
-    match "pages/*" $ do
+    match "pages/*.html" $ do
       route (customRoute (flip addExtension "html" . takeBaseName . toFilePath))
       compilePage
+    match "pages/*.md" $ do
+      route (customRoute (flip addExtension "html" . takeBaseName . toFilePath))
+      compilePage2
     match "projects/*" $ do
       route (customRoute (flip addExtension "html" . dropExtension . toFilePath))
       compilePage
@@ -75,10 +93,16 @@ buildPages = do
             ".md"   -> pandocCompiler
             _       -> error ("Unexpected file type: " ++ path)
       content >>= mainTemplate (takeBaseName path)
+    compilePage2 = compile $ do
+      path <- fmap toFilePath getUnderlying
+      let content = case takeExtension path of
+            ".html" -> getResourceBody
+            ".md"   -> bibtexCompiler
+            _       -> error ("Unexpected file type: " ++ path)
+      content >>= mainTemplate (takeBaseName path)
 
 buildPerso :: Rules ()
 buildPerso = do
-
     let posts = ("blog/posts/*/*.md" .||. "blog/posts/*/*.lhs")
     let drafts = "blog/drafts/*"
     -- Build tags
