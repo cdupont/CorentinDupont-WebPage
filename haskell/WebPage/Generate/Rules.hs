@@ -29,6 +29,7 @@ rules = do
   compileMarkdown
   compileCSS
   copyFiles
+  buildPro
   buildPages
   buildPerso
 
@@ -74,32 +75,17 @@ copyFiles =
     route   idRoute
     compile copyFileCompiler
 
+buildPro :: Rules()
+buildPro = do
+    match ("index.html" .||. "pages/news.html") $ do
+      route idRoute
+      compile $ getResourceBody >>= mainTemplate
+
 buildPages :: Rules()
 buildPages = do
-    match "pages/*.html" $ do
-      route (customRoute (flip addExtension "html" . takeBaseName . toFilePath))
-      compilePage
-    match "pages/*.md" $ do
-      route (customRoute (flip addExtension "html" . takeBaseName . toFilePath))
-      compilePage2
-    match "projects/*" $ do
-      route (customRoute (flip addExtension "html" . dropExtension . toFilePath))
-      compilePage
-  where
-    compilePage = compile $ do
-      path <- fmap toFilePath getUnderlying
-      let content = case takeExtension path of
-            ".html" -> getResourceBody
-            ".md"   -> pandocCompiler
-            _       -> error ("Unexpected file type: " ++ path)
-      content >>= mainTemplate (takeBaseName path)
-    compilePage2 = compile $ do
-      path <- fmap toFilePath getUnderlying
-      let content = case takeExtension path of
-            ".html" -> getResourceBody
-            ".md"   -> bibtexCompiler
-            _       -> error ("Unexpected file type: " ++ path)
-      content >>= mainTemplate (takeBaseName path)
+    match ("pages/*.md" .||. "projects/*.md") $ do
+      route $ setExtension ".html"
+      compile $ bibtexCompiler >>= mainTemplate
 
 buildPerso :: Rules ()
 buildPerso = do
