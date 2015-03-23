@@ -4,8 +4,8 @@ description: How to manage effects in a DSL, using type classes
 tags: Haskell, Nomyx
 ---
 
-Hi, this is the second post in the exploration of the design of [Nomyx](www.nomyx.net).
-We will try to solve again the problem of managing effects in DSLs, this time using type classes (see [part 1](/blog/posts/2014-01-30-DSL-Effect.html) to see how to solve it using a polymorphic type parameter).
+Hi, this is the second post in the exploration of the design of [Nomyx](http://www.nomyx.net).
+We will try to solve again the problem of managing effects in DSLs, this time using type classes (see [part 1](2014-01-30-DSL-Effect.html) to see how to solve it using a polymorphic type parameter).
 As a reminder, the problem is to separate semantically the instructions that have an "effect" in a DSL, from those who don't.
 Of course, an effect-less instruction could be run in an effect-full context, but not the opposite!
 How to encode this semantic?

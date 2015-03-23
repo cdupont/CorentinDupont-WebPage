@@ -104,7 +104,7 @@ SBV is also a theorem prover, and that can be used to prove properties of the co
 For example, we might want to prove some properties about our constraint `vmCounts`.
 This function counts the number of VMs present on each servers.
 We want to prove the property that the count of VMs on a server has for absolute maximum the total numbers of VMs present in the data centre.
-This is easily done, for example using [GHCi](http://www.haskell.org/haskellwiki/GHC/GHC), the interactive interpreter of Haskell.
+This is easily done, for example using [GHCi](http://www.haskell.org/haskellwiki/GHC/GHCi), the interactive interpreter of Haskell.
 
 
     Main> prove $ \x y -> bAll (.<= 2) $ vmCounts' [x, y]
