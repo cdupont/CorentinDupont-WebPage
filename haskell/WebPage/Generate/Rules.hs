@@ -44,12 +44,12 @@ compileMarkdown = match ("blurbs/*.md" .||. "news/*.md" .||. "blog/*.md") $ comp
 
 compileBibtex :: Rules ()
 compileBibtex = do
-  match "bibliography/*.bib" $ compile $ biblioCompiler
+  match "bibliography/central-bibliography.bib" $ compile $ biblioCompiler
   match "pages/*.csl" $ compile $ cslCompiler
 
 bibtexCompiler = do
-  csl <- load "pages/inline.csl"
   bib <- load "bibliography/central-bibliography.bib"
+  csl <- load "pages/inline.csl"
   getResourceBody
     >>= readPandocBiblio def csl bib
     >>= return . writePandoc
