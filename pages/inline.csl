@@ -318,20 +318,20 @@
     <sort>
         </sort>
     <layout suffix=".">
+      <text macro="title" font-weight="bold"/>
       <text macro="contributors" suffix=". "/>
       <text macro="date" suffix=". "/>
-      <text macro="title"/>
       <text macro="description"/>
       <text macro="secondary-contributors" prefix=". "/>
       <text macro="container-title" prefix=". "/>
       <text macro="container-contributors"/>
       <text macro="locators-chapter"/>
-      <text macro="edition" prefix=". "/>
+      <text macro="edition"/>
       <text macro="locators"/>
       <text macro="collection-title" prefix=". "/>
       <text macro="issue"/>
       <text macro="locators-article"/>
-      <text macro="access" prefix=". "/>
+      <!--text macro="access" prefix=". "/-->
     </layout>
   </citation>
 </style>
