@@ -9,29 +9,27 @@ import Data.Monoid ((<>))
 import System.FilePath
 
 import WebPage.Generate.Base
-import WebPage.Pubs
-
 import Hakyll
-
+import Debug.Trace
 
 -- * Exported functions
 
 -- | The complete context.
 getContext :: Compiler (Context String)
 getContext = do
-  pubContext  <- getPubContext
   fileContext <- getBlurbContext
-  return (fileContext <> pubContext <> newsContext <> baseContext)
+  return (fileContext <> newsContext <> baseContext)
 
 
 -- | Apply the main template to a page of a given name.
-mainTemplate :: String -> Item String -> Compiler (Item String)
-mainTemplate page item = do
-    context <- fmap (onPage <>) getContext
+mainTemplate :: Item String -> Compiler (Item String)
+mainTemplate item = do
+    path <- fmap toFilePath getUnderlying
+    context <- fmap (onPage path <>) getContext
     applyAsTemplate context item
       >>= loadAndApplyTemplate "templates/main.html" context
       >>= relativizeUrls
-  where onPage = constField ("on-" ++ page) ""
+  where onPage path = constField ("on-" ++ (takeBaseName path)) ""
 
 
 -- * Internal functions
@@ -51,44 +49,3 @@ getBlurbContext = do
     loadAll ("blurbs/*" .||. "blog/*.md")
       >>= return . foldr (<>) baseContext . map item
   where item (Item id body) = constField (takeBaseName (toFilePath id)) body
-
-
--- ** Publication context
-
--- | Adds the PDF link if the file is present.
-linkPdf :: [Item CopyFile] -> Paper -> Paper
-linkPdf fs p
-    | Just _ <- lookupItem pdf fs = p `setPdfLink` ("/" ++ pdf)
-    | otherwise = p
-  where
-    pdf = "docs/" ++ _key p ++ ".pdf"
-
--- | Add the abstract if the corresponding file is present.
-addAbstract :: [Item String] -> Paper -> Paper
-addAbstract fs p
-    | Just i <- lookupItem abs fs = p `setAbstract` itemBody i
-    | otherwise = p
-  where
-    abs = "docs/" ++ _key p ++ ".abstract.md"
-
--- | Build a list field of publications.
-pubListField :: String -> [Paper] -> Context String
-pubListField id = listField id baseContext . mapM (makeItem . pubStr)
-
--- | Create a field for a publications.
-pubFields :: Paper -> Context a
-pubFields p = constField (_key p) (pubStr p)
-
--- | Build a context containing many fields related to publications.
-getPubContext :: Compiler (Context String)
-getPubContext = do
-    pdfs <- loadAll "docs/*.pdf"
-    txts <- loadAll "docs/*.abstract.md"
-    let pubs = map (addAbstract txts . linkPdf pdfs) allPubs
-    let pubListContext =
-             pubListField "pubs"     pubs
-          <> pubListField "journals" (ofKind Journal pubs)
-          <> pubListField "chapters" (ofKind Chapter pubs)
-          <> pubListField "theses"   (ofKind Thesis pubs)
-          <> pubListField "conferences" (ofKinds [Conference,Workshop] pubs)
-    return $ foldr (<>) pubListContext (map pubFields pubs)

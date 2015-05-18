@@ -23,7 +23,8 @@ executable site
     main-is: Main.hs
     buildable: True
     hs-source-dirs: haskell
-    other-modules: WebPage.Pubs WebPage.Generate WebPage.Generate.Base
-                   WebPage.Generate.Rules WebPage.Generate.Context WebPage.Pubs.ToHtml
-                   WebPage.Pubs.Database WebPage.Pubs.Paper
+    other-modules: WebPage.Generate
+                   WebPage.Generate.Base
+                   WebPage.Generate.Rules
+                   WebPage.Generate.Context
  

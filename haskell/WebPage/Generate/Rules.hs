@@ -10,7 +10,6 @@ import Data.Monoid     ((<>), mconcat)
 import qualified Data.Set as S
 import WebPage.Generate.Base
 import WebPage.Generate.Context
-import WebPage.Pubs
 import Control.Applicative
 import qualified Text.Pandoc     as Pandoc
 import Text.Pandoc.Options
@@ -44,7 +43,7 @@ compileMarkdown = match ("blurbs/*.md" .||. "news/*.md" .||. "blog/*.md") $ comp
 
 compileBibtex :: Rules ()
 compileBibtex = do
-  match "bibliography/central-bibliography.bib" $ compile $ biblioCompiler
+  match "bibliography/*.bib" $ compile $ biblioCompiler
   match "pages/*.csl" $ compile $ cslCompiler
 
 bibtexCompiler = do
@@ -72,13 +71,13 @@ compileCSS = do
 copyFiles :: Rules ()
 copyFiles =
   match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "blog/posts/Math/figure/*") $ do
-    route   idRoute
+    route idRoute
     compile copyFileCompiler
 
 buildPro :: Rules()
 buildPro = do
     match ("index.html" .||. "pages/news.html") $ do
-      route idRoute
+      route (customRoute (flip addExtension "html" . takeBaseName . toFilePath))
       compile $ getResourceBody >>= mainTemplate
 
 buildPages :: Rules()
