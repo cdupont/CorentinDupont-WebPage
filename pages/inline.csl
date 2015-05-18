@@ -152,7 +152,7 @@
         </choose>
       </if>
       <else-if type="book">
-        <text variable="title"/>
+        <text variable="title" font-style="italic"/>
       </else-if>
       <else>
         <text variable="title"/>
@@ -183,7 +183,7 @@
         <text variable="issue" prefix=", no. "/>
       </if>
       <else-if type="book">
-        <group delimiter=". ">
+        <group prefix=". " delimiter=". ">
           <group>
             <text term="volume" form="short" text-case="capitalize-first" suffix=". "/>
             <number variable="volume" form="numeric"/>
@@ -244,7 +244,7 @@
         <text macro="container-prefix" suffix=" "/>
       </if>
     </choose>
-    <text variable="container-title"/>
+    <text variable="container-title" font-style="italic"/>
   </macro>
   <macro name="publisher">
     <group delimiter=": ">
@@ -282,7 +282,7 @@
       <if variable="title" match="none"> </if>
       <else-if type="thesis"> </else-if>
       <else>
-        <text variable="genre" text-case="capitalize-first"/>
+        <text variable="genre" text-case="capitalize-first" prefix=". "/>
       </else>
     </choose>
   </macro>
@@ -302,7 +302,7 @@
         <text macro="day-month" prefix=", "/>
       </else-if>
       <else>
-        <group delimiter=", ">
+        <group prefix=". " delimiter=", ">
           <choose>
             <if type="thesis">
               <text variable="genre" text-case="capitalize-first"/>
@@ -318,20 +318,20 @@
     <sort>
         </sort>
     <layout suffix=".">
-      <text macro="title" font-weight="bold"/>
-      <text macro="contributors" font-style="italic"/>
-      <!--text macro="description"/>
-      <text macro="secondary-contributors"/-->
-      <text macro="container-title" suffix=", "/>
-      <!--text macro="container-contributors"/-->
-      <text macro="locators-chapter" suffix=", "/>
-      <text macro="edition" suffix=", "/>
-      <text macro="locators" suffix=", "/>
-      <text macro="collection-title" suffix=", "/>
-      <text macro="issue" suffix=". "/>
-      <text macro="locators-article" suffix=". "/>
+      <text macro="contributors" suffix=". "/>
       <text macro="date" suffix=". "/>
-      <!--text macro="access" prefix=". "/-->
+      <text macro="title"/>
+      <text macro="description"/>
+      <text macro="secondary-contributors" prefix=". "/>
+      <text macro="container-title" prefix=". "/>
+      <text macro="container-contributors"/>
+      <text macro="locators-chapter"/>
+      <text macro="edition" prefix=". "/>
+      <text macro="locators"/>
+      <text macro="collection-title" prefix=". "/>
+      <text macro="issue"/>
+      <text macro="locators-article"/>
+      <text macro="access" prefix=". "/>
     </layout>
   </citation>
 </style>
