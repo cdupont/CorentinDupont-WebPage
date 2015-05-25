@@ -14,6 +14,6 @@ But if you start moving, this speed vector will start to tilt, having a non-null
 If you travel at the speed of light, your vector would be fully aligned with the space axis: time does not pass anymore for you.
 Indeed, for photons time is not passing.
 
-This is also a good visualization to understand the [twins paradox](http://en.wikipedia.org/wiki/Twin_paradox): the twin travelling has an inclined vector, and thus for him time is passing slower.
+This is also a good visualization to understand the [twins paradox](http://en.wikipedia.org/wiki/Twin_paradox): the twin travelling has a tilted vector, and thus for him time is passing slower.
 When he returns on earth, his twin has aged more.
 When our travelling twin thought he left only one year, his brother on earth waited for him 50 years. 
