@@ -85,5 +85,8 @@ abline(h=1, col="red")
 
 ```
 
-Looking at the second graph, we can see that our speed will become negligible ($v<1m/s$) after 25-30 seconds. This is nearly 3 time the initial waiting time of 10s. How evil!!!
+Looking at the second graph, we can see that our speed will become negligible ($v<1m/s$) after 25-30 seconds.
+This is nearly 3 time the initial waiting time of 10s.
+Finally, once you arrive at the intersection, you can stop completely and block the other driver.
+How evil!!!
 

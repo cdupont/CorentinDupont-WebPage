@@ -4,7 +4,7 @@ description: Three?
 tags: Physics, Phylo
 isPhysics: yes
 ---
-![The Dimension-O-Meter](/images/dial.jpeg)
+![The Dimension-O-Meter](/images/dimmatic.png)
 
 Let's build a special machine: a Dimension-O-Meter.
 This is a sort of box (apparently so), with a button on the top and a dial on the front, and a big needle indicating some numbers: 1, 2, 3, 4...
@@ -26,8 +26,8 @@ Let's try to see what happens in other dimensions:
 
 - In dimension one (moving along a line), there is no rotation.
 - In dimension two (moving on a plane), there is one rotation: rotating around a point.
-- In dimension three, there is the three rotations.
-- In dimension four, there is... six rotations.
+- In dimension three, there are three rotations.
+- In dimension four, there are... six rotations.
 
 This is summed up in the following table:
 
@@ -39,28 +39,28 @@ Dimensions Translations Rotations
 4          4            6
 n          n            n*(n-1)/2
 
-[This site](http://www.euclideanspace.com/maths/geometry/rotations/theory/nDimensions/) gives many informations about rotations in n dimensions.
-So our machine could try to rotate an object and see how many possible rotations there is.
+[This site](http://www.euclideanspace.com/maths/geometry/rotations/theory/nDimensions/) gives a lot of informations about rotations in n dimensions.
+So our machine could try to rotate an object and see how many possible rotations there are.
 
 The scaling
 -----------
 
 Another way to determine the number of dimensions is to try to scale an object.
-Indeed, in dimension one, if I take an object (a segment) and I double its size, its length is doubled.
-In dimension two, if I double the size of an object (a square), its area is multiplied by four.
-In dimension three, if I double the size of an object (a cube), its volume is multiplied by eight.
+In dimension one, if I take an object (a segment) and I scale it up by a factor of two, its apparent size (the length) is doubled.
+In dimension two, if I double the scale of an object (a square), its size (the area) is multiplied by four.
+In dimension three, if I double the scale of an object (a cube), its size (the volume) is multiplied by eight.
 Is there a relation?
 
-![Relation between scaling and dimensions](http://upload.wikimedia.org/wikipedia/commons/4/4d/Fractaldimensionexample.PNG)
+![Relation between scaling, size and dimensions](http://upload.wikimedia.org/wikipedia/commons/4/4d/Fractaldimensionexample.PNG)
 
 The relation seems to be the following:
 
-$N = r^D$
+$N = l^D$
 
-Where D is the dimension, r is the scaling factor (doubling is our exemple) and N is the measure (length, area, volume) of the resulting object. This is the Hausdorff dimension.
+Where D is the dimension, l is the scaling factor (doubling is our exemple) and N is the measure of the size (length, area, volume) of the resulting object. D is called the Hausdorff dimension.
 We thus obtain:
 
-$D = \frac{\log N}{\log r}$
+$D = \frac{\log N}{\log l}$
 
 So our machine could also try to scale up an object and see by how much it inflates.
 Interestingly, this relation extends to non-integer dimensions for fractals, as shown in [this article](http://en.wikipedia.org/wiki/Fractal_dimension#Role_of_scaling).
@@ -79,8 +79,8 @@ If you can draw a regular simplex with $n$ vertices, then you are in dimension $
 Conclusion
 ----------
 
-to say the truth, this machine will probably be difficult to build...
-The main reason is more phylosophical than technical: the number of dimensions is not a measure.
+To say the truth, this machine will probably be difficult to build...
+The main reason is more phylosophical than technical: *the number of dimensions is not a measure*.
 It is not a measure because measuring something implies to define an isolated sub-system that we want to measure.
 The measurement tools (a ruler, for example) should be outside the system.
 This is the difficulty with the dimensions: as they encompass the whole Universe, in some sense, I cannot place myself outside of the Universe to measure it.
