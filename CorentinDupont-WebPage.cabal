@@ -19,7 +19,8 @@ executable site
                    filepath == 1.3.*,
                    hakyll == 4.5.*, 
                    pandoc == 1.13.*,
-                   containers == 0.5.*
+                   containers == 0.5.*,
+                   hakyll-R -any
     main-is: Main.hs
     buildable: True
     hs-source-dirs: haskell

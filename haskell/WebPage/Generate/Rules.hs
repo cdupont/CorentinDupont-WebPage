@@ -19,6 +19,8 @@ import           Text.Blaze.Html                 (toHtml, toValue, (!))
 import           Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Text.Blaze.Html5                as H
 import qualified Text.Blaze.Html5.Attributes     as A
+import Hakyll.Web.R
+
 --
 -- * Exported functions
 
@@ -46,6 +48,7 @@ compileBibtex = do
   match "bibliography/*.bib" $ compile $ biblioCompiler
   match "pages/*.csl" $ compile $ cslCompiler
 
+bibtexCompiler :: Compiler (Item String)
 bibtexCompiler = do
   bib <- load "bibliography/central-bibliography.bib"
   csl <- load "pages/inline.csl"
@@ -88,7 +91,7 @@ buildPages = do
 
 buildPerso :: Rules ()
 buildPerso = do
-    let posts = ("blog/posts/*/*.md" .||. "blog/posts/*/*.lhs")
+    let posts = ("blog/posts/*/*.md" .||. "blog/posts/*/*.lhs" .||. "blog/posts/*/*.Rmd")
     let drafts = "blog/drafts/*"
     -- Build tags
     tags <- buildTags       posts (fromCapture "tags/*.html")
@@ -109,7 +112,6 @@ buildPerso = do
                 >>= loadAndApplyTemplate "blog/templates/post.html" (postCtx tags cats)
                 >>= loadAndApplyTemplate "blog/templates/mainperso.html" (postCtx tags cats)
                 >>= relativizeUrls
-
 
     -- build index page
     match "blog/index.html" $ do
@@ -197,5 +199,6 @@ pandocMathCompiler =
                           writerExtensions = newExtensions,
                           writerHTMLMathMethod = MathJax ""
                         }
-    in pandocCompilerWith defaultHakyllReaderOptions writerOptions
+    in pandocRmdCompilerWith defaultHakyllReaderOptions writerOptions
+
 
