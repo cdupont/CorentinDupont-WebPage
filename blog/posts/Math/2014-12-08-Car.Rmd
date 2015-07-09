@@ -10,7 +10,7 @@ A person is waiting at that intersection, waiting for you to pass.
 At what speed should you be driving in order to never let him pass?
 Let's set up the scenery:
 
-![Our intersection](figure/carIntersec.png "The intersection")
+![Our intersection](../../../images/carIntersec.png "The intersection")
 
 The other car needs 10 seconds to cross the intersection.
 That driver will then have to estimate, using your approximate speed, how much time it will take you to reach the intersection.
@@ -26,7 +26,7 @@ if you're 50m away from the intersection, you should go at 50m/10s = 5m/s.
 So you're speed is continuously decreasing, but not linearly of course.
 Let's try to find what is your speed as a function of time.
 
-![The distance axis](figure/carAxis.png "The distance axis")
+![The distance axis](../../../images/carAxis.png "The distance axis")
 
 On this axis, your car starts at 0. The intersection is at $D$.
 Your position at moment $t$ is $x(t)$, and your speed is $x'(t)$.
