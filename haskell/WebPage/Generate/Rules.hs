@@ -73,7 +73,7 @@ compileCSS = do
 
 copyFiles :: Rules ()
 copyFiles =
-  match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "blog/posts/Math/figure/*") $ do
+  match ("images/*" .||. "js/*" .||. "docs/*.pdf") $ do
     route idRoute
     compile copyFileCompiler
 
@@ -190,6 +190,7 @@ feedConfiguration title = FeedConfiguration
     , feedRoot        = "http://corentindupont.info"
     }
 
+pandocMathCompiler :: Compiler (Item String)
 pandocMathCompiler =
     let mathExtensions = [Ext_tex_math_dollars, Ext_tex_math_double_backslash,
                           Ext_latex_macros]
