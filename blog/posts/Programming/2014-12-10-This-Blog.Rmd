@@ -12,7 +12,11 @@ Hakyll
 
 This blog uses Hakyll, a static blog generator in Haskell.
 The blog posts are written in markdown and stored in [GitHub](https://github.com/cdupont/CorentinDupont-WebPage), allong with all the rest of the website.
-They are rendered by Hakyll: after typing a blog post I simply type `site build; site deploy`.
+They are rendered by Hakyll: after typing a blog post I simply type:
+
+    $ site build
+    $ site deploy
+
 No database! This is a great advantage because when you store your posts in a database, you never know in which format they are stored.
 There is much more chance to loose them.
 Writing them in markdown and storing them on your computer synchronised with GitHub makes them much more reusable.
@@ -21,12 +25,47 @@ Math posts
 ----------
 
 For posts embedding math equations such as [this one](../Math/2014-12-08-Car.html), I use MathJax, as described in this [post](http://travis.athougies.net/posts/2013-08-13-using-math-on-your-hakyll-blog.html).
+I can include some Latex formulas, like this one:
 
-For posts embedding graphics such as plots, I write them in [Rmarkdown](http://rmarkdown.rstudio.com) and then transform them in plain markdown (.md) with the command:
+$x(t) = \alpha e^{-at} + \beta$. 
 
-```sh
-Rscript -e "library(knitr); knit('myPost.Rmd')"
+It is rendered from the following code, included directly in the .md file:
+
+``` markdown
+ $x(t) = \alpha e^{-at} + \beta$
 ```
+
+For posts embedding graphics such as plots, I write them in [Rmarkdown](http://rmarkdown.rstudio.com).
+For example, the following graphic:
+
+```{r plots, echo=FALSE}
+require(stats)
+D = 150
+T = 10
+t = seq(0, 80, 0.01)
+x = -D*exp(-(t/T))+D
+v = (D/T)*exp(-(t/T))
+plot(t, x, type="l", main="Evolution of position through time", xlab="time (s)", ylab="position (m)", xlim=c(0,80), ylim=c(0, D+10),  xaxs = "i", yaxs = "i")
+abline(h=D, col="red")
+text(2, D-3, "D", 1, col="red")
+```
+
+is generated from this code (without the backslash):
+
+    ```\{r plots, echo=FALSE\}
+    require(stats)
+    D = 150
+    T = 10
+    t = seq(0, 80, 0.01)
+    x = -D*exp(-(t/T))+D
+    v = (D/T)*exp(-(t/T))
+    plot(t, x, type="l", main="Evolution of position through time", xlab="time (s)", ylab="position (m)", xlim=c(0,80), ylim=c(0, D+10),  xaxs = "i", yaxs = "i")
+    abline(h=D, col="red")
+    text(2, D-3, "D", 1, col="red")
+    ```
+
+They are rendered directly by Hakyll using a small utility I developped, [Hakyll-R](https://github.com/cdupont/hakyll-R).
+
 
 Haskell posts
 -------------
