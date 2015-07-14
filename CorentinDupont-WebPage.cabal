@@ -15,12 +15,13 @@ data-dir: ""
  
 executable site
     build-depends: base ==4.*, 
-                   blaze-html == 0.7.*, 
-                   filepath == 1.3.*,
-                   hakyll == 4.5.*, 
-                   pandoc == 1.13.*,
+                   blaze-html == 0.8.*, 
+                   filepath == 1.4.*,
+                   hakyll == 4.7.*, 
+                   pandoc == 1.15.*,
                    containers == 0.5.*,
-                   hakyll-R -any
+                   hakyll-R -any,
+                   hakyll-diagrams -any
     main-is: Main.hs
     buildable: True
     hs-source-dirs: haskell
