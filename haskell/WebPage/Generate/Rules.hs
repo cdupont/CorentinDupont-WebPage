@@ -20,7 +20,7 @@ import           Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Text.Blaze.Html5                as H
 import qualified Text.Blaze.Html5.Attributes     as A
 import Hakyll.Web.R
-
+import Hakyll.Web.Diagrams
 --
 -- * Exported functions
 
@@ -106,7 +106,7 @@ buildPerso = do
     match (posts .||. drafts) $ do
         route   $ setExtension ".html"
         compile $ do
-            pandocMathCompiler
+            pandocCompilerDia -- pandocMathCompiler
                 >>= saveSnapshot "content"
                 >>= return . fmap demoteHeaders
                 >>= loadAndApplyTemplate "blog/templates/post.html" (postCtx tags cats)
@@ -190,16 +190,15 @@ feedConfiguration title = FeedConfiguration
     , feedRoot        = "http://corentindupont.info"
     }
 
-pandocMathCompiler :: Compiler (Item String)
-pandocMathCompiler =
-    let mathExtensions = [Ext_tex_math_dollars, Ext_tex_math_double_backslash,
-                          Ext_latex_macros]
-        defaultExtensions = writerExtensions defaultHakyllWriterOptions
-        newExtensions = foldr S.insert defaultExtensions mathExtensions
+pandocCompilerDia :: Compiler (Item String)
+pandocCompilerDia =
+    let myWriterExtensions = [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks]
         writerOptions = defaultHakyllWriterOptions {
-                          writerExtensions = newExtensions,
+                          writerExtensions = foldr S.insert (writerExtensions defaultHakyllWriterOptions) myWriterExtensions,
                           writerHTMLMathMethod = MathJax ""
                         }
-    in pandocRmdCompilerWith defaultHakyllReaderOptions writerOptions
-
-
+        myReaderExtensions = [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]
+        readerOptions = defaultHakyllReaderOptions {
+                          readerExtensions = foldr S.insert (readerExtensions defaultHakyllReaderOptions) myReaderExtensions
+                        }
+    in pandocCompilerDiagramsWith readerOptions writerOptions
