@@ -1,7 +1,7 @@
 flags: {}
 packages:
 - '.'
-- ../Haskell/hakyll-diagrams
-- ../Haskell/hakyll-R
+- ../hakyll-diagrams
+- ../hakyll-R
 extra-deps:
 resolver: lts-3.2
