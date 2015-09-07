@@ -2,27 +2,25 @@
 
 module WebPage.Generate.Rules (rules) where
 
-import System.FilePath
-
-import Hakyll
-import Hakyll.Web.Pandoc.Biblio
-import Data.Monoid     ((<>), mconcat)
-import qualified Data.Set as S
-import WebPage.Generate.Base
-import WebPage.Generate.Context
-import Control.Applicative
-import qualified Text.Pandoc     as Pandoc
-import Text.Pandoc.Options
-import           Data.List                       (intercalate, intersperse, sortBy)
-
+import           Control.Applicative
+import           Control.Monad
+import           Data.List                       (intercalate, intersperse,
+                                                  sortBy)
+import           Data.Monoid                     (mconcat, (<>))
+import qualified Data.Set                        as S
+import           Hakyll
+import           Hakyll.Web.Diagrams
+import           Hakyll.Web.Pandoc.Biblio
+import           Hakyll.Web.R
+import           System.FilePath
 import           Text.Blaze.Html                 (toHtml, toValue, (!))
 import           Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Text.Blaze.Html5                as H
 import qualified Text.Blaze.Html5.Attributes     as A
-import Hakyll.Web.R
-import Hakyll.Web.Diagrams
---
--- * Exported functions
+import qualified Text.Pandoc                     as Pandoc
+import           Text.Pandoc.Options
+import           WebPage.Generate.Base
+import           WebPage.Generate.Context
 
 rules = do
   compileBibtex
@@ -191,14 +189,11 @@ feedConfiguration title = FeedConfiguration
     }
 
 pandocCompilerDia :: Compiler (Item String)
-pandocCompilerDia =
-    let myWriterExtensions = [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks]
-        writerOptions = defaultHakyllWriterOptions {
-                          writerExtensions = foldr S.insert (writerExtensions defaultHakyllWriterOptions) myWriterExtensions,
-                          writerHTMLMathMethod = MathJax ""
-                        }
-        myReaderExtensions = [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]
-        readerOptions = defaultHakyllReaderOptions {
-                          readerExtensions = foldr S.insert (readerExtensions defaultHakyllReaderOptions) myReaderExtensions
-                        }
-    in pandocCompilerDiagramsWith readerOptions writerOptions
+pandocCompilerDia = pandocCompilerWithTransformM readerOptions writerOptions (diagramsTransformer >=> rTransformer)
+
+writerOptions = defaultHakyllWriterOptions {
+                  writerExtensions = foldr S.insert (writerExtensions defaultHakyllWriterOptions) [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks],
+                  writerHTMLMathMethod = MathJax ""}
+
+readerOptions = defaultHakyllReaderOptions {
+                  readerExtensions = foldr S.insert (readerExtensions defaultHakyllReaderOptions) [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]}
