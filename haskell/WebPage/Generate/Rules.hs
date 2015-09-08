@@ -189,7 +189,7 @@ feedConfiguration title = FeedConfiguration
     }
 
 pandocCompilerDia :: Compiler (Item String)
-pandocCompilerDia = pandocCompilerWithTransformM readerOptions writerOptions (diagramsTransformer >=> rTransformer)
+pandocCompilerDia = pandocCompilerWithTransformM readerOptions writerOptions $ (diagramsTransformer "images") >=> (rTransformer "images")
 
 writerOptions = defaultHakyllWriterOptions {
                   writerExtensions = foldr S.insert (writerExtensions defaultHakyllWriterOptions) [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks],

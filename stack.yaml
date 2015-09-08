@@ -3,5 +3,7 @@ packages:
 - '.'
 - ../hakyll-diagrams
 - ../hakyll-R
+- ../R-pandoc
+- ../diagrams-pandoc
 extra-deps:
 resolver: lts-3.2
