@@ -9,16 +9,16 @@ import           Data.List                       (intercalate, intersperse,
 import           Data.Monoid                     (mconcat, (<>))
 import qualified Data.Set                        as S
 import           Hakyll
-import           Hakyll.Web.Diagrams
 import           Hakyll.Web.Pandoc.Biblio
-import           Hakyll.Web.R
 import           System.FilePath
 import           Text.Blaze.Html                 (toHtml, toValue, (!))
 import           Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Text.Blaze.Html5                as H
 import qualified Text.Blaze.Html5.Attributes     as A
-import qualified Text.Pandoc                     as Pandoc
+import           Text.Pandoc                     as Pandoc
+import           Text.Pandoc.Diagrams
 import           Text.Pandoc.Options
+import           Text.Pandoc.R
 import           WebPage.Generate.Base
 import           WebPage.Generate.Context
 
@@ -104,7 +104,7 @@ buildPerso = do
     match (posts .||. drafts) $ do
         route   $ setExtension ".html"
         compile $ do
-            pandocCompilerDia -- pandocMathCompiler
+            myPandocCompiler
                 >>= saveSnapshot "content"
                 >>= return . fmap demoteHeaders
                 >>= loadAndApplyTemplate "blog/templates/post.html" (postCtx tags cats)
@@ -188,12 +188,20 @@ feedConfiguration title = FeedConfiguration
     , feedRoot        = "http://corentindupont.info"
     }
 
-pandocCompilerDia :: Compiler (Item String)
-pandocCompilerDia = pandocCompilerWithTransformM readerOptions writerOptions $ (diagramsTransformer "images") >=> (rTransformer "images")
+myPandocCompiler :: Compiler (Item String)
+myPandocCompiler = pandocCompilerWithTransformM readerOptions writerOptions $ (diagramsTransformer "images") >=> (rTransformer "images")
 
+writerOptions :: WriterOptions
 writerOptions = defaultHakyllWriterOptions {
-                  writerExtensions = foldr S.insert (writerExtensions defaultHakyllWriterOptions) [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks],
-                  writerHTMLMathMethod = MathJax ""}
+   writerExtensions = foldr S.insert (writerExtensions defaultHakyllWriterOptions) [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks],
+   writerHTMLMathMethod = MathJax ""}
 
+readerOptions :: ReaderOptions
 readerOptions = defaultHakyllReaderOptions {
-                  readerExtensions = foldr S.insert (readerExtensions defaultHakyllReaderOptions) [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]}
+   readerExtensions = foldr S.insert (readerExtensions defaultHakyllReaderOptions) [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]}
+
+rTransformer :: FilePath -> Pandoc -> Compiler Pandoc
+rTransformer outDir pandoc = unsafeCompiler $ renderRPandoc outDir pandoc
+
+diagramsTransformer :: FilePath -> Pandoc -> Compiler Pandoc
+diagramsTransformer outDir pandoc = unsafeCompiler $ renderBlockDiagrams outDir pandoc
