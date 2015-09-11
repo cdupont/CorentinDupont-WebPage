@@ -1,11 +1,11 @@
 
 module WebPage.Generate.Base where
 
-import Data.List (find)
-import Data.Monoid ((<>))
-import System.FilePath
+import           Data.List       (find)
+import           Data.Monoid     ((<>))
+import           System.FilePath
 
-import Hakyll
+import           Hakyll
 
 
 -- * Basic configuration
