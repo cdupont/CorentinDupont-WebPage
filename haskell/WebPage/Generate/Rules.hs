@@ -78,7 +78,7 @@ copyFiles =
 buildPro :: Rules()
 buildPro = do
     match ("index.html" .||. "pages/news.html") $ do
-      route (customRoute (flip addExtension "html" . takeBaseName . toFilePath))
+      route idRoute
       compile $ getResourceBody >>= mainTemplate
 
 buildPages :: Rules()

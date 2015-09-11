@@ -34,6 +34,10 @@ title: Publications
 
 -   [@dupont-ICT4S15]     
     [PDF](/docs/ICT4S15.pdf)
+    [Poster](/docs/ICT4SPosterA0.pdf)
+
+-   [@dupont-UCC15]    
+    [PDF](/docs/UCC15.pdf)
 
 ##PHD Proposal Paper
 
