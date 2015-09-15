@@ -176,8 +176,6 @@ feedCtx = mconcat
     , defaultContext
     ]
 
-
-
 --------------------------------------------------------------------------------
 feedConfiguration :: String -> FeedConfiguration
 feedConfiguration title = FeedConfiguration
@@ -189,7 +187,7 @@ feedConfiguration title = FeedConfiguration
     }
 
 myPandocCompiler :: Compiler (Item String)
-myPandocCompiler = pandocCompilerWithTransformM readerOptions writerOptions $ (diagramsTransformer "images") >=> (rTransformer "images")
+myPandocCompiler = pandocCompilerWithTransformM readerOptions writerOptions $ diagramsTransformer >=> rTransformer
 
 writerOptions :: WriterOptions
 writerOptions = defaultHakyllWriterOptions {
@@ -200,8 +198,8 @@ readerOptions :: ReaderOptions
 readerOptions = defaultHakyllReaderOptions {
    readerExtensions = foldr S.insert (readerExtensions defaultHakyllReaderOptions) [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]}
 
-rTransformer :: FilePath -> Pandoc -> Compiler Pandoc
-rTransformer outDir pandoc = unsafeCompiler $ renderRPandoc outDir pandoc
+rTransformer :: Pandoc -> Compiler Pandoc
+rTransformer pandoc = unsafeCompiler $ renderRPandoc "images" True pandoc
 
-diagramsTransformer :: FilePath -> Pandoc -> Compiler Pandoc
-diagramsTransformer outDir pandoc = unsafeCompiler $ renderBlockDiagrams outDir pandoc
+diagramsTransformer :: Pandoc -> Compiler Pandoc
+diagramsTransformer pandoc = unsafeCompiler $ renderBlockDiagrams "images" True pandoc
