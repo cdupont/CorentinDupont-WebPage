@@ -24,7 +24,7 @@ div#footer {
 html {
     background-color: #fff;
     font-size: 17px;
-    font-family: sans-serif;
+    font-family: arial;
     line-height: 24px;
 }
 
@@ -62,7 +62,7 @@ pre code{
 }
 
 h1, h2, h3 {
-    font-weight: normal;
+    font-weight: bold;
 }
 
 h1 {
