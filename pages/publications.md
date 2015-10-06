@@ -39,6 +39,9 @@ title: Publications
 -   [@dupont-UCC15]    
     [PDF](/docs/UCC15.pdf)
 
+-   [@dupont-SGSC15]    
+    [PDF](/docs/SGSC15.pdf)
+
 ##PHD Proposal Paper
 
 -   [@dupont-unitn14]    
