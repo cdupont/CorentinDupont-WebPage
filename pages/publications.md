@@ -40,7 +40,10 @@ title: Publications
     [PDF](/docs/UCC15.pdf)
 
 -   [@dupont-SGSC15]    
-    [PDF](/docs/SGSC15.pdf)
+    [PDF](/docs/SGSC16.pdf)
+
+-   [@klingert-CCIS15]    
+    [PDF](/docs/CCIS16.pdf)
 
 ##PHD Proposal Paper
 
