@@ -21,7 +21,8 @@ executable site
                    pandoc     >= 1.13 && < 1.16,
                    containers == 0.5.*,
                    R-pandoc -any,
-                   diagrams-pandoc -any
+                   diagrams-pandoc -any,
+                   diagrams -any
     main-is: Main.hs
     buildable: True
     hs-source-dirs: haskell

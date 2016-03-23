@@ -1,8 +1,10 @@
 flags: {}
 packages:
 - '.'
-- ../R-pandoc
-- ../diagrams-pandoc
-- ../diagrams-builder
+  #- ../Haskell/R-pandoc
+  #- ../Haskell/diagrams-pandoc
+  #- ../Haskell/diagrams-builder
 extra-deps:
+- R-pandoc-0.2.1
+- diagrams-pandoc-0.2
 resolver: lts-3.2

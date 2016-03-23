@@ -203,3 +203,7 @@ rTransformer pandoc = unsafeCompiler $ renderRPandoc "images" True pandoc
 
 diagramsTransformer :: Pandoc -> Compiler Pandoc
 diagramsTransformer pandoc = unsafeCompiler $ renderBlockDiagrams "images" True pandoc
+
+renderBlockDiagrams :: FilePath -> Bool -> Pandoc -> IO Pandoc
+renderBlockDiagrams outDir absolutePath p = bottomUpM (fmap concat . mapM (insertDiagrams (Opts "PNG" outDir "example"))) p
+
