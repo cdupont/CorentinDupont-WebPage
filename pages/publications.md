@@ -20,33 +20,34 @@ title: Publications
 -   [@somov-funems13]    
     [PDF](/docs/FUNEMS13.pdf)
 
--   [@quan-E2DC12]    
+-   [@quan-e2dc12]    
     [PDF](/docs/E2DC12.pdf)
 
--   [@dupont-E2DC13]    
+-   [@dupont-e2dc13]    
     [PDF](/docs/E2DC13.pdf)
 
--   [@dupont-E2DC14]    
+-   [@dupont-e2dc14]    
     [PDF](/docs/E2DC14.pdf)
 
 -   [@klingert-smart15]    
     [PDF](/docs/SMART15.pdf)
 
--   [@dupont-ICT4S15]     
+-   [@dupont-ict4s15]     
     [PDF](/docs/ICT4S15.pdf)
     [Poster](/docs/ICT4SPosterA0.pdf)
 
--   [@dupont-UCC15]    
+-   [@dupont-ucc15]    
     [PDF](/docs/UCC15.pdf)
 
--   [@dupont-SGSC15]    
-    [PDF](/docs/SGSC16.pdf)
+-   [@dupont-sgsc15]    
+    [PDF](/docs/SGSC15.pdf)
 
--   [@klingert-CCIS15]    
-    [PDF](/docs/CCIS16.pdf)
-
-##PHD Proposal Paper
+-   [@klingert-ccis16]    
 
 -   [@dupont-unitn14]    
     [PDF](/docs/PHDProposal.pdf)
 
+##PHD Thesis
+
+-   [@dupont-unitn16]    
+    [PDF](/bibliography/files/cdupont-thesis.pdf)
