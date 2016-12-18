@@ -2,9 +2,12 @@ flags: {}
 packages:
 - '.'
   #- ../Haskell/R-pandoc
-  #- ../Haskell/diagrams-pandoc
+- ../Haskell/diagrams-pandoc
   #- ../Haskell/diagrams-builder
 extra-deps:
-- R-pandoc-0.2.1
-- diagrams-pandoc-0.2
-resolver: lts-3.2
+- R-pandoc-0.2.2
+#- diagrams-pandoc-0.3.0.1
+- diagrams-builder-0.7.2.4
+- hakyll-4.8.3.2
+- haskell-src-exts-simple-1.19.0.0
+resolver: lts-6.11
