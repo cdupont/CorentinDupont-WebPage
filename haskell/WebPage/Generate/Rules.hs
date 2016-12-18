@@ -10,7 +10,7 @@ import           Data.Monoid                     (mconcat, (<>))
 import qualified Data.Set                        as S
 import           Hakyll
 import           Hakyll.Web.Pandoc.Biblio
-import           System.FilePath
+import           System.FilePath ((<.>), (</>), pathSeparator)
 import           Text.Blaze.Html                 (toHtml, toValue, (!))
 import           Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Text.Blaze.Html5                as H
@@ -71,7 +71,7 @@ compileCSS = do
 
 copyFiles :: Rules ()
 copyFiles =
-  match ("images/*" .||. "js/*" .||. "docs/*.pdf") $ do
+  match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "bibliography/files/*") $ do
     route idRoute
     compile copyFileCompiler
 
@@ -202,8 +202,8 @@ rTransformer :: Pandoc -> Compiler Pandoc
 rTransformer pandoc = unsafeCompiler $ renderRPandoc "images" True pandoc
 
 diagramsTransformer :: Pandoc -> Compiler Pandoc
-diagramsTransformer pandoc = unsafeCompiler $ renderBlockDiagrams "images" True pandoc
+diagramsTransformer pandoc = unsafeCompiler $ renderBlockDiagrams "./images" True pandoc
 
 renderBlockDiagrams :: FilePath -> Bool -> Pandoc -> IO Pandoc
-renderBlockDiagrams outDir absolutePath p = bottomUpM (fmap concat . mapM (insertDiagrams (Opts "PNG" outDir "example"))) p
+renderBlockDiagrams outDir absolutePath p = bottomUpM (fmap concat . mapM (insertDiagrams (Opts "PNG" outDir "example" absolutePath))) p 
 
