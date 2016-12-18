@@ -1,6 +1,6 @@
 ---
 title: Is the Universe comprehensible?
-description: 
+description: "" 
 tags: Physics, Phylo
 ---
 

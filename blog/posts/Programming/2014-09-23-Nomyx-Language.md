@@ -1,5 +1,5 @@
 ---
-title: Nomyx  tutorial, part 2: the Language
+title: "Nomyx  tutorial, part 2: the Language"
 tags: Haskell, Nomyx
 description: Learn how to code rules in Nomyx 
 ---

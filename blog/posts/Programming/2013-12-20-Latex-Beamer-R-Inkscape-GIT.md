@@ -1,5 +1,5 @@
 ---
-title: My new tool-chain: LaTeX, Beamer, Inkscape, R and Git instead of Word, Excel and PowerPoint
+title: "My new tool-chain: LaTeX, Beamer, Inkscape, R and Git instead of Word, Excel and PowerPoint"
 description: I just revolutioned my tool-chain to create documents and presentations...
 tags: Tools
 ---

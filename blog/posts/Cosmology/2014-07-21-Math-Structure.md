@@ -24,7 +24,7 @@ Those two structures are too simple to generate the whole reality, but some pres
 Digging the reality
 -------------------
 
-To me, arguing that the Universe, at its very bottom, is a mathematical structure is quite natural: after all, when searching for the essence of reality, the physician will look at each property of the universe and say: this property can be deduced from these others, so I can drop it as being non primitive.
+To me, arguing that the Universe, at its very bottom, is a mathematical structure is quite natural: after all, when searching for the essence of reality, the physicist will look at each property of the universe and say: this property can be deduced from these others, so I can drop it as being non primitive.
 Doing that, we are removing, layer by layer, properties that are non primitives.
 Assuming that there is a finite number of properties, at the end all that remains will be a hand-full of properties, coming "bare", without baggage as Max Tegmark puts it, that is to say without context.
 And what is an object consisting of a bunch of properties without baggage?

@@ -3,7 +3,7 @@ title: The smooth operator
 description: The role of spaces in programming languages
 ---
 
-In a programming languages, the role of spaces, or simple juxtaposition of elements can be quite revealing.
+In programming languages, the role of spaces, or simple juxtaposition of elements can be quite revealing.
 The simple juxtaposition of two elements from the language, without any visible operators in the middle is indeed the shortest grammar possible.
 
 In functional programming
@@ -12,7 +12,8 @@ In functional programming
 In Haskell, the whitespace can be seem as the "application operator".
 Indeed, `f a b` is the application of function `f` to its arguments `a` and `b`.
 It is the most terse writing possible for function application.
-Compare it with the less terse notation chosen for Java for example: `f(a,b)`. Thats three non-space characters more.
+Compare it with the less terse notation chosen for Java for example: `f(a,b)`.
+That's three non-space characters more.
 It seems that Haskell chose the whitespace character to perform the main operation in functional programming: using functions.
  
 In Math

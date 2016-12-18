@@ -1,5 +1,5 @@
 ---
-title: Nomyx tutorial, part 1: the GUI
+title: "Nomyx tutorial, part 1: the GUI"
 description: a tutorial for the Nomyx newbie
 tags: Haskell, Nomyx
 ---

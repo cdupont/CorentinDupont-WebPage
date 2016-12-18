@@ -1,6 +1,6 @@
 ---
 title: The problem with Parallel Programming
-description: 
+description: "" 
 tags: 
 ---
 
