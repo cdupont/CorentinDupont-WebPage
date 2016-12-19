@@ -41,7 +41,7 @@ Use a Types module
 I found that defining a "Types" module, containing all the types of your program, is helpful.
 See for example [this module](https://github.com/cdupont/Nomyx/blob/master/Nomyx-Language/src/Nomyx/Language/Types.hs).
 On the contrary, most libraries that you find on Hackage defines the types in the [same files](https://hackage.haskell.org/package/base-4.9.0.0/docs/Data-Maybe.html) where they are used.
-However, I found that putting all the types in the same "Types" module allows to gives a big picture of the program.
+However, I found that putting all the types in the same "Types" module allows to give a big picture of the program.
 Furthermore it helps avoids cycle dependencies.
 
 Example of Types.hs file:
@@ -107,7 +107,7 @@ checkSettings = do
 I use a [StateT monad transformer](https://hackage.haskell.org/package/mtl-2.2.1/docs/Control-Monad-State-Lazy.html) to express the type of my function: `StateT Settings IO Bool`.
 The `Settings` is the data structure containing the state. 
 Using `IO` as a monad allows you to perform additional IO operations with `liftIO`.
-If you don't needd IO in you operations, use simply `State Settings Bool`.
+If you don't need IO in you operations, use simply `State Settings Bool`.
 The `Bool` is the return type, in case your function needed to return something.
 To access/update the state, use [Lenses](https://github.com/ekmett/lens/wiki/Operators).
 Lenses allows you to access you data structure in a [very handy way](http://www.haskellforall.com/2013/05/program-imperatively-using-haskell.html).

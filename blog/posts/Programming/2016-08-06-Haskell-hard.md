@@ -93,7 +93,9 @@ If you need to make your own recursion, there is probably a design bug.
 Don't use higher order functions (too much)
 -------------------------------------------
 
-Higher order functions (like `map`) are confusing, they are harder to reason with than first order functions/parameters.
+Higher order functions (like `map`) are very powerful when used locally.
+However I think that using them "in the large" to structure your program can be confusing.
+They are harder to understand than first order functions/parameters.
 One case where you need to rely a lot on higher order parameters is for inversion of control.
 If you have two modules A and B, and A calls B, then B cannot call A: that would be an import cycle.
 So you pass a function as parameter (a callback).
