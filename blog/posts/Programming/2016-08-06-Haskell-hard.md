@@ -72,6 +72,9 @@ Before making it beautiful, make it work
 Haskell proponents often have a mind for beautiful code.
 But it's often very difficult to make things perfect on the first try.
 So I usually make a quick and dirty prototype first, and then refactor, refactor, refactor... Until I am satisfied.
+I call this phase "straightening the strings"...
+It feels very much like a fisherman untangling a net, and making direct, clear connections between components.
+Sometime you don't need to understand all the details of the connections, you just need to shake the net and everything will fall in place.
 
 
 If it ain't broke, don't fix it
@@ -90,16 +93,16 @@ Self-made recursion is hard.
 Most of the time the recursion can be avoided by using one of the Prelude's functions: `map`, `foldr`, `mapM`, `sequence`...
 If you need to make your own recursion, there is probably a design bug.
 
-Don't use higher order functions (too much)
--------------------------------------------
+Don't use too much indirections
+-------------------------------
 
-Higher order functions (like `map`) are very powerful when used locally.
-However I think that using them "in the large" to structure your program can be confusing.
-They are harder to understand than first order functions/parameters.
+Cut the middle man.
+Having too much levels of indirections can be confusing.
 One case where you need to rely a lot on higher order parameters is for inversion of control.
 If you have two modules A and B, and A calls B, then B cannot call A: that would be an import cycle.
 So you pass a function as parameter (a callback).
 However refactoring a bit the program often allows for a more direct style of programming.
+
 
 
 Bonus: my most hated error messages
@@ -120,3 +123,5 @@ This happens when trying to associate functions with type variables.
 I use some heterogeneous lists in Nomyx (maybe an anti-pattern).
 This lead to very troublesome error messages.
 
+
+Edit: due to a lot of strong reactions on [Reddit](https://www.reddit.com/r/haskell/comments/5ixm49/blog_post_haskell_is_hard_aaaaaaaaaaahhhhhhhhh://www.reddit.com/r/haskell/comments/5ixm49/blog_post_haskell_is_hard_aaaaaaaaaaahhhhhhhhh/), I changed the section on "Don't use too much higher order functions" to "Don't use too much indirections".
