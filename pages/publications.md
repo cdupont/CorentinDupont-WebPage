@@ -47,6 +47,20 @@ title: Publications
 -   [@dupont-unitn14]    
     [PDF](/docs/PHDProposal.pdf)
 
+-   [@pizzolli-cloudcom2016]    
+    [PDF](/bibliography/files/Paas4IoT_cloudcom_CR.pdf)
+
+
+##Book chapters
+
+-   [@rahim-river2016]    
+    [Link](http://www.riverpublishers.com/book_details.php?book_id=364)
+
+-   [@rahim-IERC2016]    
+
+-   [@dupont-iotbigdata16]    
+    [PDF](/bibliography/files/dupont-iotbigdata2016.pdf)
+
 ##PHD Thesis
 
 -   [@dupont-unitn16]    
