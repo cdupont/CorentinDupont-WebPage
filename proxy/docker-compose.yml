@@ -1,0 +1,7 @@
+version: '2'
+services:
+  frontend-proxy:
+    image: cdupont2/frontend-proxy:latest 
+    ports:
+      - "80:80"
+
