@@ -1,0 +1,7 @@
+version: '2'
+services:
+  corentindupont-website:
+    image: cdupont2/corentindupont-website:latest
+    ports:
+      - "8888:80"
+
