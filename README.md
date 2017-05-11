@@ -31,3 +31,11 @@ $ site build
 $ site watch
 ```
 
+Deploy
+------
+
+```
+$ docker build cdupont2/corentindupont-website .
+$ docker push cdupont2/corentindupont-website
+$ ecs-cli compose up
+```
