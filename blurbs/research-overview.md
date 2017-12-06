@@ -2,7 +2,7 @@
 title: Research Overview
 ---
 
-My research interests are around resource optimization in data centres, functionnal programming and constraint programming.
+My research interests are around resource optimization in data centres, functional programming and constraint programming.
 
 I am currently part of these EU FP7 projects:
 

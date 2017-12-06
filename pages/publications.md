@@ -29,6 +29,9 @@ title: Publications
 -   [@dupont-e2dc14]    
     [PDF](/docs/E2DC14.pdf)
 
+-   [@dupont-unitn14]    
+    [PDF](/docs/PHDProposal.pdf)
+
 -   [@klingert-smart15]    
     [PDF](/docs/SMART15.pdf)
 
@@ -44,11 +47,14 @@ title: Publications
 
 -   [@klingert-ccis16]    
 
--   [@dupont-unitn14]    
-    [PDF](/docs/PHDProposal.pdf)
-
 -   [@pizzolli-cloudcom2016]    
     [PDF](/bibliography/files/Paas4IoT_cloudcom_CR.pdf)
+
+-   [@dupont-geconf17]    
+    [PDF](/bibliography/files/GECONF17.pdf)
+
+-   [@dupont-giots17]    
+    [PDF](/bibliography/files/GIOTS17.pdf)
 
 
 ##Book chapters
