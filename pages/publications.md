@@ -11,17 +11,17 @@ title: Publications
 
 ##Peer-Reviewed Conference and Workshop Papers
 
--   [@dupont-eenergy12]    
-    [PDF](/docs/EENERGY12.pdf)
-
 -   [@quan2012]    
     [PDF](/docs/ISCIS11.pdf)
 
--   [@somov-funems13]    
-    [PDF](/docs/FUNEMS13.pdf)
+-   [@dupont-eenergy12]    
+    [PDF](/docs/EENERGY12.pdf)
 
 -   [@quan-e2dc12]    
     [PDF](/docs/E2DC12.pdf)
+
+-   [@somov-funems13]    
+    [PDF](/docs/FUNEMS13.pdf)
 
 -   [@dupont-e2dc13]    
     [PDF](/docs/E2DC13.pdf)
@@ -56,6 +56,8 @@ title: Publications
 -   [@dupont-giots17]    
     [PDF](/bibliography/files/GIOTS17.pdf)
 
+-   [@dupont-istafrica17]    
+    [PDF](/bibliography/files/ISTAFRICA17.pdf)
 
 ##Book chapters
 
