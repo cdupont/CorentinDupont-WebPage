@@ -9,6 +9,9 @@ title: Publications
 -   [@dupont-adhoc14]    
     [PDF](/docs/ADHOC14.pdf)
 
+-   [@dupont-wcmc18]    
+    [PDF](/docs/WCMC18.pdf)
+
 ##Peer-Reviewed Conference and Workshop Papers
 
 -   [@quan2012]    
