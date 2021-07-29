@@ -4,8 +4,8 @@ module WebPage.Generate.Rules (rules) where
 
 import           Control.Applicative
 import           Control.Monad
-import           Data.List                       (intercalate, intersperse,
-                                                  sortBy)
+import           Control.Monad.IO.Class
+import           Data.List                       (intercalate, intersperse, sortBy)
 import           Data.Monoid                     (mconcat, (<>))
 import qualified Data.Set                        as S
 import           Hakyll
@@ -16,43 +16,74 @@ import           Text.Blaze.Html.Renderer.String (renderHtml)
 import qualified Text.Blaze.Html5                as H
 import qualified Text.Blaze.Html5.Attributes     as A
 import           Text.Pandoc                     as Pandoc
-import           Text.Pandoc.Diagrams
 import           Text.Pandoc.Options
 import           Text.Pandoc.R
 import           WebPage.Generate.Base
 import           WebPage.Generate.Context
+import           Debug.Trace
+import System.FilePath
+
 
 rules = do
-  compileBibtex
-  compileTemplates
-  compileMarkdown
+  -- Compile bibliography
+  match "bibliography/*.bib"                              $ compile biblioCompiler
+  match "pages/*.csl"                                     $ compile cslCompiler
+  -- Compile templates
+  match ("templates/*.html" .||. "blog/templates/*.html") $ compile templateCompiler
+  -- Compile partial markdown (will be inserted in HTML pages)
+  match ("blog/*.md" .||. "blurbs/*.md" .||. "news/*.md") $ compile pandocCompiler 
+  -- Compile full pages markdown
+  match ("pages/*.md" .||. "projects/*.md") $ do
+     route $ setExtension ".html"
+     compile $ bibtexCompiler >>= mainTemplate
   compileCSS
-  copyFiles
-  buildPro
-  buildPages
+  -- compile HTML pages
+  match ("index.html" .||. "pages/news.html") $ do
+      route idRoute
+      compile $ getResourceBody >>= mainTemplate
+  -- Côpy over static files
+  match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "bibliography/files/*" .||. "**/img/*") $ do
+          route idRoute
+          compile copyFileCompiler
   buildPerso
 
+-- | The complete context.
+getContext :: Compiler (Context String)
+getContext = do
+  fileContext <- getBlurbContext
+  return (fileContext <> newsContext <> baseContext)
 
--- * Internal functions
+-- | Add news items to context as a list.
+newsContext :: Context String
+newsContext = listField "news" baseContext (loadAll "news/*" >>= recentFirst)
 
-compileTemplates :: Rules ()
-compileTemplates = match ("templates/*.html" .||. "blog/templates/*.html") $ compile templateCompiler
 
-compileMarkdown :: Rules ()
-compileMarkdown = match ("blurbs/*.md" .||. "news/*.md" .||. "blog/*.md") $ compile pandocCompiler
+-- ** File context
 
-compileBibtex :: Rules ()
-compileBibtex = do
-  match "bibliography/*.bib" $ compile $ biblioCompiler
-  match "pages/*.csl" $ compile $ cslCompiler
+-- | Makes the contents of the blurbs directory available as template fields.
+getBlurbContext :: Compiler (Context String)
+getBlurbContext = do
+    loadAll ("blurbs/*" .||. "blog/*.md")
+      >>= return . foldr (<>) baseContext . map item
+  where item (Item id body) = constField (takeBaseName (toFilePath id)) body
+
+-- | Apply the main template to a page of a given name.
+mainTemplate :: Item String -> Compiler (Item String)
+mainTemplate item = do
+    path <- fmap toFilePath getUnderlying
+    context <- fmap (onPage path <>) getContext
+    applyAsTemplate context item
+      >>= loadAndApplyTemplate "templates/main.html" context
+      >>= relativizeUrls
+  where onPage path = constField ("on-" ++ (takeBaseName path)) ""
 
 bibtexCompiler :: Compiler (Item String)
 bibtexCompiler = do
   bib <- load "bibliography/central-bibliography.bib"
   csl <- load "pages/inline.csl"
-  getResourceBody
-    >>= readPandocBiblio def csl bib
-    >>= return . writePandoc
+  body <- getResourceBody
+  comp <- readPandocBiblio defaultHakyllReaderOptions csl bib body
+  return $ writePandoc comp 
 
 compileCSS :: Rules ()
 compileCSS = do
@@ -68,24 +99,6 @@ compileCSS = do
   match ("css/*.css" .||. "blog/css/*") $ do
     route idRoute
     compile compressCssCompiler
-
-copyFiles :: Rules ()
-copyFiles =
-  match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "bibliography/files/*") $ do
-    route idRoute
-    compile copyFileCompiler
-
-buildPro :: Rules()
-buildPro = do
-    match ("index.html" .||. "pages/news.html") $ do
-      route idRoute
-      compile $ getResourceBody >>= mainTemplate
-
-buildPages :: Rules()
-buildPages = do
-    match ("pages/*.md" .||. "projects/*.md") $ do
-      route $ setExtension ".html"
-      compile $ bibtexCompiler >>= mainTemplate
 
 buildPerso :: Rules ()
 buildPerso = do
@@ -191,19 +204,19 @@ myPandocCompiler = pandocCompilerWithTransformM readerOptions writerOptions $ di
 
 writerOptions :: WriterOptions
 writerOptions = defaultHakyllWriterOptions {
-   writerExtensions = foldr S.insert (writerExtensions defaultHakyllWriterOptions) [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks],
+   writerExtensions = (writerExtensions defaultHakyllWriterOptions) <> extensionsFromList [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks],
    writerHTMLMathMethod = MathJax ""}
 
 readerOptions :: ReaderOptions
 readerOptions = defaultHakyllReaderOptions {
-   readerExtensions = foldr S.insert (readerExtensions defaultHakyllReaderOptions) [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]}
+   readerExtensions = (readerExtensions defaultHakyllReaderOptions) <> extensionsFromList [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]}
 
 rTransformer :: Pandoc -> Compiler Pandoc
 rTransformer pandoc = unsafeCompiler $ renderRPandoc "images" True pandoc
 
 diagramsTransformer :: Pandoc -> Compiler Pandoc
-diagramsTransformer pandoc = unsafeCompiler $ renderBlockDiagrams "./images" True pandoc
+diagramsTransformer pandoc = return pandoc --unsafeCompiler $ renderBlockDiagrams "./images" True pandoc
 
-renderBlockDiagrams :: FilePath -> Bool -> Pandoc -> IO Pandoc
-renderBlockDiagrams outDir absolutePath p = bottomUpM (fmap concat . mapM (insertDiagrams (Opts "PNG" outDir "example" absolutePath))) p 
+--renderBlockDiagrams :: FilePath -> Bool -> Pandoc -> IO Pandoc
+--renderBlockDiagrams outDir absolutePath p = bottomUpM (fmap concat . mapM (insertDiagrams (Opts "PNG" outDir "example" absolutePath))) p 
 

@@ -1,9 +1,6 @@
-flags: {}
-packages:
-- location: '.'
-- location: 
-    git: git@github.com:cdupont/diagrams-pandoc.git
-    commit: HEAD 
+resolver: lts-14.14
 extra-deps:
-- R-pandoc-0.2.2
-resolver: lts-6.27
+- hakyll-4.13.0.1
+- R-pandoc-0.2.3
+packages:
+- '.'

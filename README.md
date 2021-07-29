@@ -34,8 +34,16 @@ $ site watch
 Deploy
 ------
 
+The following commands can be used to deploy the website:
 ```
 $ docker build -t cdupont2/corentindupont-website .
 $ docker push cdupont2/corentindupont-website
 $ ecs-cli compose up
 ```
+
+It is necessary to install and configure ecs-cli:
+```
+curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
+chmod a+x /usr/local/bin/ecs-cli
+ecs-cli configure profile --profile-name cdupont --access-key <key> --secret-key <secret>
+ecs-cli configure --cluster Nomyx --default-launch-type EC2 --region us-east-1 --config-name nomyx
