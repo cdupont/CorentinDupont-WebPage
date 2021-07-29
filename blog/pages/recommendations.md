@@ -20,3 +20,5 @@ I will share my \"coup de coeur\" about artists or web sites that are not well k
 - The moon was the minute hand, the seasons the hour hand. I didn’t even have a name. I never felt lonely. To put it romantically: I was completely free (Christopher Thomas Knight)
 
 - Etre Humain, c'est vivre suspendu entre le danger et la chance (Lee Smolin)
+
+- It is easier to fool someone than to convince them they have been fooled (Mark Twain)
