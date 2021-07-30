@@ -28,16 +28,40 @@ main = hakyll $ do
   -- Compile templates
   match ("templates/*.html" .||. "blog/templates/*.html") $ compile templateCompiler
   -- Compile partial markdown (will be inserted in HTML pages)
-  match ("blog/*.md" .||. "blurbs/*.md" .||. "news/*.md") $ compile pandocCompiler 
-  -- Compile full pages markdown
-  match ("pages/*.md" .||. "projects/*.md") $ do
+  match ("news/*.md") $ compile pandocCompiler 
+  -- Compile markdown pages
+  match ("pages/*.md") $ do
      route $ setExtension ".html"
-     compile $ bibtexCompiler >>= mainTemplate
+     compile $ bibtexCompiler >>=
+         loadAndApplyTemplate "templates/main.html" (baseContext)
+         >>= relativizeUrls
   compileCSS
-  -- compile HTML pages
-  match ("index.html" .||. "pages/news.html") $ do
+  -- compile index page
+  match ("index.html") $ do
       route idRoute
-      compile $ getResourceBody >>= mainTemplate
+      compile $ do
+         posts <- fmap (take 3) . recentFirst =<< loadAll "news/*"
+         let indexContext = 
+                listField "news" baseContext (return posts) <>
+                baseContext
+         getResourceBody
+            >>= applyAsTemplate indexContext
+            >>= loadAndApplyTemplate "templates/main.html" indexContext
+            >>= relativizeUrls
+
+  -- Post list
+  create ["pages/news.html"] $ do
+      route idRoute
+      compile $ do
+          posts <- recentFirst =<< loadAll "news/*"
+          let ctx = constField "title" "News" <>
+                      listField "news" baseContext (return posts) <>
+                      baseContext
+          makeItem ""
+              >>= loadAndApplyTemplate "templates/news.html" ctx
+              >>= loadAndApplyTemplate "templates/main.html" ctx
+              >>= relativizeUrls
+
   -- Côpy over static files
   match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "bibliography/files/*" .||. "**/img/*") $ do
           route idRoute
@@ -49,38 +73,6 @@ baseContext =
        dateField  "date"   "%B %e, %Y"
     <> constField "jquery" "//ajax.googleapis.com/ajax/libs/jquery/2.0.3"
     <> defaultContext
-
-
--- * Utility functions
-
--- | Lookup an item based on its file path.
-lookupItem :: FilePath -> [Item a] -> Maybe (Item a)
-lookupItem path = find ((fromFilePath path ==) . itemIdentifier)
-
--- | The complete context.
-getContext :: Compiler (Context String)
-getContext = do
-  fileContext <- getBlurbContext
-  let newsContext = listField "news" baseContext (loadAll "news/*" >>= recentFirst)
-  return (fileContext <> newsContext <> baseContext)
-
--- | Makes the contents of the blurbs directory available as template fields.
-getBlurbContext :: Compiler (Context String)
-getBlurbContext = do
-    items <- loadAll ("blurbs/*" .||. "blog/*.md")
-    let fields = map getField items
-    return $ foldr (<>) baseContext fields
-  where getField (Item id body) = constField (takeBaseName (toFilePath id)) body
-
--- | Apply the main template to a page of a given name.
-mainTemplate :: Item String -> Compiler (Item String)
-mainTemplate item = do
-    path <- fmap toFilePath getUnderlying
-    context <- fmap (onPage path <>) getContext
-    applyAsTemplate context item
-      >>= loadAndApplyTemplate "templates/main.html" context
-      >>= relativizeUrls
-  where onPage path = constField ("on-" ++ (takeBaseName path)) ""
 
 bibtexCompiler :: Compiler (Item String)
 bibtexCompiler = do
@@ -134,12 +126,11 @@ buildPerso = do
         route idRoute
         compile $ do
             posts <- fmap (take 10) . recentFirst =<< loadAll posts
-            context <- getContext
             let indexContext =
                     listField "posts" (postCtx tags cats) (return posts) <>
                     field "tags" (\_ -> renderTagList tags) <>
                     field "cats" (\_ -> renderCatsList cats) <>
-                    context <>
+                    baseContext <>
                     defaultContext
             getResourceBody
                 >>= applyAsTemplate indexContext
