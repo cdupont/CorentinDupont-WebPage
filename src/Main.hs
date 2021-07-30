@@ -21,7 +21,7 @@ import           Text.Pandoc.Options
 import           Text.Pandoc.R
 import           System.FilePath
 
-main = hakyllWith config $ do 
+main = hakyll $ do 
   -- Compile bibliography
   match "bibliography/*.bib"                              $ compile biblioCompiler
   match "pages/*.csl"                                     $ compile cslCompiler
@@ -44,11 +44,6 @@ main = hakyllWith config $ do
           compile copyFileCompiler
   buildPerso
 
-config :: Configuration
-config = defaultConfiguration {
-  deployCommand = "rsync -rave \"ssh -i $HOME/.ssh/cdupont.pem\" _site/ ubuntu@nomyx.net:perso_html"
-}
-
 baseContext :: Context String
 baseContext =
        dateField  "date"   "%B %e, %Y"
@@ -66,21 +61,16 @@ lookupItem path = find ((fromFilePath path ==) . itemIdentifier)
 getContext :: Compiler (Context String)
 getContext = do
   fileContext <- getBlurbContext
+  let newsContext = listField "news" baseContext (loadAll "news/*" >>= recentFirst)
   return (fileContext <> newsContext <> baseContext)
-
--- | Add news items to context as a list.
-newsContext :: Context String
-newsContext = listField "news" baseContext (loadAll "news/*" >>= recentFirst)
-
-
--- ** File context
 
 -- | Makes the contents of the blurbs directory available as template fields.
 getBlurbContext :: Compiler (Context String)
 getBlurbContext = do
-    loadAll ("blurbs/*" .||. "blog/*.md")
-      >>= return . foldr (<>) baseContext . map item
-  where item (Item id body) = constField (takeBaseName (toFilePath id)) body
+    items <- loadAll ("blurbs/*" .||. "blog/*.md")
+    let fields = map getField items
+    return $ foldr (<>) baseContext fields
+  where getField (Item id body) = constField (takeBaseName (toFilePath id)) body
 
 -- | Apply the main template to a page of a given name.
 mainTemplate :: Item String -> Compiler (Item String)
