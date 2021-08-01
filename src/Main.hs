@@ -49,7 +49,7 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/main.html" indexContext
             >>= relativizeUrls
 
-  -- Post list
+  -- News list
   create ["pages/news.html"] $ do
       route idRoute
       compile $ do
@@ -64,6 +64,7 @@ main = hakyll $ do
 
   let posts = ("blog/posts/*/*.md" .||. "blog/posts/*/*.lhs" .||. "blog/posts/*/*.Rmd")
   let drafts = "blog/drafts/*"
+
   -- Build tags
   tags <- buildTags       posts (fromCapture "tags/*.html")
   cats <- buildCategories posts (fromCapture "tags/*.html")
@@ -81,7 +82,6 @@ main = hakyll $ do
               >>= saveSnapshot "content"
               >>= return . fmap demoteHeaders
               >>= loadAndApplyTemplate "templates/post.html" (postCtx tags cats)
-              >>= loadAndApplyTemplate "templates/mainperso.html" (postCtx tags cats)
               >>= relativizeUrls
 
   -- build blog page
@@ -90,22 +90,15 @@ main = hakyll $ do
       compile $ do
           posts <- fmap (take 10) . recentFirst =<< loadAll posts
           let indexContext =
-                  listField "posts" (postCtx tags cats) (return posts) <>
-                  field "tags" (\_ -> renderTagList tags) <>
-                  field "cats" (\_ -> renderCatsList cats) <>
-                  baseContext <>
-                  defaultContext
+               listField "posts" (postCtx tags cats) (return posts) <>
+               field "tags" (\_ -> renderTagList tags) <>
+               field "cats" (\_ -> renderCatsList cats) <>
+               baseContext <>
+               defaultContext
           getResourceBody
               >>= applyAsTemplate indexContext
-              >>= loadAndApplyTemplate "templates/mainperso.html" indexContext
+              >>= loadAndApplyTemplate "templates/blog.html" indexContext
               >>= relativizeUrls
-
-  -- Render some static pages
-  match "blog/pages/*.md" $ do
-        route   $ setExtension ".html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/mainperso.html" (postCtx tags cats)
-            >>= relativizeUrls
 
   -- Côpy over static files
   match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "bibliography/files/*" .||. "**/img/*") $ do
@@ -151,7 +144,7 @@ postList tags cats title pattern = do
                   postCtx tags cats
         makeItem ""
            >>= loadAndApplyTemplate "templates/posts.html" ctx
-           >>= loadAndApplyTemplate "templates/mainperso.html" ctx
+           >>= loadAndApplyTemplate "templates/blog.html" ctx
            >>= relativizeUrls
 
 
@@ -176,16 +169,13 @@ postCtx tags cats = mconcat
 
 
 myPandocCompiler :: Compiler (Item String)
-myPandocCompiler = pandocCompilerWithTransformM readerOptions writerOptions $ diagramsTransformer >=> rTransformer
-
-writerOptions :: WriterOptions
-writerOptions = defaultHakyllWriterOptions {
-   writerExtensions = (writerExtensions defaultHakyllWriterOptions) <> extensionsFromList [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks],
-   writerHTMLMathMethod = MathJax ""}
-
-readerOptions :: ReaderOptions
-readerOptions = defaultHakyllReaderOptions {
-   readerExtensions = (readerExtensions defaultHakyllReaderOptions) <> extensionsFromList [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]}
+myPandocCompiler = do
+  let writerOptions = defaultHakyllWriterOptions {
+     writerExtensions = (writerExtensions defaultHakyllWriterOptions) <> extensionsFromList [Ext_tex_math_dollars, Ext_tex_math_double_backslash, Ext_latex_macros, Ext_fenced_code_attributes, Ext_fenced_code_blocks],
+     writerHTMLMathMethod = MathJax ""}
+  let readerOptions = defaultHakyllReaderOptions {
+     readerExtensions = (readerExtensions defaultHakyllReaderOptions) <> extensionsFromList [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]}
+  pandocCompilerWithTransformM readerOptions writerOptions $ diagramsTransformer >=> rTransformer
 
 rTransformer :: Pandoc -> Compiler Pandoc
 rTransformer pandoc = unsafeCompiler $ renderRPandoc "images" True pandoc

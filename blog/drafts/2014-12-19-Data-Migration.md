@@ -15,7 +15,8 @@ You are obliged to keep both versions of the data structure if you want to be ab
 Potentially, if you update very often your structure between releases, you are obliged to keep N versions of the data structure in your code.
 
 See the exemple at: http://acid-state.seize.it/safecopy
-In this example you can see the problem: the author is obliged to keep old code (data structures) to maintain compatibility. Even worth, you might be obliged to suffix your data structure with a version number:
+In this example you can see the problem: the author is obliged to keep old code (data structures) to maintain compatibility.
+Even worth, you might be obliged to suffix your data structure with a version number:
 
     data MyType_V1 = MyType_V1 Int
     data MyType_V2 = MyType_V2 Integer

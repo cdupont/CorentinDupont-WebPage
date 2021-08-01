@@ -13,7 +13,7 @@ The real mystery is why and how this happens.
 In other words, why is the the realm of mathematical possibilities so constrained?
 
 
-```{.diagram}
-     example = square 1
+```{.diagrams echo=Above}
+     square 1
 ```
 

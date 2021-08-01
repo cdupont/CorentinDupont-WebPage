@@ -22,8 +22,10 @@ written by cool hackers.
  *  [Blaze](http://jaspervdj.be/blaze) -- an HTML combinator library in Haskell
  *  [LESS](http://lesscss.org) -- a metalanguage for generating CSS
 
-Thanks to Jasper Van der Jeugt and Eric Walkingshaw for the site templates.
-The source code for this website is available on [GitHub](https://github.com/cdupont/CorentinDupont-WebPage). All *non-content* resources are placed in the public domain. Non-content resources include Haskell, LESS, and JavaScript source code, as well as HTML templates, but exclude Markdown, PDF, PNG, and plain text files. Basically, don't use text, papers, or images from my web page without permission, but feel free to use the code used to generate it.
+The source code for this website is available on [GitHub](https://github.com/cdupont/CorentinDupont-WebPage).
+All *non-content* resources are placed in the public domain.
+Non-content resources include Haskell, LESS, and JavaScript source code, as well as HTML templates, but exclude Markdown, PDF, PNG, and plain text files.
+Basically, don't use text, papers, or images from my web page without permission, but feel free to use the code used to generate it.
 
 
 ## Software License
@@ -47,11 +49,6 @@ following BSD-like license, except where otherwise noted.
           copyright notice, this list of conditions and the following
           disclaimer in the documentation and/or other materials
           provided with the distribution.
-    
-        * The names of Eric Walkingshaw, Oregon State University,
-          Philipps-Universität Marburg, and any other contributors may
-          not be used to endorse or promote products derived from this
-          software without specific prior written permission.
     
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT

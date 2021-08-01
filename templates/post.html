@@ -1,20 +1,26 @@
-<h1>$title$</h1>
-<!--div class="soft">
-    Posted in: $tags$.
-</div-->
+$partial("templates/head.html")$
+$partial("templates/navbar.html")$
 
-$body$
 
-<h2>Comments</h2>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-var disqus_identifier = '$url$';
-var disqus_url = 'http://blog.corentindupont.info' + '$url$';
-var disqus_title = '$title$';
-(function() {
-var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-dsq.src = 'http://cdupont.disqus.com/embed.js';
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript><p>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=cdupont">comments powered by Disqus.</a></p></noscript>
+<div id="content">
+  <div class="container">
+    <h1>$title$</h1>
+    $body$
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_identifier = '$url$';
+      var disqus_url = 'http://blog.corentindupont.info' + '$url$';
+      var disqus_title = '$title$';
+      (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://cdupont.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript><p>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=cdupont">comments powered by Disqus.</a></p></noscript>
+  </div>
+</div>
+
+
+$partial("templates/footer.html")$

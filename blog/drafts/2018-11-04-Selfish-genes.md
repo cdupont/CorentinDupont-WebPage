@@ -1,15 +1,11 @@
 ---
-title: Are Humans special?
-description: 
+title: How to reach immortality
+description: ""
 tags: Cosmology
 ---
 
-The history of science is a story of putting the humans out of the centre:
-The earth is not at the centre of the solar system, much less at the centre of the Universe.
-Biologically, humans are not very different than any other animal, and we're not even at the top of an evolution pyramid.
-This is called the mediocrity principle: we are not special.
-So, is it hubris to think that humans are somewhat different? Is anthropo-exceptionalism a sin?
-
+How to survive your own death?
+It turns out, you cannot (ah-ah!), but something from you can.
 
 Our Selfish genes
 -----------------
@@ -45,33 +41,17 @@ This copy error, again out of sheer luck, happened to enhance the replicator: it
 So it began to fill the oceans itself, replacing the previous replicator.
 At this point, there was no turning back: evolution was quicked off.
 
+Genes are immortal
+------------------
 
+We still have an old descendant of this primitive replicator in each of our cells: the DNA and its counterpart, the RNA.
+Genes are really immortal: they travel through time, during millions of year, hoping from one individual to another.
+As Richard Dawkins put it, we are really just the vehicules of our genes.
+This long competition between the genes produced what we are: complex animals, striving at surviving and reproducing. 
 
-Stealing the show
------------------
-Memetic is the recent science kf memes.
-A meme is simply a small piece of culture.
-This piece of culture can be memorized and transmitted.
-That's enough to make it a meme!
-
-Meme gene interactions
-
-This is what makes humans so special.
-We have not just one, but two replicators fighting: the genes and the memes.
-The two are like the master and the dog. The genes are like the master, slow moving, and holding the dog with a long leesh.
-
-As it happens, Human intelligence was selected by evolution.
-This intelligence was selected because it provided obvious advantages.
-Again, this evolution was done without any purpose.
-However, now Humans became enough intelligent to discover the mechanism that led to that intelligence: natural selection, and its support: the DNA.
-Bear in mind that the main discovery about the DNA was made only in 1953, and one of its authors, Watson, is still alive!
-
-The main actors at play in animals are not the animals themselves: the real actors are the genes.
-Genes are replicators, and are always selfish.
-For example, animals that are born handicapped are often killed/eaten by their parents.
-
-In our Human society, the real actors are not anymore the genes: this role has been stolen by the individial Humans.
-Human societies present many features that are against the benefit of the genes: State welfare, altruism, child adoption...
-This becomes possible because the ...
-
+So, one way to reach immortality is to make kids.
+They will pass down something from you.
+Seems underwhelming, right? 
+But there is another way: to create some piece of cultural work.
+This is the subject of our next blog post: the meme.
 
