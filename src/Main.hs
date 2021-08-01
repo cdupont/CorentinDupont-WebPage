@@ -23,10 +23,10 @@ import           System.FilePath
 
 main = hakyll $ do 
   -- Compile bibliography
-  match "bibliography/*.bib"                              $ compile biblioCompiler
-  match "pages/*.csl"                                     $ compile cslCompiler
+  match "bibliography/*.bib"  $ compile biblioCompiler
+  match "pages/*.csl"         $ compile cslCompiler
   -- Compile templates
-  match ("templates/*.html" .||. "blog/templates/*.html") $ compile templateCompiler
+  match "templates/*.html"    $ compile templateCompiler
   -- Compile partial markdown (will be inserted in HTML pages)
   match ("news/*.md") $ compile pandocCompiler 
   -- Compile markdown pages
@@ -62,11 +62,55 @@ main = hakyll $ do
               >>= loadAndApplyTemplate "templates/main.html" ctx
               >>= relativizeUrls
 
+  let posts = ("blog/posts/*/*.md" .||. "blog/posts/*/*.lhs" .||. "blog/posts/*/*.Rmd")
+  let drafts = "blog/drafts/*"
+  -- Build tags
+  tags <- buildTags       posts (fromCapture "tags/*.html")
+  cats <- buildCategories posts (fromCapture "tags/*.html")
+
+  -- build post lists
+  --tagsRules tags $ postList tags cats
+  --tagsRules cats $ postList tags cats
+  create ["blog/posts.html"] $ postList tags cats "All posts" posts
+
+  -- Render each post
+  match (posts .||. drafts) $ do
+      route   $ setExtension ".html"
+      compile $ do
+          myPandocCompiler
+              >>= saveSnapshot "content"
+              >>= return . fmap demoteHeaders
+              >>= loadAndApplyTemplate "templates/post.html" (postCtx tags cats)
+              >>= loadAndApplyTemplate "templates/mainperso.html" (postCtx tags cats)
+              >>= relativizeUrls
+
+  -- build index page
+  match "blog/index.html" $ do
+      route idRoute
+      compile $ do
+          posts <- fmap (take 10) . recentFirst =<< loadAll posts
+          let indexContext =
+                  listField "posts" (postCtx tags cats) (return posts) <>
+                  field "tags" (\_ -> renderTagList tags) <>
+                  field "cats" (\_ -> renderCatsList cats) <>
+                  baseContext <>
+                  defaultContext
+          getResourceBody
+              >>= applyAsTemplate indexContext
+              >>= loadAndApplyTemplate "templates/mainperso.html" indexContext
+              >>= relativizeUrls
+
+  -- Render some static pages
+  match "blog/pages/*.md" $ do
+        route   $ setExtension ".html"
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/mainperso.html" (postCtx tags cats)
+            >>= relativizeUrls
+
   -- Côpy over static files
   match ("images/*" .||. "js/*" .||. "docs/*.pdf" .||. "bibliography/files/*" .||. "**/img/*") $ do
           route idRoute
           compile copyFileCompiler
-  buildPerso
 
 baseContext :: Context String
 baseContext =
@@ -97,54 +141,6 @@ compileCSS = do
     route idRoute
     compile compressCssCompiler
 
-buildPerso :: Rules ()
-buildPerso = do
-    let posts = ("blog/posts/*/*.md" .||. "blog/posts/*/*.lhs" .||. "blog/posts/*/*.Rmd")
-    let drafts = "blog/drafts/*"
-    -- Build tags
-    tags <- buildTags       posts (fromCapture "tags/*.html")
-    cats <- buildCategories posts (fromCapture "tags/*.html")
-
-    -- build post lists
-    tagsRules tags $ postList tags cats
-    tagsRules cats $ postList tags cats
-    create ["blog/posts.html"] $ postList tags cats "All posts" posts
-
-    -- Render each and every post
-    match (posts .||. drafts) $ do
-        route   $ setExtension ".html"
-        compile $ do
-            myPandocCompiler
-                >>= saveSnapshot "content"
-                >>= return . fmap demoteHeaders
-                >>= loadAndApplyTemplate "blog/templates/post.html" (postCtx tags cats)
-                >>= loadAndApplyTemplate "blog/templates/mainperso.html" (postCtx tags cats)
-                >>= relativizeUrls
-
-    -- build index page
-    match "blog/index.html" $ do
-        route idRoute
-        compile $ do
-            posts <- fmap (take 10) . recentFirst =<< loadAll posts
-            let indexContext =
-                    listField "posts" (postCtx tags cats) (return posts) <>
-                    field "tags" (\_ -> renderTagList tags) <>
-                    field "cats" (\_ -> renderCatsList cats) <>
-                    baseContext <>
-                    defaultContext
-            getResourceBody
-                >>= applyAsTemplate indexContext
-                >>= loadAndApplyTemplate "blog/templates/mainperso.html" indexContext
-                >>= relativizeUrls
-
-    -- Render some static pages
-    match "blog/pages/*.md" $ do
-        route   $ setExtension ".html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "blog/templates/mainperso.html" (postCtx tags cats)
-            >>= relativizeUrls
-
-
 postList :: Tags -> Tags -> String -> Pattern -> Rules ()
 postList tags cats title pattern = do
     route idRoute
@@ -154,8 +150,8 @@ postList tags cats title pattern = do
                   listField "posts" (postCtx tags cats) (return posts) <>
                   postCtx tags cats
         makeItem ""
-           >>= loadAndApplyTemplate "blog/templates/posts.html" ctx
-           >>= loadAndApplyTemplate "blog/templates/mainperso.html" ctx
+           >>= loadAndApplyTemplate "templates/posts.html" ctx
+           >>= loadAndApplyTemplate "templates/mainperso.html" ctx
            >>= relativizeUrls
 
 
@@ -178,22 +174,6 @@ postCtx tags cats = mconcat
     , defaultContext
     ]
 
---------------------------------------------------------------------------------
-feedCtx :: Context String
-feedCtx = mconcat
-    [ bodyField "description"
-    , defaultContext
-    ]
-
---------------------------------------------------------------------------------
-feedConfiguration :: String -> FeedConfiguration
-feedConfiguration title = FeedConfiguration
-    { feedTitle       = "Corentin Dupont - " ++ title
-    , feedDescription = "Personal blog of Corentin Dupont"
-    , feedAuthorName  = "Corentin Dupont"
-    , feedAuthorEmail = "corentin.dupont@gmail.com"
-    , feedRoot        = "http://corentindupont.info"
-    }
 
 myPandocCompiler :: Compiler (Item String)
 myPandocCompiler = pandocCompilerWithTransformM readerOptions writerOptions $ diagramsTransformer >=> rTransformer
