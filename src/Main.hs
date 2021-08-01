@@ -69,8 +69,8 @@ main = hakyll $ do
   cats <- buildCategories posts (fromCapture "tags/*.html")
 
   -- build post lists
-  --tagsRules tags $ postList tags cats
-  --tagsRules cats $ postList tags cats
+  tagsRules tags $ postList tags cats
+  tagsRules cats $ postList tags cats
   create ["blog/posts.html"] $ postList tags cats "All posts" posts
 
   -- Render each post
@@ -84,7 +84,7 @@ main = hakyll $ do
               >>= loadAndApplyTemplate "templates/mainperso.html" (postCtx tags cats)
               >>= relativizeUrls
 
-  -- build index page
+  -- build blog page
   match "blog/index.html" $ do
       route idRoute
       compile $ do

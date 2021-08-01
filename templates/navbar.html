@@ -1,7 +1,7 @@
 <div id="header">
   <ul class="nav-list">
     <li class="nav-elem nav-left nav-head">
-      <a href="/">Corentin Dupont</a>
+      <a href="/">Home</a>
     </li>
     <li class="nav-elem nav-left $if(on-news)$ nav-active $endif$">
       <a href="/pages/news.html">News</a>
@@ -9,20 +9,20 @@
     <li class="nav-elem nav-left $if(on-research)$ nav-active $endif$">
       <a href="/pages/research.html">Research</a>
     </li>
-    <li class="nav-elem nav-left $if(on-publications)$ nav-active $endif$">
-      <a href="/pages/publications.html">Publications</a>
-    </li>
-    <li class="nav-elem nav-left $if(on-industry)$ nav-active $endif$">
-      <a href="/pages/industry.html">Industry</a>
-    </li>
     <li class="nav-elem nav-left $if(on-perso)$ nav-active $endif$">
       <a href="/blog/index.html">My Blog</a>
+    </li>
+    <li class="nav-elem nav-left $if(on-stuff)$ nav-active $endif$">
+      <a href="/pages/stuff.html">Stuff</a>
     </li>
     <li class="nav-elem nav-right">
       <a href="https://github.com/cdupont">GitHub</a>
     </li>
     <li class="nav-elem nav-right">
       <a href="/docs/CV_CDUPONT.pdf">CV</a>
+    </li>
+    <li class="nav-elem nav-right $if(on-about)$ nav-active $endif$">
+      <a href="/pages/about.html">About</a>
     </li>
   </ul>
 </div>
