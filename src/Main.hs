@@ -27,13 +27,25 @@ main = hakyll $ do
   match "pages/*.csl"         $ compile cslCompiler
   -- Compile templates
   match "templates/*.html"    $ compile templateCompiler
-  -- Compile partial markdown (will be inserted in HTML pages)
+  -- Compile news 
   match ("news/*.md") $ compile pandocCompiler 
+  -- News list
+  create ["pages/news.html"] $ do
+      route idRoute
+      compile $ do
+          posts <- recentFirst =<< loadAll "news/*"
+          let ctx = constField "title" "News" <>
+                    listField "news" baseContext (return posts) <>
+                    baseContext
+          makeItem ""
+              >>= loadAndApplyTemplate "templates/news.html" ctx
+              >>= loadAndApplyTemplate "templates/main.html" ctx
+              >>= relativizeUrls
   -- Compile markdown pages
   match ("pages/*.md") $ do
      route $ setExtension ".html"
-     compile $ bibtexCompiler >>=
-         loadAndApplyTemplate "templates/main.html" (baseContext)
+     compile $ bibtexCompiler
+         >>= loadAndApplyTemplate "templates/main.html" (baseContext)
          >>= relativizeUrls
   compileCSS
   -- compile index page
@@ -49,18 +61,6 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/main.html" indexContext
             >>= relativizeUrls
 
-  -- News list
-  create ["pages/news.html"] $ do
-      route idRoute
-      compile $ do
-          posts <- recentFirst =<< loadAll "news/*"
-          let ctx = constField "title" "News" <>
-                      listField "news" baseContext (return posts) <>
-                      baseContext
-          makeItem ""
-              >>= loadAndApplyTemplate "templates/news.html" ctx
-              >>= loadAndApplyTemplate "templates/main.html" ctx
-              >>= relativizeUrls
 
   let posts = ("blog/posts/*/*.md" .||. "blog/posts/*/*.lhs" .||. "blog/posts/*/*.Rmd")
   let drafts = "blog/drafts/*"
@@ -107,7 +107,7 @@ main = hakyll $ do
 
 baseContext :: Context String
 baseContext =
-       dateField  "date"   "%B %e, %Y"
+       dateField  "date" "%B %e, %Y"
     <> constField "jquery" "//ajax.googleapis.com/ajax/libs/jquery/2.0.3"
     <> defaultContext
 
@@ -130,7 +130,7 @@ compileCSS = do
         >>= makeItem
         >>= withItemBody (unixFilter "lessc" ["-"])
         >>= return . fmap compressCss
-  match ("css/*.css" .||. "blog/css/*") $ do
+  match ("css/*.css") $ do
     route idRoute
     compile compressCssCompiler
 
@@ -156,7 +156,6 @@ renderCatsList tags = renderTags makeLink (intercalate " ") (sortTagsBy sortOthe
     a `sortOther` b = compare a b
     makeLink tag url count _ _ = renderHtml $ H.a ! A.href (toValue url) $ toHtml tag
 
---------------------------------------------------------------------------------
 postCtx :: Tags -> Tags -> Context String
 postCtx tags cats = mconcat
     [ modificationTimeField "mtime" "%U"
@@ -164,7 +163,7 @@ postCtx tags cats = mconcat
     , tagsField "tags" tags
     , field "cats" (\_ -> renderCatsList cats)
     , constField "jquery" "//ajax.googleapis.com/ajax/libs/jquery/2.0.3"
-    , defaultContext
+    , baseContext
     ]
 
 
@@ -175,13 +174,13 @@ myPandocCompiler = do
      writerHTMLMathMethod = MathJax ""}
   let readerOptions = defaultHakyllReaderOptions {
      readerExtensions = (readerExtensions defaultHakyllReaderOptions) <> extensionsFromList [Ext_fenced_code_attributes, Ext_fenced_code_blocks, Ext_backtick_code_blocks]}
-  pandocCompilerWithTransformM readerOptions writerOptions $ diagramsTransformer >=> rTransformer
+  pandocCompilerWithTransformM readerOptions writerOptions $ rTransformer -- >=> diagramsTransformer
 
 rTransformer :: Pandoc -> Compiler Pandoc
 rTransformer pandoc = unsafeCompiler $ renderRPandoc "images" True pandoc
 
-diagramsTransformer :: Pandoc -> Compiler Pandoc
-diagramsTransformer pandoc = return pandoc --unsafeCompiler $ renderBlockDiagrams "./images" True pandoc
+--diagramsTransformer :: Pandoc -> Compiler Pandoc
+--diagramsTransformer pandoc = unsafeCompiler $ renderBlockDiagrams "./images" True pandoc
 
 --renderBlockDiagrams :: FilePath -> Bool -> Pandoc -> IO Pandoc
 --renderBlockDiagrams outDir absolutePath p = bottomUpM (fmap concat . mapM (insertDiagrams (Opts "PNG" outDir "example" absolutePath))) p 

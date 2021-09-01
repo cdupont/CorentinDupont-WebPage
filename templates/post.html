@@ -5,6 +5,10 @@ $partial("templates/navbar.html")$
 <div id="content">
   <div class="container">
     <h1>$title$</h1>
+    $if(description)$
+    <p class="subtitle"> $description$ </h2>
+    $endif$
+    <p class="pub_date"> Published on $date$ </p>
     $body$
     <h2>Comments</h2>
     <div id="disqus_thread"></div>

@@ -23,9 +23,16 @@ html, body {
   padding: 0px;
 }
 
-img {
-  max-width:100%;
+img{
+  max-width:50%;
   max-height:100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+figcaption {
+  text-align: center;
 }
 
 #page {
@@ -40,7 +47,7 @@ img {
   margin-bottom: 0px;
   margin-left: 200px;
   text-align:justify;
-  padding:0px 36px 0px 36px;
+  padding: 10px 36px 0px 36px;
   padding-bottom: @footHeight + @vMargin;
   min-height: 500px;
 }
@@ -94,9 +101,29 @@ a {
   color: @linkColor;
 }
 
-pre, code {
+code {
+  background-color: #f7f8f9;
+  padding: 0 5px;
+  font-size: 100%;
+  font-family: @codeFont;
+}
+
+pre code {
   font-family: @codeFont;
   font-size: 90%;
+  padding: 40px 20px;
+  background-color: #f7f8f9;
+  border: 1px solid #ddd;
+  border-left: 3px solid #f36d33;
+  color: #666;
+  page-break-inside: avoid;
+  line-height: 1.6;
+  margin-bottom: 1.6em;
+  max-width: 100%;
+  overflow: auto;
+  padding: 1em 1.5em;
+  display: block;
+  word-wrap: break-word;
 }
 
 pre {
@@ -111,4 +138,17 @@ div#navigation {
     position:absolute;
     top:100px;
     left:0px;
+}
+
+.subtitle {
+  margin-top: -20px;
+  margin-bottom: 0px;
+  font-size: 18pt;
+  color: rgb(117, 117, 117);
+}
+
+.pub_date {
+  font-size: 10pt;
+  color: grey;
+  margin-bottom: 30px;
 }

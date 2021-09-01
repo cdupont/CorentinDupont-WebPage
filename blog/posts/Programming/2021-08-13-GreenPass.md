@@ -103,9 +103,7 @@ OK! We start to see some data here, including my name.
 
 The data format used is [CBOR](https://en.wikipedia.org/wiki/CBOR). It is similar to JSON, but for binary data.
 Again, there is no default tool on Linux distributions for CBOR, so we need to install it (see above).
-```
-```
-We can now use `cbor-diag` to further decode our data. 
+We will now use `cbor-diag` to further decode our data. 
 Our command line becomes:
 ```
 $ zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -uncompress | cbor-diag
@@ -125,7 +123,7 @@ $ payload=`zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -u
 $ signature=`zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -uncompress | cbor-diag | sed -n '5p' | cut -d "'" -f2`
 ```
 
-Here, using commands `sed` and `cut`, we selected the 5th line and then extract the data between single quotes.
+Here, using commands `sed` and `cut`, we selected the lines and then extracted the data between single quotes.
 The data we get is an hexadecimal string, again in CBOR format.
 So we need to inject it again in `cbor-diag`:
 
@@ -252,7 +250,7 @@ According to DER encoding, I need to add some more bytes:
 2cdc975f4c4d79af77dbe02c31de6af4ba94d7fe11510a5ca6121cb0bf10890a  -- S
 ```
 
-Warning, your mileage may vary: in some cases, you need to add `00` padding in front of R and S. 
+Warning, your mileage may vary: in [some cases](https://www.cryptopp.com/wiki/DSAConvertSignatureFormat#P1363_to_ASN.1.2FDER), you need to add `00` padding in front of R and S. 
 This also changes the various byte counts.
 
 If I assemble it, I can obtain my DER signature:
@@ -284,6 +282,7 @@ Here is the "Sig_structure" completed:
     h'',
     h'a4041a645d8180061a61053b9501624954390103a101a4617681aa62646e01626d616d4f52472d3130303033313138346276706a313131393334393030376264746a323032312d30372d313462636f62495462636978263031495430354431444444393531343734423143393344313631413446343636334238452333626d706c45552f312f32302f31353037626973764d696e69737465726f2064656c6c612053616c7574656273640162746769383430353339303036636e616da463666e74664455504f4e5462666e664455504f4e5463676e74781f434f52454e54494e3c4e49434f4c41533c4d415249453c4652414e434f495362676e7822434f52454e54494e2c204e49434f4c41532c204d415249452c204652414e434f49536376657265312e302e3063646f626a313937382d31312d3137', -- my payload (see above)
 ]
+```
 
 We can now create `my_data`:
 ```
@@ -339,10 +338,10 @@ $ zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -uncompress
 To verify the signature, do the following:
 ```
 # extract header, payload and signature from the COSE structure
-$ header=`zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -uncompress | cbor-diag | sed -n '2p' | cut -d "'" -f2`
-$ payload=`zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -uncompress | cbor-diag | sed -n '4p' | cut -d "'" -f2`
-$ signature=`zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -uncompress | cbor-diag | sed -n '5p' | cut -d "'" -f2`
-$ KID=` echo $header | cbor-diag | cut -d "'" -f2 | xxd -r -p | base64`
+header=`zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -uncompress | cbor-diag | sed -n '2p' | cut -d "'" -f2`
+payload=`zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -uncompress | cbor-diag | sed -n '4p' | cut -d "'" -f2`
+signature=`zbarimg -q --raw QR.png | cut -c 5- | base45 --decode | zlib-flate -uncompress | cbor-diag | sed -n '5p' | cut -d "'" -f2`
+KID=`echo $header | cbor-diag | cut -d "'" -f2 | xxd -r -p | base64`
 
 # Create public key
 echo "-----BEGIN PUBLIC KEY-----" > public_key.pem
@@ -350,16 +349,16 @@ curl https://raw.githubusercontent.com/lovasoa/sanipasse/master/src/assets/Digit
 echo "-----END PUBLIC KEY-----" >> public_key.pem
 
 # Create DER signature
-$ r=`echo $signature | cut -c1-64`
-$ s=`echo $signature | cut -c65-128`
-$ echo "30440220${r}0220${s}" | xxd -r -p > my_signature.der
+r=`echo $signature | cut -c1-64`
+s=`echo $signature | cut -c65-128`
+echo "30440220${r}0220${s}" | xxd -r -p > my_signature.der
 
 # Create data structure to verify
 echo -n "[\"Signature1\",h'$header',h'',h'$payload']" | cbor-diag --to bytes > my_data
 
 $ openssl dgst -sha256 -verify public_key.pem -signature my_signature.der my_data
 Verified OK
-
+```
 
 Ooff! This was tougher than expected.
 It seems that the Linux tooling for CBOR and base45 is not yet very mature.
