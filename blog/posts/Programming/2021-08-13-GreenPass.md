@@ -42,7 +42,7 @@ There are already some programs to decode your Green Pass, in [python](https://g
 But why do things the easy way if there is a hard way to do them??
 Linux cli has plenty of tools to do this kind of things. Let's see...
 
-If you are in a hurry, you can skip directly to the *Summary* section.
+If you are in a hurry, you can skip directly to the [Summary](#summary) section.
 
 Preliminary
 ===========
