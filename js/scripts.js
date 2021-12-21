@@ -13,3 +13,14 @@ function setEmail() {
 function toggleAbstract(key) {
   $('.pub-abstract.'+key).slideToggle();
 }
+
+/* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+function myFunction() {
+  var x = document.getElementById("navbar");
+  if (x.className === "navbar") {
+    x.className += " responsive";
+  } else {
+    x.className = "navbar";
+  }
+} 
+

@@ -1,10 +1,10 @@
 ---
-title: Decode your Green Pass using Linux tools
+title: Decode your EU Digital COVID Certificate using Linux tools
 description: How to decode the Green Pass QR code, using only command line tools 
 tags: Programming 
 ---
 
-I recently got my Green Pass. So I got curious: What's inside? How does it works?
+I recently got my Green Pass (also named EU Digital COVID Certificate, or Pass Sanitaire). So I got curious: What's inside? How does it works?
 A quick search on Internet gives various sites that can decode the data.
 Say, this is my Green Pass:
 
@@ -53,11 +53,11 @@ The EU Green Pass is based on QR code, CBOR and base45, so we need to install th
 # QR code reader
 $ sudo apt-get install zbar-tools
 
-# base45 decoder. You need Python3.7 installed.
+# base45 decoder. You need Python3.7 installed (https://www.python.org/downloads/)
 $ sudo pip install base45
 
-# CBOR analyser. You need Ruby installed.
-$ sudo gem install cbor-diag
+# CBOR analyser. You need Rust installed (https://www.rust-lang.org/tools/install).
+$ sudo cargo install cbor-diag-cli
 ```
 
 With this heterogeneous toolbox installed, let's go!
@@ -211,7 +211,7 @@ cat Digital_Green_Certificate_Signing_Keys.json | jq --raw-output --arg kid "$KI
 echo "-----END PUBLIC KEY-----" >> public_key.pem
 ```
 
-You can verify your key this way:
+You can check the content of the key this way:
 ```
 $ openssl asn1parse -in public_key.pem -inform PEM
     0:d=0  hl=2 l=  89 cons: SEQUENCE
@@ -258,9 +258,9 @@ If I assemble it, I can obtain my DER signature:
 echo -n "304402206f422bd436e216177de025d3d31681a27bead6115f480630754db6f1498bbc7802202cdc975f4c4d79af77dbe02c31de6af4ba94d7fe11510a5ca6121cb0bf10890a" | xxd -r -p > my_signature.der
 ```
 
-You can verify your signature this way:
+You can check the content of the signature this way:
 ```
-$ openssl asn1parse -in my_signature -inform DER
+$ openssl asn1parse -in my_signature.der -inform DER
     0:d=0  hl=2 l=  68 cons: SEQUENCE
     2:d=1  hl=2 l=  32 prim: INTEGER           :6F422BD436E216177DE025D3D31681A27BEAD6115F480630754DB6F1498BBC78
    36:d=1  hl=2 l=  32 prim: INTEGER           :2CDC975F4C4D79AF77DBE02C31DE6AF4BA94D7FE11510A5CA6121CB0BF10890A

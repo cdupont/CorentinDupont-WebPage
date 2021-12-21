@@ -4,15 +4,31 @@ title: Research
 
 # Research
 
+My short bio:
+
+Corentin Dupont (PhD) is a Researcher in Computer Science. 
+He is currently Technical Director and Founder at WAZIUP e.V., an association promoting IoT and AI in Africa.
+He is leading the development of a cutting-edge open source IoT platform (www.waziup.org).
+He is also leading the technical team for the EU H2020 project Hubiquitous, and for the Germany-funded project Osirris.
+Before this, he was a researcher at the research center Fondazione Bruno Kessler (Trento, Italy), where he worked on IoT and Cloud related EU-funded projects, such as WaziHub, Waziup, iCore, DC4Cities and FIT4Green.
+He also worked in the Industry for 7 years as a Consultant Project Leader and Software Engineer for the French Navy (DCNS), EADS, Thales and PSA PEUGEOT CITROEN (Paris, France).
+He gained his PhD in Information and Communication Technologies from the University of Trento in 2016.
+He graduated from his Master in Computer Science in 2003 from the Institut Supérieur de l'Electronique et du Numérique in Toulon, France.
+
+
 ## Projects
 
- *  **[FIT4Green](http://www.fit4green.eu)** <br> A project aiming at saving up to 20% of
-    energy in data centres.
+ *  **[Hubiquitous](http://www.hubiquitous.com)** <br> Sustainable collaboration of African & European DIHs to boost digital innovation.
+ 
+ *  **[WaziHub](http://www.wazihub.com)** <br> Enabling Tech Hubs to support Developers and Startups in building low cost end-to-end IoT solutions.
+ 
+ *  **[Waziup](http://www.waziup.eu)** <br> WAZIUP is a European Union-Africa project developing IoT technologies in Africa.
+ 
+ *  **[FIT4Green](http://www.fit4green.eu)** <br> A project aiming at saving up to 20% of energy in data centres.
     
  *  **[iCore](http://www.iot-icore.eu)** <br> iCore is a project on the Internet of Things (IoT). Its objective is to abstract the technological heterogeneity of the vast amounts of heterogeneous objects and to consider the views of the different users. To address those issues, we are using the most recent cognitive technologies.
  
- *  **[DC4Cities](http://www.dc4cities.eu)** <br>
-    DC4Cities project aims at using renewable energies in data centres.
+ *  **[DC4Cities](http://www.dc4cities.eu)** <br> DC4Cities project aims at using renewable energies in data centres.
  
 # Publications
 
@@ -83,6 +99,10 @@ title: Research
 
 -   [@dupont-iotbigdata16]    
     [PDF](/bibliography/files/dupont-iotbigdata2016.pdf)
+
+## Magazines
+
+-   [@dupont-wazihubmag2021-1]  
 
 ## PHD Thesis
 

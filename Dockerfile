@@ -1,2 +1,3 @@
-FROM httpd
-COPY ./_site/ /usr/local/apache2/htdocs/
+FROM nginx
+ADD nginx.conf /etc/nginx/conf.d/default.conf
+ADD _site/ /var/www/
