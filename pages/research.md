@@ -102,7 +102,11 @@ He graduated from his Master in Computer Science in 2003 from the Institut Supé
 
 ## Magazines
 
--   [@dupont-wazihubmag2021-1]  
+-   [@dupont-wazihubmag21-1]  
+    [PDF](/bibliography/files/WaziHubMagazine1.pdf)
+
+-   [@dupont-wazihubmag21-2]  
+    [PDF](/bibliography/files/WaziHubMagazine2.pdf)
 
 ## PHD Thesis
 

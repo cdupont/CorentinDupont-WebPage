@@ -92,7 +92,8 @@ main = hakyll $ do
           let indexContext =
                listField "posts" (postCtx tags cats) (return posts) <>
                field "tags" (\_ -> renderTagList tags) <>
-               field "cats" (\_ -> renderCatsList cats) <>
+               field "cats" (\_ -> renderTagList cats) <>
+               listField "catsList" tags <>
                baseContext <>
                defaultContext
           getResourceBody
