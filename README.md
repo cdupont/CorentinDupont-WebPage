@@ -38,7 +38,7 @@ The website is running on an AWS VM.
 The following command will upload the website:
 
 ```
-scp -r * ec2-user@18.206.112.110:~/website/
+rsync -avh  _site/* ec2-user@18.206.112.110:~/website/
 ```
 
 On the VM, it is served by nginx. 
